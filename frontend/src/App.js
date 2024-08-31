@@ -5,6 +5,9 @@ import {
   Route,
   Link
 } from 'react-router-dom';
+import landingContent from './pages/unlogged/landing/landing';
+
+import 'antd/dist/antd.css';
 
 function Home() {
   return <h2>Home</h2>;
@@ -28,8 +31,8 @@ function App() {
   return (
     <Router>
       <Switch>
-        <Route exact path="/" component={Home} />
-        <Route path="/about" component={About} />
+        <Route exact path="/" component={landingContent} />
+        <Route path="/about" component={landingContent} />
         <Route component={NotFound} />
       </Switch>
     </Router>
