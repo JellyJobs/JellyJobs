@@ -1,12 +1,12 @@
-import '../../assets/styles/landing.css';
-import { Link } from 'react-router-dom';
-import { Header, Footer } from 'antd/es/layout/layout';
+import './assets/styles/pages/landing.css';
+import { Layout } from 'antd';
+const { Header, Footer } = Layout;
 
-export default function landingContent() {
+export default function Landing() {
   return (
     <div>
-      <h1>HOLAAAAAAA</h1>
       <Header>This is the header</Header>
+      <h1>HOLAAAAAAA</h1>
       <Footer>This is the footer</Footer>
     </div>
   );
