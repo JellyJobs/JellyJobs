@@ -1,8 +1,9 @@
 import '../../../assets/styles/pages/landing.css';
+import React from 'react';
 import { Layout } from 'antd';
 
 const { Header, Footer } = Layout;
-
+ 
 export default function Landing() {
   return (
     <div>
