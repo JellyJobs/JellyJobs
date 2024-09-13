@@ -1,0 +1,38 @@
+:root {
+    --main-color: #052659;
+    --background-color: #7DA0CA;
+    --secondary-color: #C1E8FF;
+    --alternative-color: #BFDDFC;
+  }
+  
+  .not-found-container {
+    text-align: center;
+    padding: 50px;
+    background-color: var(--background-color);
+    color: var(--main-color);
+  }
+  
+  .not-found-container h1 {
+    font-size: 3rem;
+    margin-bottom: 20px;
+  }
+  
+  .not-found-container p {
+    font-size: 1.5rem;
+    margin-bottom: 30px;
+  }
+  
+  .not-found-container a {
+    color: var(--secondary-color);
+    text-decoration: none;
+    font-weight: bold;
+    padding: 10px 20px;
+    border: 2px solid var(--alternative-color);
+    border-radius: 5px;
+    transition: background-color 0.3s ease-in-out;
+  }
+  
+  .not-found-container a:hover {
+    background-color: var(--alternative-color);
+    color: var(--main-color);
+  }
