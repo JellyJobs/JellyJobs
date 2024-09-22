@@ -1,0 +1,50 @@
+:root {
+    --main-color: #052659;
+    --backround-color: #7DA0CA;
+    --secondary-color: #C1E8FF;
+    --alternative-color: #BFDDFC;
+}
+
+
+
+.landing{
+    position: fixed;
+    top: 0;
+    left:0%;
+    width: 100%;
+}
+
+.linear-gradient-button.ant-btn-primary:not([disabled]):not(.ant-btn-dangerous) {
+    border-width: 0;
+}
+
+.linear-gradient-button.ant-btn-primary:not([disabled]):not(.ant-btn-dangerous) > span {
+    position: relative;
+}
+
+.linear-gradient-button.ant-btn-primary:not([disabled]):not(.ant-btn-dangerous)::before {
+    content: '';
+    background: linear-gradient(135deg,#7DA0CA,#052659);
+    position: absolute;
+    inset: 0;
+    opacity: 1;
+    transition: all 0.5s;
+    border-radius: inherit;
+    font-weight: 1000;
+    font-style: italic;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+}
+
+.linear-gradient-button.ant-btn-primary:not([disabled]):not(.ant-btn-dangerous):hover::before {
+    opacity: 100;
+    
+}
+
+.buttons-log {
+    justify-content: right;
+    position: static;
+    align-self: flex-start;
+    margin-left: 89%;
+    padding-bottom: 2px;
+    margin-bottom: 2px;
+}
