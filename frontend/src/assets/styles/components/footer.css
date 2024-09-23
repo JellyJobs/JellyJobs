@@ -3,10 +3,38 @@
     position: absolute;
     bottom: 0;
     width: 100%;
-    height: 100px;
+    height: 150px;
     padding: 10px;
     text-align: center;
     left: 0;
     background-color: #052659  !important;
+}
+.logo-insta, .logo-gmail, .logo-tw{
+    width: 30px;            
+    height: 30px; 
+    background-size: cover;  
+    border-radius: 50%;
+    margin: 10px;
+    position: relative;
+}
+.logo-insta{
+    background-image: url('../../images/inta.jpeg');
+}
+.logo-tw{
+    background-image: url('../../images/tw.png');
+}
+.logo-gmail{
+    background-image: url('../../images/gmail.webp');
+}
+.links{
+    display: block; 
+    width: 100%; 
+    height: 100%; 
+    text-indent: -9999px; 
+}
 
+.button-Abaut-ass-footer{
+    justify-content: flex-end;
+    position: static;
+    align-self: flex-start;
 }
