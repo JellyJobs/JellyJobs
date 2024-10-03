@@ -61,7 +61,6 @@
 .logo-JellyJobs{
     width: 200px;
     height: 100%;
-    background-image: url(../../../../public/logo.png);
     background-size: contain;    
     background-position: center;
     background-repeat: no-repeat;

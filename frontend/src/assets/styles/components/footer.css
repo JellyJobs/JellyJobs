@@ -16,15 +16,7 @@
     border-radius: 50%;
     margin: 10px;
     position: relative;
-}
-.logo-insta{
-    background-image: url('../../images/inta.jpeg');
-}
-.logo-tw{
-    background-image: url('../../images/tw.png');
-}
-.logo-gmail{
-    background-image: url('../../images/gmail.webp');
+
 }
 .links{
     display: block; 
