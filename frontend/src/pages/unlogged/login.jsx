@@ -1,5 +1,5 @@
 import { Form, Input, Button } from 'antd';
-import '../../../assets/styles/pages/login.css';
+import '../../assets/styles/pages/login.css';
 import React from 'react';
 
 const Login = () => {

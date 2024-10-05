@@ -18,6 +18,7 @@
     height: 75px;
     background-color: #052659  !important;
     padding:10px;
+    background: linear-gradient(190deg, #C1E8FF,#052659);
 }
 
 .linear-gradient-button.ant-btn-primary:not([disabled]):not(.ant-btn-dangerous) {
@@ -30,23 +31,24 @@
 
 .linear-gradient-button.ant-btn-primary:not([disabled]):not(.ant-btn-dangerous)::before {
     content: '';
-    background: linear-gradient(135deg,#7DA0CA,#052659);
+    background: linear-gradient(180deg, #C1E8FF,#052659);
     position: absolute;
     inset: 0;
-    opacity: 1;
+    opacity: 0.5;
     transition: all 0.5s;
     border-radius: inherit;
 }
 
 .linear-gradient-button.ant-btn-primary:not([disabled]):not(.ant-btn-dangerous):hover::before {
-    opacity: 100;
+    opacity: 70;
     
 }
 
 .black-linear-button{
     color: #fff;
-    background-color: #000;
+    background-color: #7DA0CA;
     border-color: #052659;
+    background: linear-gradient(180deg, #C1E8FF,#052659)
 }
 
 .buttons-log {
