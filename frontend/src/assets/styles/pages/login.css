@@ -1,21 +1,39 @@
-.loginform {
-    width: 400px;
-    height: 400px;
-    background-color: var(--backround-color);
-    padding: 20px;
-    border: 1px solid var(--main-color);
-    border-radius: 5px;
-    margin: 0 auto; 
-    padding: 20px;
-    margin-top: 100px;
-    position: relative;
-  }
+/* App.css */
+.login-page{
+  background-image: url('../../images/ej1.jpg'); /* Cambia esto a la ruta de tu imagen */
+  background-size: cover; /* Asegura que la imagen cubra todo el contenedor */
+  background-position: center; /* Centra la imagen */
+  background-repeat: no-repeat; /* Evita que la imagen se repita */
+  height: 100vh; /* Ajusta la altura al 100% de la ventana del navegador */
+  width: 100vw; /* Asegura que el ancho sea el 100% de la ventana */
+  display: flex; /* Permite centrar el formulario */
+  justify-content: center; /* Centra horizontalmente */
+  align-items: center; /* Centra verticalmente */
 
-  :root {
-    --main-color: #052659;
-    --backround-color: #7DA0CA;
-    --secondary-color: #C1E8FF;
-    --alternative-color: #BFDDFC;
-  }
+}
+.loginform {
+  position: relative; /* Necesario para que los elementos absolutos se posicionen en relación a este contenedor */
+  width: 400px;
+  height: 400px;
+  background-image: url('../../images/medu.jpg');
+  border: 1px solid var(--background-color);
+  border-radius: 5px;
+  margin: 0 auto;
+  margin-top: 100px;
+  text-align: center;
+  box-shadow: 0 4px 8px var(--main-color);
+  padding: 20px; /* Mantén el padding */
+  box-sizing: border-box; /* Asegura que el padding esté incluido en el cálculo de altura */
+  justify-content: center; /* Centra horizontalmente */
+  align-items: center;
+  color: var(--alternative-color);
+}
+
+:root {
+  --main-color: #052659;
+  --backround-color: #15263b;
+  --secondary-color: #C1E8FF;
+  --alternative-color: #BFDDFC;
+}
 
   

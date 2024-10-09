@@ -93,7 +93,7 @@ export default function Landing() {
     <Button  href="/aboutUs" 
               type="primary" 
               size="large" 
-              className="linear-gradient-button" className='about-ass-button-footer'> Quienes somos </Button>
+              className="linear-gradient-button,about-ass-button-footer"> Quienes somos </Button>
   </ConfigProvider>
 </Footer>
 
