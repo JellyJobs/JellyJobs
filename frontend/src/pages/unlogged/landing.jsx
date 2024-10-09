@@ -40,7 +40,7 @@ export default function Landing() {
               ¡Únete!
             </Button>
             <Button 
-              href="login" 
+              href="/login" 
               type="primary" 
               size="large" 
               className="linear-gradient-button"
