@@ -3,6 +3,9 @@
     width: 100%;
     height: 85.3vh; /* Ajusta la altura según tu necesidad */
     overflow: hidden; /* Esto oculta las imágenes fuera del contenedor visible */
+    margin-top: 75px;
+    margin-left: 0;
+    margin-right: 0;
   }
   
   .carousel__carouseles {

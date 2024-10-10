@@ -8,8 +8,8 @@ import 'antd/dist/reset.css';
 import NotFound from './pages/unlogged/notFound';
 import Landing from './pages/unlogged/landing';
 import Login from './pages/unlogged/login';
-import joinUs from './pages/unlogged/joinUs';
-import aboutUs from './pages/unlogged/joinUs';
+import JoinUs from './pages/unlogged/joinUs';
+import AboutUs from './pages/unlogged/aboutUs';
 
 
 
@@ -22,8 +22,8 @@ function App() {
                 <Route path="home" element={<home/>} />
                 <Route path="*" element={<NotFound />} /> 
                 <Route path="login" element={<Login />} />
-                <Route path="joinUs" element={<joinUs />} />
-                <Route path="aboutUs" element={<aboutUs />} />
+                <Route path="joinUs" element={<JoinUs />} />
+                <Route path="aboutUs" element={<AboutUs />} />
                 
             </Routes>
         </Router>

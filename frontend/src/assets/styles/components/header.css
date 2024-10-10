@@ -19,6 +19,7 @@
     background-color: #052659  !important;
     padding:10px;
     background: linear-gradient(190deg, #C1E8FF,#052659);
+    z-index: 1000;
 }
 
 .linear-gradient-button.ant-btn-primary:not([disabled]):not(.ant-btn-dangerous) {
