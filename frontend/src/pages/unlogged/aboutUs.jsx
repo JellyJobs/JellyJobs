@@ -7,7 +7,8 @@ import fondo from '../../assets/images/ej1.jpg';
 import gmail from '../../assets/images/gmail.webp';
 import twitter from '../../assets/images/tw.png';
 import instagram from '../../assets/images/inta.jpeg';
-
+import trabajo from '../../assets/images/trabajo.jpg'
+import ej2 from '../../assets/images/ej2.jpg'
 const { Header, Footer } = Layout;
 const aboutUs=()=>{
   
@@ -25,12 +26,12 @@ const aboutUs=()=>{
                 <p>Somos JellyJobs una bolsa de trabajo rapida, donde podras encontrar empleos temporarios de manera rapida y pudiendo decidir y coordinar con el empleaodr para definir fecha,horario y sueldo acordes a tus habilidades y disponibilidad horaria.
                 </p>
             </dir>
-            <img src={medu} alt='medusas en el oceano'></img>
+            <img src={trabajo} alt='medusas en el oceano'></img>
         </section>
             
         <section className='information-section2'>
             
-            <img src={medu} alt='medusas en el oceano'></img>
+            <img src={ej2} alt='medusas en el oceano'></img>
             <dir className='contein-info-section2'>
                 <h2>¿Como podes unirte a la comunidads?</h2>
                 <p>Los pasos a seguir son muy sencillos, lo unico que tenes que hacer es enviarnos tu curriculum vitea y llenar un formulario acerca de algunos datos personales. Estos seran evaluados por nuestro equipo dentro de las porximas 24 horas, y una vez pasado dicho tiempo te llegara una respuesta sobre si fuiste aceptado o no. Lo  unico que queda hacer despues de esto es esperar!</p>
