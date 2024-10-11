@@ -3,7 +3,6 @@ import '../../assets/styles/pages/aboutUS.css';
 import logo from  '../../assets/images/logo.png';
 import medu from '../../assets/images/medu.jpg';
 import { Layout, Button } from 'antd';
-import fondo from '../../assets/images/ej1.jpg';
 import gmail from '../../assets/images/gmail.webp';
 import twitter from '../../assets/images/tw.png';
 import instagram from '../../assets/images/inta.jpeg';

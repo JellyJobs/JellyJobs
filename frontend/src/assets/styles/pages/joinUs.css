@@ -1,0 +1,32 @@
+@import url(../components/header.css);
+:root {
+    --main-color: #052659;
+    --backround-color: #7DA0CA;
+    --secondary-color: #C1E8FF;
+    --alternative-color: #BFDDFC;
+}
+.contain-form{
+        gap: 20px; /* Espacio entre los campos de formulario */
+        align-items: flex-start;
+        width: 50%;
+        position:fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background-color: var(--main-color);
+        padding: 20px; /* Espaciado interno */
+        margin-top: 125px;
+        margin-bottom: 20px; /* Espacio fijo en la parte inferior */
+        max-height: calc(100% - 40px); /* Limita la altura máxima con margen de 20px arriba y abajo */
+        overflow-y: auto; /* Permite hacer scroll si el contenido es más alto que el contenedor */
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center; /* Centra el contenido dentro del div */
+        box-sizing: border-box; /* Incluye el padding en el cálculo del tamaño */
+        border-radius: 5px;
+}
+
+.form-items{
+    flex: 1;
+}
