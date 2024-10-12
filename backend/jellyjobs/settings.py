@@ -26,7 +26,10 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
-    'JellyJobs'
+    'JellyJobs',
+    'admin',
+    'login',
+    'trabajador',
 ]
 
 MIDDLEWARE = [

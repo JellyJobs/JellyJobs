@@ -1,7 +1,7 @@
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.permissions import AllowAny
-from serializers import LoginSerializer
+from login.serializers import LoginSerializer
 
 class AdminLoginView(APIView):
     permission_classes = [AllowAny]
