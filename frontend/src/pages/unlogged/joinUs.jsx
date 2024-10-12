@@ -2,6 +2,7 @@ import '../../assets/styles/pages/joinUs.css';
 import logo from  '../../assets/images/logo.png';
 import { Form, Input, Button, Layout, DatePicker, Select, Upload,} from 'antd';
 import { UploadOutlined } from '@ant-design/icons';
+import videoFondo from '../../assets/images/medumedusin.mp4';
 import React from 'react';
 const { Option } = Select;
 const { Header, Footer } = Layout;
@@ -10,152 +11,122 @@ const { TextArea } = Input;
 export default function joinUs() {
     return (
 
-    <div>
+    <div className='JoinUs-page-contein'>
+        <video autoPlay loop muted className='full-screen-background'>
+            <source src={videoFondo} type="video/mp4" />
+            Tu navegador no soporta el formato de video.
+        </video>
         <Header className='header'>
             <a href="/" className='links,logo-JellyJobs'><img src={logo} alt="logo" /></a>
         </Header>
         <div className='contain-form'>
             <Form >
-                <h2>Datos Personales</h2>
+                <h1>Formulario de registro</h1>
                 <Form.Item
                     className='form-items'
-                    label="Nombre"
+                    
                     name="Nombre"
                     rules={[
                     {
                         type: 'string',
-                        message: 'Por favor ingresa un nombre',
+                        message: 'Por favor, ingresa un nombre.',
                     },
                     {
                         required: true,
-                        message: 'Por favor ingresa tu nombre',
+                        message: 'Por favor, ingresa tu nombre.',
                     },
                     ]}
                 >
-                    <Input />
+                    <Input placeholder="Nombre"/>
                 </Form.Item>
                 <Form.Item
                     className='form-items'
-                    label="apellido"
                     name="apellido"
                     rules={[
                     {
                         type: 'string',
-                        message: 'Por favor ingresa un apellido',
+                        message: 'Por favor, ingresa un apellido.',
                     },
                     {
                         required: true,
-                        message: 'Por favor ingresa tu apellido',
+                        message: 'Por favor, ingresa tu apellido.',
                     },
                     ]}
                 >
-                    <Input />
+                    <Input placeholder="Apellido" />
+                </Form.Item>
+                 {/* DNI */}
+                <Form.Item
+                    name="dni"
+                    rules={[
+                    {
+                        required: true,
+                        message: 'Por favor, ingresa tu DNI.',
+                    },
+                    ]}
+                >
+                    <Input placeholder="DNI"/>
+                </Form.Item>
+                {/* Email */}
+                <Form.Item
+                    name="email"
+                    rules={[
+                    {
+                        type: 'email',
+                        message: 'Por favor, ingresa un email válido.',
+                    },
+                    {
+                        required: true,
+                        message: 'Por favor, ingresa tu email.',
+                    },
+                    ]}
+                >
+                    <Input placeholder="Email"/>
+                </Form.Item>
+                {/* Número de teléfono */}
+                <Form.Item
+                    name="telefono"
+                    rules={[
+                    {
+                        required: true,
+                        message: 'Por favor, ingresa tu número de teléfono.',
+                    },
+                    {
+                        pattern: new RegExp(/^[0-9]+$/),
+                        message: 'Solo se permiten números.',
+                    },
+                    ]}
+                >
+                    <Input placeholder="Teléfono"/>
+                </Form.Item>
+                {/* Nombre de Localidad */}
+                <Form.Item
+                    name="localidad"
+                    rules={[
+                    {
+                        required: true,
+                        message: 'Por favor, ingresa el nombre de tu localidad.',
+                    },
+                    ]}
+                >
+                    <Input placeholder="Localidad"/>
                 </Form.Item>
                 <Form.Item
-                    label="Fecha de Nacimiento"
                     name="fechaNacimiento"
-                    rules={[{ required: true, message: 'Por favor selecciona tu fecha de nacimiento' }]}
+                    rules={[{ required: true, message: 'Por favor, selecciona tu fecha de nacimiento.' }]}
                 >
-                    <DatePicker></DatePicker>
+                    <DatePicker placeholder="Fecha de Nacimiento"></DatePicker>
                 </Form.Item>
-                 {/* Email */}
-        <Form.Item
-            label="Email"
-            name="email"
-            rules={[
-            {
-                type: 'email',
-                message: 'Por favor ingresa un email válido',
-            },
-            {
-                required: true,
-                message: 'Por favor ingresa tu email',
-            },
-            ]}
-        >
-            <Input />
-        </Form.Item>
 
-        {/* DNI */}
-        <Form.Item
-            label="DNI"
-            name="dni"
-            rules={[
-            {
-                required: true,
-                message: 'Por favor ingresa tu DNI',
-            },
-            ]}
-        >
-            <Input />
-        </Form.Item>
 
-        {/* Número de teléfono */}
+        <h2>Cuentanos sobre ti</h2>
+                    {/* Selección de Empleo */}
         <Form.Item
-            label="Teléfono"
-            name="telefono"
-            rules={[
-            {
-                required: true,
-                message: 'Por favor ingresa tu número de teléfono',
-            },
-            {
-                pattern: new RegExp(/^[0-9]+$/),
-                message: 'Solo se permiten números',
-            },
-            ]}
-        >
-            <Input />
-        </Form.Item>
-
-        {/* Descripción */}
-        <Form.Item
-            label="Descripción"
-            name="descripcion"
-            rules={[
-            {
-                required: true,
-                message: 'Por favor ingresa una descripción',
-            },
-            ]}
-        >
-            <TextArea rows={4} />
-        </Form.Item>
-
-        {/* Nombre de Localidad */}
-        <Form.Item
-            label="Nombre de Localidad"
-            name="localidad"
-            rules={[
-            {
-                required: true,
-                message: 'Por favor ingresa el nombre de tu localidad',
-            },
-            ]}
-        >
-            <Input />
-        </Form.Item>
-
-        {/* Subir Archivo */}
-        <Form.Item
-            label="Subir Archivo"
-            name="archivo"
-            valuePropName="fileList"
-            getValueFromEvent={e => Array.isArray(e) ? e : e && e.fileList}
-        >
-            <Upload name="archivo" listType="picture" beforeUpload={() => false}>
-            <Button icon={<UploadOutlined />}>Subir Archivo</Button>
-            </Upload>
-        </Form.Item>
-
-        {/* Selección de Empleo */}
-        <Form.Item
-            label="Empleo"
             name="empleo"
             rules={[
             {
                 required: true,
-                message: 'Por favor selecciona tu empleo',
+                message: 'Por favor, selecciona tu empleo.',
             },
             ]}
         >
@@ -232,6 +203,56 @@ export default function joinUs() {
             <Option value="Artista Plástico">Artista Plástico</Option>
                     </Select>
         </Form.Item>
+        {/* Descripción */}
+        <Form.Item
+            name="descripcion"
+            rules={[
+            {
+                required: true,
+                message: 'Por favor, ingresa una descripción.',
+            },
+            ]}
+        >
+            
+            <TextArea  placeholder='Descripción' rows={4} />
+        </Form.Item>
+
+        
+
+        {/* Subir Archivo */}
+        <Form.Item
+            name="foto-presentacion"
+            valuePropName="fileList"
+            getValueFromEvent={e => Array.isArray(e) ? e : e && e.fileList}
+            rules={[
+                {
+                    required: true,
+                    message: 'Por favor, ingresa una foto de presentacion.',
+                },
+                ]}
+        >
+            <Upload name="archivo" listType="picture" beforeUpload={() => false}>
+            <Button icon={<UploadOutlined />}>Subir foto de presentacion</Button>
+            </Upload>
+        </Form.Item>
+        <Form.Item
+            name="acurriculum-vitae"
+            valuePropName="fileList"
+            getValueFromEvent={e => Array.isArray(e) ? e : e && e.fileList}
+            rules={[
+                {
+                    required: true,
+                    message: 'Por favor, ingresa su Currículum Vitae.',
+                },
+                ]}
+            
+        >
+            <Upload name="archivo" listType="picture" beforeUpload={() => false}>
+            <Button icon={<UploadOutlined />}>Subir CV</Button>
+            </Upload>
+        </Form.Item>
+
+        
 
         {/* Botón de enviar */}
         <Form.Item wrapperCol={{ offset: 8, span: 16 }}>

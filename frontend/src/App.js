@@ -10,16 +10,17 @@ import Landing from './pages/unlogged/landing';
 import Login from './pages/unlogged/login';
 import JoinUs from './pages/unlogged/joinUs';
 import AboutUs from './pages/unlogged/aboutUs';
+import Home from './pages/home';
 
 
 
 function App() {
     return (
-      <div>
+    <div>
         <Router>
             <Routes>
                 <Route path="/" element={<Landing />} />
-                <Route path="home" element={<home/>} />
+                <Route path="home" element={<Home/>} />
                 <Route path="*" element={<NotFound />} /> 
                 <Route path="login" element={<Login />} />
                 <Route path="joinUs" element={<JoinUs />} />

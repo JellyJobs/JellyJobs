@@ -1,8 +1,9 @@
-import { Form, Input, Button } from 'antd';
+import { Form, Input, Button,  } from 'antd';
 import '../../assets/styles/pages/login.css';
 import React from 'react';
-import gift1 from '../../assets/images/tenor.gif';
-import fondo from '../../assets/images/ej1.jpg';
+
+import videoFondo from '../../assets/images/medumedusin.mp4';
+
 const Login = () => {
   const [form] = Form.useForm();
   const onFinish = (values) => {
@@ -12,11 +13,13 @@ const Login = () => {
 
   return (
     <div className='contein-login-page'>
-      <img src={fondo} className='full-screen-background'></img>
-      <div className='gift-img-part box'>
-        <img src={gift1} alt="Gif" className="gift-image" />
-      </div>
+      <video autoPlay loop muted className='full-screen-background'>
+        <source src={videoFondo} type="video/mp4" />
+        Tu navegador no soporta el formato de video.
+      </video>
+      
       <div className='form-part box'>
+      <h1 className='title-form'>Login</h1>
         <Form
           className='loginform'
           form={form}
@@ -26,10 +29,9 @@ const Login = () => {
           onFinish={onFinish}
           autoComplete="off"
         >
-          <h1 className='title-form'>Login</h1>
+          
           <Form.Item
             className='form-items'
-            label="Nombre"
             name="Nombre"
             rules={[
               {
@@ -42,12 +44,11 @@ const Login = () => {
               },
             ]}
           >
-            <Input />
+            <Input placeholder='Nombre'/>
           </Form.Item>
 
           <Form.Item
             className='form-items'
-            label="Contraseña"
             name="password"
             rules={[
               {
@@ -56,7 +57,7 @@ const Login = () => {
               },
             ]}
           >
-            <Input.Password />
+            <Input.Password placeholder='Contraseña'/>
           </Form.Item>
 
           <Form.Item className='form-button' wrapperCol={{ offset: 8, span: 16 }}>
