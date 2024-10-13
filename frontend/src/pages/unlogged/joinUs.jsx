@@ -3,12 +3,67 @@ import logo from  '../../assets/images/logo.png';
 import { Form, Input, Button, Layout, DatePicker, Select, Upload,} from 'antd';
 import { UploadOutlined } from '@ant-design/icons';
 import videoFondo from '../../assets/images/medumedusin.mp4';
-import React from 'react';
+import React, {useState} from 'react';
+import dayjs from 'dayjs';
 const { Option } = Select;
 const { Header, Footer } = Layout;
 const { TextArea } = Input;
+const empleos = [
+    "Abogado", "Ingeniero en Sistemas", "Médico", "Arquitecto", "Profesor",
+    "Enfermero", "Psicólogo", "Contador", "Químico", "Biólogo", "Economista",
+    "Abogado Penalista", "Ingeniero Civil", "Diseñador Gráfico", "Programador Web",
+    "Desarrollador de Software", "Analista de Sistemas", "Investigador", 
+    "Marketing Digital", "Odontólogo", "Veterinario", "Farmacéutico", 
+    "Ingeniero Eléctrico", "Ingeniero Mecánico", "Piloto", "Administrador de Empresas", 
+    "Técnico en Electrónica", "Chef", "Cocinero", "Mesero", "Barbero", 
+    "Estilista", "Mecánico Automotriz", "Electricista", "Plomero", "Carpintero", 
+    "Albañil", "Pintor", "Cerrajero", "Ingeniero Químico", "Fotógrafo", 
+    "Periodista", "Redactor", "Traductor", "Intérprete", "Fisioterapeuta", 
+    "Nutricionista", "Entrenador Personal", "Soldador", "Jardinero", 
+    "Guardia de Seguridad", "Bombero", "Policía", "Militar", "Banquero", 
+    "Agente de Seguros", "Corredor de Bolsa", "Consultor", "Asesor Financiero", 
+    "Gestor de Proyectos", "Gerente de Ventas", "Desarrollador de Videojuegos", 
+    "Analista de Datos", "Ingeniero de Redes", "Especialista en Ciberseguridad", 
+    "Terapeuta", "Piloto de Drones", "Agrónomo", "Músico", "Artista Plástico"
+].sort();
 
-export default function joinUs() {
+export default function JoinUs() {
+    const [filtroEmpleo, setFiltroEmpleo] = useState('');
+    const [imagenPresentacion, setImagenPresentacion] = useState(null); 
+    const [mensajeCV, setMensajeCV] = useState('');
+
+    const manejarBusqueda = (value) => {
+        setFiltroEmpleo(value);
+    };
+
+    const disableFutureDates = (current) => {
+        const today = dayjs(); // Obtener la fecha actual
+        const yearsAgo = today.subtract(18, 'year'); // Obtener la fecha hace 18 años
+        return current && (current.isAfter(today) || current.isSame(today, 'day') || current.isAfter(yearsAgo));
+    };
+    
+    const empleosFiltrados = empleos.filter((empleo) =>
+        empleo.toLowerCase().includes(filtroEmpleo.toLowerCase())
+    );
+
+    const manejarFotoSubida = (info) => {
+        if (info.fileList.length > 0) {
+            setImagenPresentacion(info.fileList[0].originFileObj); // Guardar la imagen subida
+        } else {
+            setImagenPresentacion(null); // Reiniciar si no hay imagen
+        }
+        return info.fileList;
+    };
+
+    const manejarCVSubido = (info) => {
+        if (info.fileList.length > 0) {
+            setMensajeCV('Nuestros administradores revisarán tu currículum.'); // Mensaje al subir el CV
+        } else {
+            setMensajeCV(''); // Reiniciar el mensaje si no hay CV
+        }
+        return info.fileList;
+    };
+
     return (
 
     <div className='JoinUs-page-contein'>
@@ -21,11 +76,11 @@ export default function joinUs() {
         </Header>
         <div className='contain-form'>
             <Form >
-                <h1>Formulario de registro</h1>
+                <h1 className='form-title'>Registrate</h1>
+                <div className='form-row'>
                 <Form.Item
-                    className='form-items'
-                    
-                    name="Nombre"
+                    className='form-items-joinUs'
+                    name="nombre"
                     rules={[
                     {
                         type: 'string',
@@ -40,7 +95,7 @@ export default function joinUs() {
                     <Input placeholder="Nombre"/>
                 </Form.Item>
                 <Form.Item
-                    className='form-items'
+                    className='form-items-joinUs'
                     name="apellido"
                     rules={[
                     {
@@ -57,6 +112,7 @@ export default function joinUs() {
                 </Form.Item>
                  {/* DNI */}
                 <Form.Item
+                    className='form-items-joinUs'
                     name="dni"
                     rules={[
                     {
@@ -67,8 +123,12 @@ export default function joinUs() {
                 >
                     <Input placeholder="DNI"/>
                 </Form.Item>
+                </div>
+
+                <div className='form-row'>
                 {/* Email */}
                 <Form.Item
+                    className='form-items-joinUs'
                     name="email"
                     rules={[
                     {
@@ -85,6 +145,7 @@ export default function joinUs() {
                 </Form.Item>
                 {/* Número de teléfono */}
                 <Form.Item
+                    className='form-items-joinUs'
                     name="telefono"
                     rules={[
                     {
@@ -101,6 +162,7 @@ export default function joinUs() {
                 </Form.Item>
                 {/* Nombre de Localidad */}
                 <Form.Item
+                    className='form-items-joinUs'
                     name="localidad"
                     rules={[
                     {
@@ -111,154 +173,114 @@ export default function joinUs() {
                 >
                     <Input placeholder="Localidad"/>
                 </Form.Item>
+                </div>
+            <div className="form-row">
+                {/* Fecha de Nacimiento */}
+                <div className="birth-date-container">
                 <Form.Item
+                    className='birthDate'
                     name="fechaNacimiento"
+                    label={<span style={{color: 'white'}}>Fecha de Nacimiento</span>}
                     rules={[{ required: true, message: 'Por favor, selecciona tu fecha de nacimiento.' }]}
                 >
-                    <DatePicker placeholder="Fecha de Nacimiento"></DatePicker>
+                    <DatePicker
+                        className='date-picker-custom'
+                        placeholder="Selecciona la fecha"
+                        disabledDate={disableFutureDates}> // Aquí se aplica la función
+                    </DatePicker>
+                </Form.Item>
+                </div>
+            </div>
+
+        <h2 className='form-subtitle'>Cuéntanos sobre ti</h2>
+                {/* Selección de Empleo */}
+                <Form.Item
+                    name="empleo"
+                    rules={[
+                        {
+                            required: true,
+                            message: 'Por favor, selecciona tu empleo.',
+                        },
+                    ]}
+                >
+                    <Select
+                        placeholder="Selecciona tu empleo"
+                        onSearch={manejarBusqueda}
+                        showSearch
+                        filterOption={false}
+                    >
+                        {empleosFiltrados.map((empleo) => (
+                            <Option key={empleo} value={empleo}>
+                                {empleo}
+                            </Option>
+                        ))}
+                    </Select>
+                </Form.Item>
+               {/* Descripción */}
+               <Form.Item
+                    name="descripcion"
+                    rules={[
+                    {
+                        required: true,
+                        message: 'Por favor, ingresa una descripción.',
+                    },
+                    ]}
+                >
+            
+            <TextArea placeholder='Descripción' rows={4} style={{ resize: 'none', minHeight: '120px', backgroundColor: 'transparent' }} />
+        </Form.Item>
+
+                {/* Subir Archivo de Foto de Presentación */}
+                <Form.Item
+                    name="foto-presentacion"
+                    valuePropName="fileList"
+                    getValueFromEvent={manejarFotoSubida}
+                    rules={[
+                        {
+                            required: true,
+                            message: 'Por favor, ingresa una foto de presentación.',
+                        },
+                    ]}
+                >
+                    <Upload name="archivo" listType="picture" beforeUpload={() => false}>
+                        <Button icon={<UploadOutlined />}>Subir foto de presentación</Button>
+                    </Upload>
                 </Form.Item>
 
+                {/* Vista previa de la foto de presentación */}
+                {imagenPresentacion && (
+                    <div className="imagen-preview">
+                        <img
+                            src={URL.createObjectURL(imagenPresentacion)}
+                            alt="Vista previa"
+                            className="foto-preview"
+                        />
+                        <p>Esta será tu foto de presentación. ¡Asegura que te veas bien!</p>
+                    </div>
+                )}
 
-        <h2>Cuentanos sobre ti</h2>
-                    {/* Selección de Empleo */}
-        <Form.Item
-            name="empleo"
-            rules={[
-            {
-                required: true,
-                message: 'Por favor, selecciona tu empleo.',
-            },
-            ]}
-        >
-            <Select placeholder="Selecciona tu empleo">
-            <Option value="Abogado">Abogado</Option>
-            <Option value="Ingeniero en Sistemas">Ingeniero en Sistemas</Option>
-            <Option value="Médico">Médico</Option>
-            <Option value="Arquitecto">Arquitecto</Option>
-            <Option value="Profesor">Profesor</Option>
-            <Option value="Enfermero">Enfermero</Option>
-            <Option value="Psicólogo">Psicólogo</Option>
-            <Option value="Contador">Contador</Option>
-            <Option value="Químico">Químico</Option>
-            <Option value="Biólogo">Biólogo</Option>
-            <Option value="Economista">Economista</Option>
-            <Option value="Abogado Penalista">Abogado Penalista</Option>
-            <Option value="Ingeniero Civil">Ingeniero Civil</Option>
-            <Option value="Diseñador Gráfico">Diseñador Gráfico</Option>
-            <Option value="Programador Web">Programador Web</Option>
-            <Option value="Desarrollador de Software">Desarrollador de Software</Option>
-            <Option value="Analista de Sistemas">Analista de Sistemas</Option>
-            <Option value="Investigador">Investigador</Option>
-            <Option value="Marketing Digital">Marketing Digital</Option>
-            <Option value="Odontólogo">Odontólogo</Option>
-            <Option value="Veterinario">Veterinario</Option>
-            <Option value="Farmacéutico">Farmacéutico</Option>
-            <Option value="Ingeniero Eléctrico">Ingeniero Eléctrico</Option>
-            <Option value="Ingeniero Mecánico">Ingeniero Mecánico</Option>
-            <Option value="Piloto">Piloto</Option>
-            <Option value="Administrador de Empresas">Administrador de Empresas</Option>
-            <Option value="Técnico en Electrónica">Técnico en Electrónica</Option>
-            <Option value="Chef">Chef</Option>
-            <Option value="Cocinero">Cocinero</Option>
-            <Option value="Mesero">Mesero</Option>
-            <Option value="Barbero">Barbero</Option>
-            <Option value="Estilista">Estilista</Option>
-            <Option value="Mecánico Automotriz">Mecánico Automotriz</Option>
-            <Option value="Electricista">Electricista</Option>
-            <Option value="Plomero">Plomero</Option>
-            <Option value="Carpintero">Carpintero</Option>
-            <Option value="Albañil">Albañil</Option>
-            <Option value="Pintor">Pintor</Option>
-            <Option value="Cerrajero">Cerrajero</Option>
-            <Option value="Ingeniero Químico">Ingeniero Químico</Option>
-            <Option value="Fotógrafo">Fotógrafo</Option>
-            <Option value="Periodista">Periodista</Option>
-            <Option value="Redactor">Redactor</Option>
-            <Option value="Traductor">Traductor</Option>
-            <Option value="Intérprete">Intérprete</Option>
-            <Option value="Fisioterapeuta">Fisioterapeuta</Option>
-            <Option value="Nutricionista">Nutricionista</Option>
-            <Option value="Entrenador Personal">Entrenador Personal</Option>
-            <Option value="Soldador">Soldador</Option>
-            <Option value="Jardinero">Jardinero</Option>
-            <Option value="Guardia de Seguridad">Guardia de Seguridad</Option>
-            <Option value="Bombero">Bombero</Option>
-            <Option value="Policía">Policía</Option>
-            <Option value="Militar">Militar</Option>
-            <Option value="Banquero">Banquero</Option>
-            <Option value="Agente de Seguros">Agente de Seguros</Option>
-            <Option value="Corredor de Bolsa">Corredor de Bolsa</Option>
-            <Option value="Consultor">Consultor</Option>
-            <Option value="Asesor Financiero">Asesor Financiero</Option>
-            <Option value="Gestor de Proyectos">Gestor de Proyectos</Option>
-            <Option value="Gerente de Ventas">Gerente de Ventas</Option>
-            <Option value="Desarrollador de Videojuegos">Desarrollador de Videojuegos</Option>
-            <Option value="Analista de Datos">Analista de Datos</Option>
-            <Option value="Ingeniero de Redes">Ingeniero de Redes</Option>
-            <Option value="Especialista en Ciberseguridad">Especialista en Ciberseguridad</Option>
-            <Option value="Terapeuta">Terapeuta</Option>
-            <Option value="Piloto de Drones">Piloto de Drones</Option>
-            <Option value="Agrónomo">Agrónomo</Option>
-            <Option value="Músico">Músico</Option>
-            <Option value="Artista Plástico">Artista Plástico</Option>
-                    </Select>
-        </Form.Item>
-        {/* Descripción */}
-        <Form.Item
-            name="descripcion"
-            rules={[
-            {
-                required: true,
-                message: 'Por favor, ingresa una descripción.',
-            },
-            ]}
-        >
-            
-            <TextArea  placeholder='Descripción' rows={4} />
-        </Form.Item>
-
-        
-
-        {/* Subir Archivo */}
-        <Form.Item
-            name="foto-presentacion"
-            valuePropName="fileList"
-            getValueFromEvent={e => Array.isArray(e) ? e : e && e.fileList}
-            rules={[
-                {
-                    required: true,
-                    message: 'Por favor, ingresa una foto de presentacion.',
-                },
-                ]}
-        >
-            <Upload name="archivo" listType="picture" beforeUpload={() => false}>
-            <Button icon={<UploadOutlined />}>Subir foto de presentacion</Button>
-            </Upload>
-        </Form.Item>
-        <Form.Item
-            name="acurriculum-vitae"
-            valuePropName="fileList"
-            getValueFromEvent={e => Array.isArray(e) ? e : e && e.fileList}
-            rules={[
-                {
-                    required: true,
-                    message: 'Por favor, ingresa su Currículum Vitae.',
-                },
-                ]}
-            
-        >
-            <Upload name="archivo" listType="picture" beforeUpload={() => false}>
-            <Button icon={<UploadOutlined />}>Subir CV</Button>
-            </Upload>
-        </Form.Item>
-
+                {/* Subir CV */}
+                <Form.Item
+                    name="curriculum-vitae"
+                    valuePropName="fileList"
+                    getValueFromEvent={manejarCVSubido}
+                    rules={[
+                        {
+                            required: true,
+                            message: 'Por favor, ingresa su Currículum Vitae.',
+                        },
+                    ]}
+                >
+                    <Upload name="archivo" listType="picture" beforeUpload={() => false}>
+                        <Button icon={<UploadOutlined />}>Subir Curriculum</Button>
+                    </Upload>
+                </Form.Item>
+                {mensajeCV && <p style={{ color: 'white' }}>{mensajeCV}</p>}
         
 
         {/* Botón de enviar */}
-        <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
-            <Button type="primary" htmlType="submit">
-            Enviar
-            </Button>
+        <Form.Item wrapperCol={{ offset: 8, span: 16 }} className='buttom-item'>
+            <Button type="submit" id="joinUsButton">Enviar</Button>
         </Form.Item>
                 
             </Form>

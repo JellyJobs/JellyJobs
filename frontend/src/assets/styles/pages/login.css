@@ -7,6 +7,7 @@
   --alternative-color: #BFDDFC;
 }
 
+/*Posición del recuadro*/
 .contein-login-page {
   display: flex;
   justify-content: center; /* Centra los divs horizontalmente */
@@ -15,6 +16,7 @@
   height: 100%;
 }
 
+/*Posición del fondo de medusas*/
 .full-screen-background {
   position: fixed; /* Imagen fija en el fondo */
   top: 0;
@@ -25,6 +27,7 @@
   object-fit: cover; /* Mantiene proporción de la imagen */
 }
 
+/*Tamaño de la caja*/
 .box {
   width: 350px;
   height: 400px;
@@ -32,9 +35,10 @@
   align-items: center;
   padding: 20px;
   box-sizing: border-box;
-  border-radius: 15px; /* Bordes redondeados */
+  border-radius: 15px; 
 }
 
+/*Propiedades de la caja*/
 .form-part {
   background-color: transparent;
   box-shadow: -5px 0 15px var(--main-color); /* Sombra en el contenedor */
@@ -50,6 +54,7 @@
   padding: 30px;
 }
 
+/*Título de la caja*/
 .title-form {
   color: white;
   font-weight: bold; /* Texto en negrita */
@@ -59,21 +64,24 @@
   padding-top: 20px;
 }
 
+/*Posición de los campos*/
 .form-items {
   width: 100%;
   margin: 20px;
   flex-direction: column;
 }
 
+/*Propiedades de los campos*/
 .form-items .ant-input,
 .form-items .ant-input-password {
   background-color: transparent;
   color: white;
   border: none;
-  border-bottom: 1px solid white; /* Borde inferior suave */
+  border-bottom: 1px solid white; /* Borde inferior */
   padding: 10px;
 }
 
+/*Mantener transparente el fondo de los campos*/
 .form-items .ant-input:empty {
   background-color: transparent !important;
 }
@@ -88,15 +96,17 @@
   border-bottom: 1px solid white; /* Borde blanco al enfocarse */
 }
 
+/*Color de las letras de los campos*/
 .form-items .ant-input::placeholder,
 .form-items .ant-input-password::placeholder {
   color: white; /* Color del placeholder */
 }
-
+/*Color del ojito de password*/
 .ant-input-password .ant-input-suffix svg {
   fill: white; /* Color blanco en el ícono */
 }
 
+/*Botón Acceder*/
 .form-button {
   width: 25%;
   margin-top: 40px;
@@ -105,7 +115,7 @@
 .form-button button {
   width: 260px !important; /* Ancho del botón */
   font-size: 16px;
-  padding: 12px 20px;
+  padding: 5px 20px;
   border: none;
   border-radius: 15px !important;
   background-color: white !important;

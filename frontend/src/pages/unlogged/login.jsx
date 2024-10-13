@@ -46,19 +46,19 @@ const Login = () => {
           
           <Form.Item
             className='form-items'
-            name="Nombre"
+            name="email"
             rules={[
               {
                 type: 'name',
-                message: 'Por favor, ingresa un usuario válido,',
+                message: 'Por favor, ingresa un email válido,',
               },
               {
                 required: true,
-                message: 'Por favor, ingresa tu usuario.',
+                message: 'Por favor, ingresa tu email.',
               },
             ]}
           >
-            <Input placeholder='Nombre de Usuario'/>
+            <Input placeholder='Email'/>
           </Form.Item>
 
           <Form.Item

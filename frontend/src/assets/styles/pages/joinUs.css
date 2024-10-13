@@ -26,30 +26,181 @@
   }  
 
 .contain-form {
-    background-color: rgba(255, 255, 255,0);
+    background-color: transparent;
+    backdrop-filter: blur(10px);
     padding: 30px;
-    border-radius: 8px;
-    box-shadow: 0px 4px 12px var(--main-color); /* Sombra suave alrededor del formulario */
-    width: 100%;
-    max-width: 500px; /* Para que no sea demasiado ancho */
-    margin: 10% 30%; /* Márgenes superior e inferior */
+    border-radius: 15px;
+    box-shadow: 0px 4px 12px var(--main-color); 
+    width: 80%;
+    max-width: 600px; 
+    margin: 10% 30%; 
+    display: flex;
     flex-direction: column;
 }
-    
-.form-items {
-    margin-bottom: 20px; /* Espacio entre los elementos del formulario */
-    
+
+.form-row {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap; /* Permite que los campos se ajusten si no hay suficiente espacio */
+    margin-bottom: 30px; /* Espacio entre cada fila de campos */
 }
 
-button[type="submit"] {
-    width: 100%; /* Botón ocupa el ancho completo */
-    background-color: #1890ff; /* Color primario */
-    border: none;
-    color: white;
-    padding: 10px;
-    border-radius: 4px;
+.form-items-joinUs {
+    flex: 1; /* Cada elemento toma el mismo ancho dentro de la fila */
+    min-width: 45%; /* Ancho mínimo del 45% para que haya dos columnas */
+    margin-bottom: 10px; /* Espacio inferior entre los elementos */
+    margin-left: 10px;
 }
-    
-button[type="submit"]:hover {
-     background-color: #40a9ff; /* Color al pasar el mouse */
+
+.form-title, 
+.form-subtitle { 
+    color: white; 
+    font-size: 35px;
+    font-weight: bold; /* Pone el texto en negrita */
+    text-align: center; 
+    margin: 0;
+}
+
+.contain-form .ant-input,
+.contain-form .ant-select-selector {
+    background-color: transparent !important; /* Fondo transparente */
+    color: white; /* Color de texto blanco */
+    border: 1px solid white; /* Borde blanco semi-transparente */
+}
+
+.contain-form .ant-input:focus,
+.contain-form .ant-select-selector:focus {
+    border-color: transparent; /* Cambiar a color principal al enfocar */
+    box-shadow: -5px 0 15px var(--main-color); /* Agregar sombra para destacar el campo */
+    background-color: transparent !important;
+}
+
+.contain-form .ant-input::placeholder,
+.contain-form .ant-select-selector::placeholder{
+    color: white; 
+}
+
+.contain-form .ant-select-selection-placeholder {
+    color: white !important; /* Cambia el color del placeholder a blanco */
+}
+
+.birth-date-container {
+    display: flex;
+    flex-direction: column; /* Apila la etiqueta y el campo verticalmente */
+    align-items: center; /* Centra el contenido horizontalmente */
+    width: 100%; /* Asegúrate de que el contenedor ocupe el 100% del ancho */
+}
+
+.date-picker-custom {
+    font-size: 16px; /* Ajusta el tamaño de la fuente */
+    padding: 10px; /* Aumenta el espacio interno */
+    height: 48px; /* Ajusta la altura del campo */
+    background-color: transparent;
+    width: 200px;
+    color: white;
+}
+
+.date-picker-custom:hover {
+    background-color: transparent !important; /* Asegura que el fondo se mantenga transparente */
+}
+
+.date-picker-custom:focus{
+    border-color: transparent; /* Cambiar a color principal al enfocar */
+    box-shadow: -5px 0 15px var(--main-color); /* Agregar sombra para destacar el campo */
+    background-color: transparent !important;
+}
+
+.contain-form .ant-picker,
+.contain-form .ant-select-selector {
+    background-color: transparent !important; /* Fondo transparente */
+    color: white; /* Color de texto blanco */
+    border: 1px solid white; /* Borde transparente */
+    transition: border-color 0.3s, box-shadow 0.3s; /* Transiciones suaves */
+}
+
+.contain-form .ant-picker-input > input {
+    background-color: transparent !important; /* Fondo transparente siempre */
+    color: white !important; /* Color de texto en el campo de entrada */
+}
+
+.contain-form .ant-picker-input > input::placeholder {
+    color: white !important; /* Cambia el color del placeholder a blanco */
+}
+
+.contain-form .ant-picker-input > input:focus {
+    background-color: transparent !important; /* Fondo transparente al enfocar */
+    border-color: transparent !important; /* Borde transparente al enfocar */
+}
+
+.date-picker-custom:hover {
+    background-color: transparent !important; /* Mantener fondo transparente al pasar el ratón */
+}
+
+.date-picker-custom svg {
+    fill: white; /* Color blanco en el ícono */
+  }
+
+.contain-form .ant-picker:focus,
+.contain-form .ant-picker:focus-within {
+    border-color: transparent; /* Borde transparente al enfocar */
+    box-shadow: 0 0 8px var(--main-color); /* Sombra leve */
+}  
+
+.contain-form .ant-select-dropdown,
+.contain-form .ant-select-item {
+    background-color: transparent !important; /* Asegura que cada opción también sea transparente */
+}
+
+.contain-form .ant-select-selector:focus,
+.contain-form .ant-select-selector:focus-within {
+    border-color: transparent; /* Borde transparente al enfocar */
+    box-shadow: 0 0 8px var(--main-color) !important; /* Sombra leve */
+}
+
+.contain-form .ant-select-selector:hover,
+.contain-form .ant-picker:hover {
+    border-color: transparent !important; /* Mantener borde transparente al pasar el ratón */
+}
+
+.contain-form .buttom-item {
+    display: flex; /* Utiliza flexbox */
+    justify-content: center; /* Centra horizontalmente */
+    width: 300px; /* Asegúrate de que el contenedor ocupe el ancho completo */
+}
+
+#joinUsButton {
+    width: 350px; /* Ancho del botón */
+    background-color: white; /* Color de fondo */
+    color: black; /* Color del texto */
+    border: none; /* Sin borde */
+    border-radius: 15px; /* Bordes redondeados */
+    font-size: 16px; /* Tamaño de fuente */
+    cursor: pointer; /* Cambiar el cursor al pasar el ratón */
+    transition: background-color 0.3s, color 0.3s; /* Transición suave */
+    margin: 10px auto; /* Centrar el botón y agregar un margen superior */
+}
+
+#joinUsButton:hover {
+    background-color: var(--main-color); /* Cambia a color principal al pasar el ratón */
+    color: white; /* Cambia el color del texto a blanco */
+}
+
+.imagen-preview span,
+.imagen-preview p,
+.contain-form .ant-upload-text {
+    color: white;
+}
+
+.imagen-preview {
+    margin-top: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.foto-preview {
+    border-radius: 50%; /* Hacer la imagen circular */
+    width: 100px; /* Ajusta el tamaño según lo que necesites */
+    height: 100px;
+    object-fit: cover; /* Mantener el aspecto de la imagen */
 }
