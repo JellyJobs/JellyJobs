@@ -1,60 +1,120 @@
 @import url(../components/header.css);
+
 :root {
   --main-color: #052659;
   --backround-color: #7DA0CA;
   --secondary-color: #C1E8FF;
   --alternative-color: #BFDDFC;
 }
+
 .contein-login-page {
-  display: flex; /* Usa flexbox para alinear los hijos en una fila */
+  display: flex;
   justify-content: center; /* Centra los divs horizontalmente */
-  align-items: stretch; /* Hace que ambos divs tengan la misma altura */
+  align-items: center; /* Alinea verticalmente */
   width: 100%;
   height: 100%;
 }
 
 .full-screen-background {
-  position: fixed;/* Hace que la imagen esté en una posición fija */
+  position: fixed; /* Imagen fija en el fondo */
   top: 0;
   left: 0;
-  width: 100vw; /* Ocupa todo el ancho de la pantalla */
-  height: 100vh; /* Ocupa todo el alto de la pantalla */
-  z-index: -1; /* Coloca la imagen debajo de otros elementos */
-  object-fit: cover; /* Asegura que la imagen mantenga su proporción mientras llena la pantalla */
+  width: 100vw; 
+  height: 100vh;
+  z-index: -1; /* Debajo de otros elementos */
+  object-fit: cover; /* Mantiene proporción de la imagen */
 }
+
 .box {
-  width: 500px; /* Ancho del div */
-  height: 600px; /* Altura del div */ /* Para centrar el contenido dentro del div */
-  justify-content: center; /* Centra el contenido horizontalmente */
-  align-items: center; /* Centra el contenido verticalmente */
-  margin: 0; /* Sin margen entre los divs */
-  padding: 20px; /* Sin padding para evitar aumento de altura */
-  box-sizing: border-box; /* Incluye el padding y el borde en el tamaño total del div */
+  width: 350px;
+  height: 400px;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+  box-sizing: border-box;
+  border-radius: 15px; /* Bordes redondeados */
 }
-input::placeholder{
-  color: #000 !important;
-}
+
 .form-part {
-  background-color: rgba(255, 255, 255,0); /* Color de fondo para el div del formulario */
-  box-shadow: -5px 0 15px var(--main-color); /* Sombra a la izquierda */
-  margin-top: 6%; /* Sin márgenes adicionales */
+  background-color: transparent;
+  box-shadow: -5px 0 15px var(--main-color); /* Sombra en el contenedor */
+  margin-top: 8%;
   margin-bottom: 6%;
   position: relative;
   text-align: center;
   flex-direction: column;
-  backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px); /* Efecto de desenfoque */
   z-index: 2;
-  
+  justify-content: center;
+  align-items: center;
+  padding: 30px;
 }
-.form-items{
+
+.title-form {
+  color: white;
+  font-weight: bold; /* Texto en negrita */
+  font-size: 35px;
+  text-align: center;
+  margin: 20px;
+  padding-top: 20px;
+}
+
+.form-items {
   width: 100%;
   margin: 20px;
   flex-direction: column;
 }
 
+.form-items .ant-input,
+.form-items .ant-input-password {
+  background-color: transparent;
+  color: white;
+  border: none;
+  border-bottom: 1px solid white; /* Borde inferior suave */
+  padding: 10px;
+}
 
-.form-button{
-  position:absolute;
-  bottom: 10px;
-  right: 10%;
+.form-items .ant-input:empty {
+  background-color: transparent !important;
+}
+.form-items .ant-input-password {
+  background-color: transparent !important;
+}
+
+.form-items .ant-input:focus,
+.form-items .ant-input-password:focus {
+  background-color: transparent !important;
+  outline: none;
+  border-bottom: 1px solid white; /* Borde blanco al enfocarse */
+}
+
+.form-items .ant-input::placeholder,
+.form-items .ant-input-password::placeholder {
+  color: white; /* Color del placeholder */
+}
+
+.ant-input-password .ant-input-suffix svg {
+  fill: white; /* Color blanco en el ícono */
+}
+
+.form-button {
+  width: 25%;
+  margin-top: 40px;
+}
+
+.form-button button {
+  width: 260px !important; /* Ancho del botón */
+  font-size: 16px;
+  padding: 12px 20px;
+  border: none;
+  border-radius: 15px !important;
+  background-color: white !important;
+  color: black !important;
+  cursor: pointer;
+  transition: background-color 0.3s, color 0.3s; /* Transición en hover */
+}
+
+.form-button button:hover {
+  background-color: var(--main-color) !important;
+  color: white !important; /* Cambia a blanco al hacer hover */
 }

@@ -11,6 +11,20 @@ const Login = () => {
     //backend
   };
 
+  const passwordField = document.querySelector('.ant-input-password');
+
+  if (passwordField) {
+    passwordField.addEventListener('input', function() {
+      if (passwordField.value === '') {
+        passwordField.style.backgroundColor = 'transparent';
+      } else {
+        passwordField.style.backgroundColor = 'white';
+      }
+    });
+  } else {
+    console.error('El campo de contraseña no se encontró en el DOM.');
+  }  
+
   return (
     <div className='contein-login-page'>
       <video autoPlay loop muted className='full-screen-background'>
@@ -19,12 +33,12 @@ const Login = () => {
       </video>
       
       <div className='form-part box'>
-      <h1 className='title-form'>Login</h1>
+      <h1 className='title-form'>Iniciar Sesión</h1>
         <Form
           className='loginform'
           form={form}
           labelCol={{ span: 8 }}
-          wrapperCol={{ span: 16 }}
+          wrapperCol={{ span: 22 }}
           initialValues={{ remember: true }}
           onFinish={onFinish}
           autoComplete="off"
@@ -36,15 +50,15 @@ const Login = () => {
             rules={[
               {
                 type: 'name',
-                message: 'Por favor ingresa un nombre válido',
+                message: 'Por favor, ingresa un usuario válido,',
               },
               {
                 required: true,
-                message: 'Por favor ingresa tu nombre',
+                message: 'Por favor, ingresa tu usuario.',
               },
             ]}
           >
-            <Input placeholder='Nombre'/>
+            <Input placeholder='Nombre de Usuario'/>
           </Form.Item>
 
           <Form.Item
@@ -53,7 +67,7 @@ const Login = () => {
             rules={[
               {
                 required: true,
-                message: 'Por favor ingresa tu contraseña',
+                message: 'Por favor, ingresa tu contraseña.',
               },
             ]}
           >
@@ -62,7 +76,7 @@ const Login = () => {
 
           <Form.Item className='form-button' wrapperCol={{ offset: 8, span: 16 }}>
             <Button type="primary" htmlType="submit">
-              Iniciar Sesión
+              Acceder
             </Button>
           </Form.Item>
         </Form>
