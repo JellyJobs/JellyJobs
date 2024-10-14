@@ -1,0 +1,17 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Condensed:ital,wght@0,100..900;1,100..900&display=swap');
+
+* {
+    font-family: 'Roboto Condensed', sans-serif !important;
+    font-style: normal !important;
+  }
+  
+  :root {
+    --main-color: #052659;
+    --backround-color: #7DA0CA;
+    --secondary-color: #C1E8FF;
+    --alternative-color: #BFDDFC;
+  }
+  
+  .number_format {
+    font-family: 'Roboto Condensed', sans-serif !important;
+  }
