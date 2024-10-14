@@ -4,10 +4,47 @@
     --secondary-color: #C1E8FF;
     --alternative-color: #BFDDFC;
 }
-
+#root{
+    width: 100%;
+    height: 100vh;
+}
+.home-page{
+    width: 100%;
+    height: 100vh;
+}
+.menu-icon{
+    background-color: transparent !important;
+    border-color: var(--backround-color)!important;
+    margin-right: 10px !important;
+    box-shadow: -1px -1px 5px var(--backround-color) !important;
+    
+}
 .links-functions{
     background-color: var(--main-color);
-    width: 25%;
-    height: 100vh;
+    width: 100%;
+    height: 100px;
     padding: 10px;
+}
+.menu-functions .ant-menu-item{
+    background-color: transparent !important;
+}
+.trabajadores-tabla-scroll{
+    width: 100%;
+    height: 300px;
+    background-color: var(--main-color);
+    overflow-x: auto; /* Permitir desplazamiento horizontal */
+    overflow-y: hidden;
+    white-space: nowrap; /* Evitar que los elementos se envuelvan */
+    align-items: center;
+    padding: 15px;
+    display: flex;
+}
+.element-trabajador{
+    width: 200px;
+    height: 200px;background-color: var(--secondary-color);
+    margin: 30px;
+    padding: 30px;
+    align-items: center;
+    text-align: center;
+    display: table-column;
 }
