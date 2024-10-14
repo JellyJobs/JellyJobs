@@ -4,3 +4,10 @@
     --secondary-color: #C1E8FF;
     --alternative-color: #BFDDFC;
 }
+
+.links-functions{
+    background-color: var(--main-color);
+    width: 25%;
+    height: 100vh;
+    padding: 10px;
+}
