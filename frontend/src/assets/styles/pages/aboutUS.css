@@ -18,7 +18,6 @@
     height: 100vh;
     z-index: -1;
     object-fit: cover;
-    filter: blur(5px) brightness(0.7); 
 }
 
 .aboutUs-content {

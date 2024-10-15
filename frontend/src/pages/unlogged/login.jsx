@@ -1,7 +1,8 @@
 import { Form, Input, Button,  } from 'antd';
+import { LeftSquareFilled } from '@ant-design/icons';
+import { Link } from "react-router-dom";
 import '../../assets/styles/pages/login.css';
 import React from 'react';
-
 import videoFondo from '../../assets/images/medumedusin.mp4';
 
 const Login = () => {
@@ -31,7 +32,9 @@ const Login = () => {
         <source src={videoFondo} type="video/mp4" />
         Tu navegador no soporta el formato de video.
       </video>
-      
+      <Link Link to="/" className="back-arrow">
+        <LeftSquareFilled />
+      </Link>
       <div className='form-part box'>
       <h1 className='title-form'>Iniciar Sesión</h1>
         <Form

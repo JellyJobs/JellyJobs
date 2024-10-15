@@ -1,10 +1,11 @@
 import '../../assets/styles/pages/joinUs.css';
-import logo from  '../../assets/images/logo.png';
-import { Form, Input, Button, Layout, DatePicker, Select, Upload,} from 'antd';
-import { UploadOutlined } from '@ant-design/icons';
+import { Form, Input, Button, DatePicker, Select, Upload,} from 'antd';
+import { UploadOutlined, LeftSquareFilled } from '@ant-design/icons';
+import { Link } from "react-router-dom";
 import videoFondo from '../../assets/images/medumedusin.mp4';
 import React, {useState} from 'react';
 import dayjs from 'dayjs';
+
 const { Option } = Select;
 const { TextArea } = Input;
 const empleos = [
@@ -70,6 +71,9 @@ export default function JoinUs() {
             <source src={videoFondo} type="video/mp4" />
             Tu navegador no soporta el formato de video.
         </video>
+        <Link Link to="/" className="back-arrow">
+            <LeftSquareFilled />
+        </Link>
         <div className='contain-form'>
             <Form >
                 <h1 className='form-title'>Registrate</h1>

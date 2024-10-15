@@ -1,0 +1,62 @@
+:root {
+    --background-color: #1A4E8D;
+    --hover-color: #00064a;
+}
+
+.header {
+    position: fixed;
+    display: flex;                
+    justify-content: space-between; 
+    align-items: center;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 75px;
+    padding: 10px;
+    z-index: 1000;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+    transition: background 0.3s ease;
+    background: linear-gradient(90deg, rgba(0, 6, 74, 1), rgba(26, 78, 141, 0.9)); /* Gradiente de izquierda a derecha */
+}
+
+.header:hover {
+    background: linear-gradient(90deg, var(--hover-color), var(--background-color)); /* Gradiente oscuro al hacer hover */
+}
+
+.header-button {
+    width: 100px;
+    height: 35px;
+    border: none;
+    border-radius: 50px;
+    background-color: white;
+    color: #00064a;
+    transition: background 0.3s ease, color 0.3s ease;
+}
+
+.header-button:hover {
+    background-color: #00064a !important;
+    color: white !important;
+}
+
+
+.logo-JellyJobs img {
+    width: 200px;
+    height: auto; /* Asegura que la imagen mantenga su proporción */
+}
+
+.user-log {
+    display: flex;
+    align-items: center;
+    gap: 10px; /* Espaciado entre la imagen y el nombre */
+}
+
+.profile-picture {
+    width: 50px; /* Tamaño de la imagen de perfil */
+    height: 50px; /* Tamaño de la imagen de perfil */
+    border-radius: 50%; /* Hace que la imagen sea circular */
+}
+
+.user-name {
+    color: white; /* Color del nombre de usuario */
+    font-size: 16px; /* Tamaño del texto */
+}
