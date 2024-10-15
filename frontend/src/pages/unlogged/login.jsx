@@ -74,9 +74,9 @@ const Login = () => {
             <Input.Password placeholder='Contraseña'/>
           </Form.Item>
 
-          <Form.Item  className='form-button' wrapperCol={{ offset: 8, span: 16 }}>
-            <Button   href='home' type="primary" htmlType="submit">
-              Acceder
+          <Form.Item  className='form-button'>
+            <Button className='login-button' href='home' type="primary" htmlType="submit">
+            Acceder
             </Button>
           </Form.Item>
         </Form>

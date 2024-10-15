@@ -13,10 +13,10 @@
     height: 100vh;
 }
 .menu-icon{
-    background-color: transparent !important;
-    border-color: var(--backround-color)!important;
-    margin-right: 10px !important;
-    box-shadow: -1px -1px 5px var(--backround-color) !important;
+    background-color: transparent;
+    border-color: var(--backround-color);
+    margin-right: 10px;
+    box-shadow: -1px -1px 5px var(--backround-color);
     
 }
 .links-functions{

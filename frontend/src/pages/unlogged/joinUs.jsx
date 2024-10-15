@@ -6,7 +6,6 @@ import videoFondo from '../../assets/images/medumedusin.mp4';
 import React, {useState} from 'react';
 import dayjs from 'dayjs';
 const { Option } = Select;
-const { Header, Footer } = Layout;
 const { TextArea } = Input;
 const empleos = [
     "Abogado", "Ingeniero en Sistemas", "Médico", "Arquitecto", "Profesor",
@@ -71,9 +70,6 @@ export default function JoinUs() {
             <source src={videoFondo} type="video/mp4" />
             Tu navegador no soporta el formato de video.
         </video>
-        <Header className='header'>
-            <a href="/" className='links,logo-JellyJobs'><img src={logo} alt="logo" /></a>
-        </Header>
         <div className='contain-form'>
             <Form >
                 <h1 className='form-title'>Registrate</h1>

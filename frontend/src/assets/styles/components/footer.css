@@ -1,42 +1,49 @@
+:root {
+  --backround-color: #1A4E8D;
+  --hover-color: #00064a;
+}
+
 .footer {
-    position: static;
-    bottom: 0;
-    width: 100%;
-    padding: 20px;
-    text-align: left;
-    background-color: #052659;
-    color: white;
-  }
-  
-  .footer-nav {
-    display:flex;
-    justify-content: left;
-    gap: 50px;
-    align-items: left;
-  }
-  
-  .footer-item {
-    display: flex;
-    flex-direction: column;
-    align-items: left;
-  }
-  
-  .footer-item img {
-    width: 30px;
-    height: 30px;
-    margin-right: 80%;
-  }
-  
-  .footer-text {
-    color: white;
-    font-size: 16px;
-  }
-  
-  .about-ass-button-footer {
-    display: flex;
-    margin-left: 90%;
-    align-items:flex-start;
-    justify-content: right;
-    padding-right: 2.5%;
-  }
-  
+  background-color: #1A4E8D  ;
+  padding: 20px;
+  text-align: center;
+  color: white;
+}
+
+.icons-container {
+  display: flex;
+  justify-content: center;
+  gap: 30px; /* Espacio entre iconos */
+}
+
+.footer-icon {
+  font-size: 24px; /* Tamaño del icono */
+  color: white; /* Color del icono */
+  transition: color 0.3s; /* Transición suave para el hover */
+}
+
+.footer-icon:hover {
+  color: #00064a; /* Color al pasar el mouse sobre los iconos */
+}
+
+.divider {
+  margin: 20px 0;
+  border: 1px solid white; /* Línea blanca */
+}
+
+.footer-links {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px; /* Espacio entre enlaces */
+}
+
+.footer-links a {
+  color: white; /* Color del texto */
+  text-decoration: none; /* Sin subrayado */
+  transition: color 0.3s; /* Transición suave para el hover */
+}
+
+.footer-links a:hover {
+  color: #00064a; /* Color al pasar el mouse */
+}
