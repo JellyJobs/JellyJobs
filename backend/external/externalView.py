@@ -9,12 +9,19 @@ def JoinUs(request):
         archivo = request.FILES.get('archivo')
         cv = request.FILES.get('cv')
 
+       
         data = request.data.copy()
-        data['archivo'] = {'archivolink': archivo}
-        data['cv'] = {'cvlink': cv}
 
+        # Añadir los archivos si existen
+        if archivo:
+            data['archivo'] = {'archivolink': archivo}
+        if cv:
+            data['cv'] = {'cvlink': cv}
+            
         serializer = JoinUsSerializer(data=data)
+
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
+        
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
