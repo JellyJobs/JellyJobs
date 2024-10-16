@@ -3,5 +3,5 @@ from external.externalView import JoinUs
 
 
 urlpatterns = [
-    path('', JoinUs, name='joinus'), 
+   path('', JoinUs, name='joinus'), 
 ]

@@ -1,5 +1,6 @@
 from rest_framework import serializers
-from models import Trabajador, Profesion, Localidad, Archivo, Cv
+
+from models import Trabajador,Profesion,Localidad,Archivo
 
 class ProfesionSerializer(serializers.ModelSerializer):
     class Meta:

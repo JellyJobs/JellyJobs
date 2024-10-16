@@ -6,7 +6,7 @@ from django.conf.urls.static import static
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('login/', include('login.loginUrls')),  # remplazar con url de login y agregar con el include
-    path('joinus/', include('external.externalUrls')),
+    #path('JoinUs/', include('external.externalUrls')),
 ]
 
 if settings.DEBUG:
