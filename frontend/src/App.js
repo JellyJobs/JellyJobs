@@ -10,7 +10,8 @@ import Landing from './pages/unlogged/landing';
 import Login from './pages/unlogged/login';
 import JoinUs from './pages/unlogged/joinUs';
 import AboutUs from './pages/unlogged/aboutUs';
-import Home from './pages/home';
+import Home from './pages/logged/home';
+import ProfilePage from './pages/logged/profile-page.jsx';
 
 
 
@@ -21,6 +22,7 @@ function App() {
             <Routes>
                 <Route path="/" element={<Landing />} />
                 <Route path="home" element={<Home />} />
+                <Route path="/perfil-user" element={<ProfilePage userEmail="admin@example.com" />} />
                 <Route path="*" element={<NotFound />} /> 
                 <Route path="login" element={<Login />} />
                 <Route path="joinUs" element={<JoinUs />} />

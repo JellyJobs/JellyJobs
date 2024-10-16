@@ -12,6 +12,7 @@
   align-items: center; /* Alinea verticalmente */
   width: 100vw;
   height: 100vh;
+  margin-top: 75px;
 }
 
 /*Posición del fondo de medusas*/

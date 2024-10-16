@@ -1,9 +1,9 @@
 import React from 'react';
-import { ConfigProvider, Space, Button, Avatar, Menu } from 'antd';
-import '../../assets/styles/components/headerLog.css';
+import { ConfigProvider, Space, Typography, Button, Dropdown, Avatar, Menu } from 'antd';
+import '../../assets/styles/components/header-log.css';
 import logo from '../../assets/images/logo.png';
-import userProfile from '../../assets/images/userProfile.jpg'
-import { BellOutlined, ExclamationOutlined } from '@ant-design/icons' 
+import { BellOutlined, ExclamationOutlined, UserOutlined, LogoutOutlined, ProfileFilled } from '@ant-design/icons' 
+import { Link } from 'react-router-dom';
 
 const itemNotification=[
     {
@@ -12,22 +12,34 @@ const itemNotification=[
         icon: <ExclamationOutlined />,
     },
 ];
-const HeaderLog = ({ userName }) => (
-    <header className='header'>
-        <a href="/home" className='links logo-JellyJobs'>
-            <img src={logo} alt="logo" />
-        </a>
-        <div>
-            {/*dsp poner ruta a la prox pagina notificaciones */}
-            <BellOutlined  className='icon-campanita'  href='/'/>
-        </div> 
-        <ConfigProvider> 
+const HeaderLog = ({ userEmail }) => {
+    // Definición del menú desplegable
+    const menuItems = (
+        <Menu>
+            <Menu.Item key="profile" icon={<ProfileFilled />}>
+                <Link to="/perfil-user">Ver perfil</Link>  {/* Cambia aquí a /perfil-user */}
+            </Menu.Item>
+            <Menu.Item key="logout" icon={<LogoutOutlined />}>
+                <Link to="/">Cerrar sesión</Link>
+            </Menu.Item>
+        </Menu>
+    );
+
+    return (
+        <header className='header'>
+            <a href="/home" className='links logo-JellyJobs'>
+                <img src={logo} alt="logo" />
+            </a>
             <Space className='user-log'>
-                <span className='user-name'>{userName}</span>
-                <img src={userProfile} alt="User Profile" className='profile-picture' />
+                <Typography.Text className='user-email'>
+                    {userEmail}
+                </Typography.Text>
+                <Dropdown overlay={menuItems} trigger={['click']} placement="bottomRight">
+                    <Avatar icon={<UserOutlined />} className="user-avatar" />
+                </Dropdown>
             </Space>
-        </ConfigProvider>
-    </header>
-);
+        </header>
+    );
+};
 
 export default HeaderLog;
