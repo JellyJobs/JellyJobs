@@ -151,6 +151,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',
     'jellyjobs',
+    'external',
 ]
 
 MIDDLEWARE = [
