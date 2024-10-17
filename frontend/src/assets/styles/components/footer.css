@@ -13,37 +13,37 @@
 .icons-container {
   display: flex;
   justify-content: center;
-  gap: 30px; /* Espacio entre iconos */
+  gap: 30px; 
 }
 
 .footer-icon {
-  font-size: 24px; /* Tamaño del icono */
-  color: white; /* Color del icono */
-  transition: color 0.3s; /* Transición suave para el hover */
+  font-size: 24px; 
+  color: white; 
+  transition: color 0.3s; 
 }
 
 .footer-icon:hover {
-  color: #00064a; /* Color al pasar el mouse sobre los iconos */
+  color: #00064a; 
 }
 
 .divider {
   margin: 20px 0;
-  border: 1px solid white; /* Línea blanca */
+  border: 1px solid white; 
 }
 
 .footer-links {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 10px; /* Espacio entre enlaces */
+  gap: 10px; 
 }
 
 .footer-links a {
-  color: white; /* Color del texto */
-  text-decoration: none; /* Sin subrayado */
-  transition: color 0.3s; /* Transición suave para el hover */
+  color: white;
+  text-decoration: none;
+  transition: color 0.3s; 
 }
 
 .footer-links a:hover {
-  color: #00064a; /* Color al pasar el mouse */
+  color: #00064a; 
 }

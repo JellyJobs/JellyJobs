@@ -122,7 +122,6 @@
     color: var(--back-color) !important;
 }
 
-/* Posición y estilo de la flecha de regreso */
 .back-arrow {
     position: absolute;
     top: 20px;
@@ -133,9 +132,8 @@
     cursor: pointer;
     z-index: 1 !important;
   }
-  
-  /* Animación al pasar el cursor por la flecha */
-  .back-arrow:hover {
-    transform: scale(1.2); /* Aumenta el tamaño un poco */
-    color: var(--main-color);
-  }
+
+.back-arrow:hover {
+  transform: scale(1.2);
+  color: var(--main-color);
+}

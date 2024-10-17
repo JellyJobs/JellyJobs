@@ -38,6 +38,7 @@ export default function ProfilePage() {
                                 <Text className='user-profile-email'>{userEmail}</Text>
                             </div>
                         </TabPane>
+
                         <TabPane
                             tab={
                                 <span>
@@ -53,6 +54,7 @@ export default function ProfilePage() {
                                 <Button className='profile-btn'>Verificar mail</Button>
                             </div>
                         </TabPane>
+
                         <TabPane
                             tab={
                                 <span>
@@ -72,6 +74,7 @@ export default function ProfilePage() {
                                 <Button className='profile-btn'>Cambiar contraseña</Button>
                             </div>
                         </TabPane>
+
                         <TabPane
                             tab={
                                 <Button className='logout-btn'>
@@ -81,6 +84,7 @@ export default function ProfilePage() {
                             key="4"
                         >
                         </TabPane>
+                        
                     </Tabs>
                 </div>
             </div>

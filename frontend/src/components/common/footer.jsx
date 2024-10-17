@@ -1,6 +1,6 @@
 import React from 'react';
 import { InstagramOutlined, FacebookFilled, TwitterOutlined, MailOutlined } from '@ant-design/icons';
-import '../../assets/styles/components/footer.css'; // Asegúrate de tener un archivo CSS para estilos
+import '../../assets/styles/components/footer.css'; 
 
 const Footer = () => {
   return (

@@ -2,7 +2,7 @@ import React from 'react';
 import { ConfigProvider, Space, Typography, Button, Dropdown, Avatar, Menu } from 'antd';
 import '../../assets/styles/components/header-log.css';
 import logo from '../../assets/images/logo.png';
-import { BellOutlined, ExclamationOutlined, UserOutlined, PoweroffOutlined, SettingOutlined } from '@ant-design/icons' 
+import { BellOutlined, ExclamationOutlined, UserOutlined, PoweroffOutlined, SettingOutlined } from '@ant-design/icons';
 import { Link } from 'react-router-dom';
 
 const itemNotification=[
@@ -12,19 +12,21 @@ const itemNotification=[
         icon: <ExclamationOutlined />,
     },
 ];
-const HeaderLog = ({ userEmail }) => {
-    // Definición del menú desplegable
-    const menuItems = (
-        <Menu>
-            <Menu.Item key="profile" icon={<SettingOutlined />}>
-                <Link to="/perfil-user">Configuración de usuario</Link>  {/* Cambia aquí a /perfil-user */}
-            </Menu.Item>
-            <Menu.Item key="logout" icon={<PoweroffOutlined />}>
-                <Link to="/">Cerrar sesión</Link>
-            </Menu.Item>
-        </Menu>
-    );
 
+const menuItems = [
+    {
+        key: 'profile',
+        label: <Link to="/perfil-user">Configuración de usuario</Link>,
+        icon: <SettingOutlined />
+    },
+    {
+        key: 'logout',
+        label: <Link to="/">Cerrar sesión</Link>,
+        icon: <PoweroffOutlined />
+    }
+];
+
+const HeaderLog = ({ userEmail }) => {
     return (
         <header className='header'>
             <a href="/home" className='links logo-JellyJobs'>
@@ -34,7 +36,7 @@ const HeaderLog = ({ userEmail }) => {
                 <Typography.Text className='user-email'>
                     {userEmail}
                 </Typography.Text>
-                <Dropdown overlay={menuItems} trigger={['click']} placement="bottomRight">
+                <Dropdown menu={{ items: menuItems }} trigger={['click']} placement="bottomRight">
                     <Avatar icon={<UserOutlined />} className="user-avatar" />
                 </Dropdown>
             </Space>

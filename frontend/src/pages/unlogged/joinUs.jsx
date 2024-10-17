@@ -37,8 +37,8 @@ export default function JoinUs() {
     };
 
     const disableFutureDates = (current) => {
-        const today = dayjs(); // Obtener la fecha actual
-        const yearsAgo = today.subtract(18, 'year'); // Obtener la fecha hace 18 años
+        const today = dayjs();
+        const yearsAgo = today.subtract(18, 'year');
         return current && (current.isAfter(today) || current.isSame(today, 'day') || current.isAfter(yearsAgo));
     };
     
@@ -48,18 +48,18 @@ export default function JoinUs() {
 
     const manejarFotoSubida = (info) => {
         if (info.fileList.length > 0) {
-            setImagenPresentacion(info.fileList[0].originFileObj); // Guardar la imagen subida
+            setImagenPresentacion(info.fileList[0].originFileObj); 
         } else {
-            setImagenPresentacion(null); // Reiniciar si no hay imagen
+            setImagenPresentacion(null); 
         }
         return info.fileList;
     };
 
     const manejarCVSubido = (info) => {
         if (info.fileList.length > 0) {
-            setMensajeCV('Nuestros administradores revisarán tu currículum.'); // Mensaje al subir el CV
+            setMensajeCV('Nuestros administradores revisarán tu currículum.');
         } else {
-            setMensajeCV(''); // Reiniciar el mensaje si no hay CV
+            setMensajeCV(''); 
         }
         return info.fileList;
     };
@@ -160,7 +160,7 @@ export default function JoinUs() {
                 >
                     <Input placeholder="Teléfono"/>
                 </Form.Item>
-                {/* Nombre de Localidad */}
+                {/* Localidad */}
                 <Form.Item
                     className='form-items-joinUs'
                     name="localidad"

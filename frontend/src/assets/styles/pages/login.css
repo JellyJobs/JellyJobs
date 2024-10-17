@@ -5,28 +5,25 @@
   --main-color: #00064a;
 }
 
-/*Posición del recuadro*/
 .contein-login-page {
   display: flex;
-  justify-content: center; /* Centra los divs horizontalmente */
-  align-items: center; /* Alinea verticalmente */
+  justify-content: center; 
+  align-items: center; 
   width: 100vw;
   height: 100vh;
   margin-top: 75px;
 }
 
-/*Posición del fondo de medusas*/
 .full-screen-background {
-  position: fixed; /* Imagen fija en el fondo */
+  position: fixed; 
   top: 0;
   left: 0;
   width: 100vw; 
   height: 100vh;
-  z-index: -1; /* Debajo de otros elementos */
-  object-fit: cover; /* Mantiene proporción de la imagen */
+  z-index: -1; 
+  object-fit: cover; 
 }
 
-/*Tamaño y estilo de la caja*/
 .box {
   width: 100%;
   max-width: 350px;
@@ -44,35 +41,31 @@
   backdrop-filter: blur(10px);
 }
 
-/*Título de la caja*/
 .title-form {
   color: white;
-  font-weight: bold; /* Texto en negrita */
+  font-weight: bold; 
   font-size: 40px;
   text-align: center;
   margin: 20px;
   padding-top: 20px;
 }
 
-/*Posición de los campos*/
 .form-items {
   width: 100%;
   margin: 20px;
   flex-direction: column;
 }
 
-/*Propiedades de los campos*/
 .form-items .ant-input,
 .form-items .ant-input-password {
   background-color: transparent;
   color: white;
   border: none;
   border-radius: 15px;
-  border-bottom: 1px solid white; /* Borde inferior */
+  border-bottom: 1px solid white; 
   padding: 10px;
 }
 
-/*Mantener transparente el fondo de los campos*/
 .form-items .ant-input:empty,
 .form-items .ant-input-password {
   background-color: transparent !important;
@@ -82,22 +75,19 @@
 .form-items .ant-input-password:focus {
   background-color: transparent !important;
   outline: none;
-  border-bottom: 1px solid white; /* Borde blanco al enfocarse */
+  border-bottom: 1px solid white; 
 }
 
-/*Color de las letras de los campos*/
 .form-items .ant-input::placeholder,
 .form-items .ant-input-password::placeholder {
-  color: white; /* Color del placeholder */
+  color: white; 
   font-size: 14px;
 }
-/*Color del ojito de password*/
+
 .ant-input-password .ant-input-suffix svg {
-  fill: white; /* Color blanco en el ícono */
+  fill: white; 
 }
 
-/*Botón Acceder*/
-/* Posición y estilo del botón */
 .login-button {
   width: 100%; 
   display: flex;
@@ -113,13 +103,11 @@
   transition: background-color 0.3s, color 0.3s;
 }
 
-/* Hover del botón */
 .login-button:hover {
   background-color: var(--main-color) !important;
   color: white;
 }
 
-/* Posición y estilo de la flecha de regreso */
 .back-arrow {
   position: absolute;
   top: 20px;
@@ -131,8 +119,7 @@
   z-index: 1 !important;
 }
 
-/* Animación al pasar el cursor por la flecha */
 .back-arrow:hover {
-  transform: scale(1.2); /* Aumenta el tamaño un poco */
+  transform: scale(1.2); 
   color: var(--main-color);
 }

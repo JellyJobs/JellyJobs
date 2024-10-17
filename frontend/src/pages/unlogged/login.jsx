@@ -35,8 +35,8 @@ const Login = () => {
       <Link Link to="/" className="back-arrow">
         <LeftCircleFilled />
       </Link>
-      <div className='form-part box'>
-      <h1 className='title-form'>Iniciar Sesión</h1>
+        <div className='form-part box'>
+        <h1 className='title-form'>Iniciar Sesión</h1>
         <Form
           className='loginform'
           form={form}
@@ -82,6 +82,7 @@ const Login = () => {
             Acceder
             </Button>
           </Form.Item>
+          
         </Form>
       </div>
     </div>

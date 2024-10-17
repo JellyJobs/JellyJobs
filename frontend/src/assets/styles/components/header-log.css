@@ -31,7 +31,7 @@
 .user-log {
     display: flex;
     align-items: center;
-    gap: 10px; /* Espacio entre el ícono y el email */
+    gap: 10px; 
     color: white; 
 }
 
@@ -44,7 +44,6 @@
     cursor: pointer;
 }
 
-/* Estilos para el menú desplegable */
 .ant-dropdown-menu {
     background-color: white;
     color: var(--main-color);

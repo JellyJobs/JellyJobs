@@ -8,7 +8,7 @@ import jellyWorking from '../../assets/images/jellyWorking.jpeg'
 
 const Slider = () => {
   useEffect(() => {
-    const btnRight = document.querySelector(".carousel__rightBtn"),
+    const btnRight = document.querySelector(".carousel-rightBtn"),
       slider = document.querySelector("#slider"),
       sliderSection = document.querySelectorAll(".slider-section");
     let intervalId;
@@ -49,33 +49,42 @@ const Slider = () => {
     window.addEventListener('focus', resetSlider);
 
     return () => {
-      clearInterval(intervalId); // Limpia el intervalo al desmontar el componente
+      clearInterval(intervalId); 
       if (btnRight) {
-        btnRight.removeEventListener("click", moveToRight); // Elimina el event listener al desmontar
+        btnRight.removeEventListener("click", moveToRight); 
       }
     };
   }, []);
 
   return (
     <div className="carousel">
-      <div className="carousel__presentation">
+      
+      <div className="carousel-presentation">
         <h1>Bienvenido a JellyJobs</h1>
         <p>¡Conectate con las mejores oportunidades laborales, tan solo registrándote!</p>
         <Link to="joinUs" className="slider-button">¡Únete!</Link>
       </div>
-      <div className="carousel__carouseles" id="slider">
+
+      <div className="carousel-carouseles" id="slider">
+
         <section className="slider-section">
           <img src={jellyWorking} alt="jellyJobs" draggable="false" />
         </section>
+
         <section className="slider-section">
           <img src={jellyChef} alt="jellyJobs" draggable="false" />
         </section>
+
         <section className="slider-section">
           <img src={jellyStudy} alt="jellyJobs" draggable="false" />
         </section>
+
         <div className="dark" />
+
       </div>
-      <div className="carousel__rightBtn"><RightOutlined /><i className="bi bi-chevron-right" /></div>
+      <div className="carousel-rightBtn">
+        <RightOutlined /><i className="bi bi-chevron-right" />
+      </div>
     </div>
   );
 };

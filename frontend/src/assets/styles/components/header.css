@@ -24,7 +24,7 @@
 }
 
 .header-button {
-    padding: 5px 20px; /* Ajuste del padding para los botones */
+    padding: 5px 20px; 
     height: 35px;
     font-size: 15px;
     border: none;
@@ -41,11 +41,11 @@
 
 .logo-JellyJobs img {
     width: 200px;
-    height: auto; /* Asegura que la imagen mantenga su proporción */
+    height: auto; 
 }
 
 .buttons-log {
     display: flex;
     align-items: center;
-    gap: 10px; /* Espaciado entre botones */
+    gap: 10px; 
 }
