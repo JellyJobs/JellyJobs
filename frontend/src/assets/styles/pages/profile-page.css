@@ -1,7 +1,5 @@
 :root {
-    --background-color: #1A4E8D;
-    --main-color: #00064a;
-
+    --back-color: rgba(0, 0, 0, 0.7);
 }
 
 .profile-page {
@@ -9,49 +7,135 @@
     flex-direction: column; 
     align-items: center;
     height: 100vh;
+    width: 100vw;
     margin-top: 75px;
-    background-color: var(--background-color);
-    padding-top: 75px; 
 }
 
-.profile-container {
-    width: 400px;
-    padding: 30px;
-    background-color: white;
-    border-radius: 10px;
-    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+.profile-settings-container {
+    width: 100%;
+    max-width: 600px;
+    height: 100%;
+    max-height: 500px;
+    display: flex;
+    flex-direction: column;
+    box-sizing: border-box;
+    border-radius: 15px; 
+    background-color: var(--back-color);
+    margin-top: 8%;
+    margin-bottom: 8%;
+    padding: 20px;
+    backdrop-filter: blur(10px);
 }
 
-.section-title {
-    margin-bottom: 20px;
-    color: var(--main-color);
+.full-screen-background {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: -1;
+    object-fit: cover;
+}
+
+.settings-title {
+    font-size: 30px !important;
+    color: white !important;
+}
+
+.settings-subtitle {
+    color: white !important;
+    text-align: left;
+}
+
+.profile-input, .ant-input, .ant-input-password {
+    background-color: rgba(255, 255, 255, 0.1) !important;
+}
+
+.profile-input:focus, .ant-input:focus, .ant-input-password:focus {
+    background-color: rgba(255, 255, 255, 0.1) !important;
+    color: white !important;
+    border-color: white;
+}
+
+.settings-layout {
+    display: flex;
+}
+
+.ant-tabs-left .ant-tabs-tab {
+    color: white;
+}
+
+.content-box label {
+    color: white;
+    display: block;
+    margin-bottom: 10px;
+    font-size: 16px;
 }
 
 .user-profile-email {
-    display: block;
     font-size: 18px;
-    color: var(--main-color) !important;
-    margin-bottom: 150px;
+    color: white;
 }
 
+.profile-input {
+    margin-bottom: 20px;
+    background-color: transparent;
+    color: white;
+    border-radius: 15px;
+    border: none;
+    padding: 10px;
+    outline: none;
+}
+
+.profile-input:focus {
+    background-color: rgba(255, 255, 255, 0.1); /* Mantén el fondo transparente al hacer clic */
+    color: white;
+    border: none;
+}
 .profile-btn {
     width: 100%;
-    background-color: var(--main-color);
+    background-color: white;
     border: none;
-    color: white;
-    margin-bottom: 100px; /* Espacio entre los botones */
+    color: var(--back-color);
+    border-radius: 15px;
+    padding: 10px;
+    cursor: pointer;
 }
 
 .profile-btn:hover {
-    background-color: var(--background-color);
-    color: white;
-}
-
-.logout-link {
-    display: block;
-    margin-top: 10px;
+    background-color: white;
+    color: var(--back-color);
 }
 
 .logout-btn {
     width: 100%;
+    background-color: white;
+    border: none;
+    color: var(--back-color);
+    border-radius: 15px;
+    padding: 10px;
+    cursor: pointer;
 }
+
+.logout-btn:hover {
+    background-color: white;
+    color: var(--back-color) !important;
+}
+
+/* Posición y estilo de la flecha de regreso */
+.back-arrow {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    color: white;
+    font-size: 36px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    cursor: pointer;
+    z-index: 1 !important;
+  }
+  
+  /* Animación al pasar el cursor por la flecha */
+  .back-arrow:hover {
+    transform: scale(1.2); /* Aumenta el tamaño un poco */
+    color: var(--main-color);
+  }

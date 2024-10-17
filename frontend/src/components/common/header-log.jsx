@@ -2,7 +2,7 @@ import React from 'react';
 import { ConfigProvider, Space, Typography, Button, Dropdown, Avatar, Menu } from 'antd';
 import '../../assets/styles/components/header-log.css';
 import logo from '../../assets/images/logo.png';
-import { BellOutlined, ExclamationOutlined, UserOutlined, LogoutOutlined, ProfileFilled } from '@ant-design/icons' 
+import { BellOutlined, ExclamationOutlined, UserOutlined, PoweroffOutlined, SettingOutlined } from '@ant-design/icons' 
 import { Link } from 'react-router-dom';
 
 const itemNotification=[
@@ -16,10 +16,10 @@ const HeaderLog = ({ userEmail }) => {
     // Definición del menú desplegable
     const menuItems = (
         <Menu>
-            <Menu.Item key="profile" icon={<ProfileFilled />}>
-                <Link to="/perfil-user">Ver perfil</Link>  {/* Cambia aquí a /perfil-user */}
+            <Menu.Item key="profile" icon={<SettingOutlined />}>
+                <Link to="/perfil-user">Configuración de usuario</Link>  {/* Cambia aquí a /perfil-user */}
             </Menu.Item>
-            <Menu.Item key="logout" icon={<LogoutOutlined />}>
+            <Menu.Item key="logout" icon={<PoweroffOutlined />}>
                 <Link to="/">Cerrar sesión</Link>
             </Menu.Item>
         </Menu>

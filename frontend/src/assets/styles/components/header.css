@@ -13,33 +13,31 @@
     width: 100%;
     height: 75px;
     padding: 10px;
-    z-index: 1000;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+    z-index: 10 !important;
     transition: background 0.3s ease;
     background: linear-gradient(90deg, rgba(0, 6, 74, 1), rgba(26, 78, 141, 0.9)); /* Gradiente de izquierda a derecha */
 }
 
 .header:hover {
-    background: linear-gradient(90deg, var(--hover-color), var(--background-color)); /* Gradiente oscuro al hacer hover */
+    
+    background: linear-gradient(90deg, var(--hover-color), var(--backround-color)) !important; /* Gradiente oscuro al hacer hover */
 }
 
 .header-button {
-    padding: 10px 20px;
+    padding: 5px 20px; /* Ajuste del padding para los botones */
     height: 35px;
-    font-size: 16px;
+    font-size: 15px;
     border: none;
     border-radius: 50px;
     background-color: white;
     color: #00064a;
     transition: background 0.3s ease, color 0.3s ease;
-    cursor: pointer;
 }
 
 .header-button:hover {
     background-color: #00064a !important;
     color: white !important;
 }
-
 
 .logo-JellyJobs img {
     width: 200px;

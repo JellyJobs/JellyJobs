@@ -90,32 +90,27 @@
     font-size: 30px;
     text-decoration: none;
     transition: all 0.3s ease;
-    background: linear-gradient(90deg, var(--hover-color), blue);
+    background: linear-gradient(90deg, purple, blue);
     background-size: 200% 200%; 
-    background-position: 0% 50%; 
     animation: gradient-animation 5s ease infinite;
 }
 
 @keyframes gradient-animation {
     0% {
-        background-position: 0% 50%;
+        background-position: 0% 100%;
     }
     50% {
-        background-position: 100% 50%;
+        background-position: 100% 25%; 
     }
     100% {
-        background-position: 50% 0%;
+        background-position: 0% 100%; 
     }
 }
 
 .slider-button:hover {
     transform: scale(1.2);
     border-color: white;
-    background-color: rgba(255, 255, 255, 0.3); /* Este color debe mantenerse si quieres que el hover lo sobreponga */
+    background-color: rgba(255, 255, 255, 0.3);
     cursor: pointer;
     box-shadow: 0 10px 25px rgba(0, 6, 74, 0.5);
-}
-
-  
-
-  
+}  
