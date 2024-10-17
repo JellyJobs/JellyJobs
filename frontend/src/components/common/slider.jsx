@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import '../../assets/styles/components/slider.css'; 
 import { Link } from 'react-router-dom';
+import { RightOutlined } from '@ant-design/icons';
 import jellyChef from '../../assets/images/jellyChef.jpeg'
 import jellyStudy from '../../assets/images/jellyStudy.jpeg'
 import jellyWorking from '../../assets/images/jellyWorking.jpeg'
@@ -10,15 +11,24 @@ const Slider = () => {
     const btnRight = document.querySelector(".carousel__rightBtn"),
       slider = document.querySelector("#slider"),
       sliderSection = document.querySelectorAll(".slider-section");
-
+    let intervalId;
     if (btnRight) {
       btnRight.addEventListener("click", moveToRight);
     } else {
       console.log("The slider button isn't working");
     }
 
-    const intervalId = setInterval(moveToRight, 10000);
+    function startSlider() {
+      intervalId = setInterval(moveToRight, 10000);
+    }
 
+    function resetSlider() {
+      clearInterval(intervalId); 
+      startSlider(); 
+    }
+
+    startSlider();
+  
     let counter = 0,
       widthImg = 100 / sliderSection.length;
 
@@ -36,6 +46,8 @@ const Slider = () => {
       }
     }
 
+    window.addEventListener('focus', resetSlider);
+
     return () => {
       clearInterval(intervalId); // Limpia el intervalo al desmontar el componente
       if (btnRight) {
@@ -48,8 +60,8 @@ const Slider = () => {
     <div className="carousel">
       <div className="carousel__presentation">
         <h1>Bienvenido a JellyJobs</h1>
-        <p>Postúlate a miles de trabajos en todo el mundo al instante, tan solo con tu información.</p>
-        <Link to="/aboutUs" className="slider-button">Quienes somos</Link>
+        <p>¡Conectate con las mejores oportunidades laborales, tan solo registrándote!</p>
+        <Link to="joinUs" className="slider-button">¡Únete!</Link>
       </div>
       <div className="carousel__carouseles" id="slider">
         <section className="slider-section">
@@ -63,7 +75,7 @@ const Slider = () => {
         </section>
         <div className="dark" />
       </div>
-      <div className="carousel__rightBtn"><i className="bi bi-chevron-right" /></div>
+      <div className="carousel__rightBtn"><RightOutlined /><i className="bi bi-chevron-right" /></div>
     </div>
   );
 };

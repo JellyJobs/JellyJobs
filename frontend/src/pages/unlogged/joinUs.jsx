@@ -1,6 +1,6 @@
 import '../../assets/styles/pages/joinUs.css';
 import { Form, Input, Button, DatePicker, Select, Upload,} from 'antd';
-import { UploadOutlined, LeftSquareFilled } from '@ant-design/icons';
+import { UploadOutlined, LeftCircleFilled } from '@ant-design/icons';
 import { Link } from "react-router-dom";
 import videoFondo from '../../assets/images/medumedusin.mp4';
 import React, {useState} from 'react';
@@ -72,7 +72,7 @@ export default function JoinUs() {
             Tu navegador no soporta el formato de video.
         </video>
         <Link Link to="/" className="back-arrow">
-            <LeftSquareFilled />
+            <LeftCircleFilled />
         </Link>
         <div className='contain-form'>
             <Form >

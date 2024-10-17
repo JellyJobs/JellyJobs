@@ -1,5 +1,5 @@
 import { Form, Input, Button,  } from 'antd';
-import { LeftSquareFilled } from '@ant-design/icons';
+import { LeftCircleFilled } from '@ant-design/icons';
 import { Link } from "react-router-dom";
 import '../../assets/styles/pages/login.css';
 import React from 'react';
@@ -33,7 +33,7 @@ const Login = () => {
         Tu navegador no soporta el formato de video.
       </video>
       <Link Link to="/" className="back-arrow">
-        <LeftSquareFilled />
+        <LeftCircleFilled />
       </Link>
       <div className='form-part box'>
       <h1 className='title-form'>Iniciar Sesión</h1>

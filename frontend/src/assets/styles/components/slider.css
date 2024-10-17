@@ -36,9 +36,9 @@
   .carousel__rightBtn {
     position: absolute;
     top: 50%;
+    color: white;
     right: 10px;
     font-size: 1.5rem;
-    background-color: white;
     border-radius: 50%;
     padding: 10px;
     cursor: pointer;
@@ -47,7 +47,7 @@
   }
   
   .carousel__rightBtn:hover {
-    background-color: var(--backround-color);
+    background-color: var(--hover-color);
   }
   
   /* Capa oscura sobre las imágenes */
@@ -67,7 +67,7 @@
     top: 20%;
     left: 10%;
     z-index: 2;
-    color: var(--presentation-title-color);
+    color: white;
   }
   
   .carousel__presentation h1 {
@@ -83,22 +83,39 @@
 
   .slider-button {
     display: inline-block;
-    padding: 10px 20px;
+    padding: 15px 30px;
+    border-radius: 50px;
     color: white;
-    border: 2px solid transparent;
     font-weight: bold;
-    font-size: 20px;
+    font-size: 30px;
     text-decoration: none;
     transition: all 0.3s ease;
-    background-color: rgba(26, 78, 141, 0.5);
-    border-radius: 5px;
-  }
-  
-  .slider-button:hover {
+    background: linear-gradient(90deg, var(--hover-color), blue);
+    background-size: 200% 200%; 
+    background-position: 0% 50%; 
+    animation: gradient-animation 5s ease infinite;
+}
+
+@keyframes gradient-animation {
+    0% {
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+    100% {
+        background-position: 50% 0%;
+    }
+}
+
+.slider-button:hover {
+    transform: scale(1.2);
     border-color: white;
-    background-color: rgba(255, 255, 255, 0.3);
+    background-color: rgba(255, 255, 255, 0.3); /* Este color debe mantenerse si quieres que el hover lo sobreponga */
     cursor: pointer;
-  }
+    box-shadow: 0 10px 25px rgba(0, 6, 74, 0.5);
+}
+
   
 
   

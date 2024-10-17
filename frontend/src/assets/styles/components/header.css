@@ -24,13 +24,15 @@
 }
 
 .header-button {
-    width: 100px;
+    padding: 10px 20px;
     height: 35px;
+    font-size: 16px;
     border: none;
     border-radius: 50px;
     background-color: white;
     color: #00064a;
     transition: background 0.3s ease, color 0.3s ease;
+    cursor: pointer;
 }
 
 .header-button:hover {

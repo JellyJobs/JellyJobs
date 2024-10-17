@@ -12,11 +12,11 @@ const Header = () => (
             <Space className='buttons-log'>
                 <Button
                     className='header-button'
-                    href="joinUs" 
+                    href="/aboutUs" 
                     type="primary" 
                     size="large" 
                 >
-                    ¡Únete!
+                    ¿Quienes somos?
                 </Button>
                 <Button 
                     className='header-button'

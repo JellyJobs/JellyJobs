@@ -17,8 +17,6 @@ const Footer = () => {
         <a href="/privacy">Política de Privacidad</a>
         <a href="/contract">Condiciones de Contratación</a>
         <a href="/faq">Preguntas Frecuentes</a>
-        <a href="/jobs">Ofertas de Empleo</a>
-        <a href="/quality">Política de Gestión de Calidad</a>
       </nav>
     </footer>
   );

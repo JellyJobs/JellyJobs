@@ -21,7 +21,7 @@ const aboutUs=()=>{
         <section className="about-section">
           <div className="text-container">
             <h1>¿Quiénes somos?</h1>
-            <p>Somos JellyJobs, una bolsa de trabajo rápida, donde podrás encontrar empleos temporarios de manera rápida y pudiendo decidir y coordinar con el empleador para definir fecha, horario y sueldo acordes a tus habilidades y disponibilidad horaria.</p>
+            <p>Somos JellyJobs, una plataforma ágil que facilita la búsqueda de empleos. Te ayudamos a encontrar trabajos rápidamente y coordinar directamente con empleadores, ajustando fecha, horario y sueldo según tus habilidades y disponibilidad.</p>
           </div>
           <img src={jellyAccountant} alt="JellyJobs" className="about-img" />
         </section>
@@ -30,14 +30,14 @@ const aboutUs=()=>{
           <img src={jellyTools} alt="JellyJobs" className="about-img" />
           <div className="text-container">
             <h1>¿Cómo podés unirte a la comunidad?</h1>
-            <p>Los pasos a seguir son muy sencillos, lo único que tenés que hacer es enviarnos tu curriculum vitae y llenar un formulario acerca de algunos datos personales. Estos serán evaluados por nuestro equipo dentro de las próximas 24 horas, y te llegará una respuesta sobre si fuiste aceptado o no. ¡Después, solo queda esperar!</p>
+            <p>Unirte es simple. Solo necesitás enviar tu currículum y completar un formulario con tus datos. Nuestro equipo evaluará tu solicitud en menos de 24 horas, y recibirás una respuesta sobre si fuiste aceptado. ¡Luego, solo queda esperar!</p>
           </div>
         </section>
 
         <section className="about-section">
           <div className="text-container">
             <h1>¿Por qué nuestro nombre?</h1>
-            <p>En JellyJobs, nos inspiramos en la agilidad y adaptabilidad de las medusas, criaturas que navegan por los mares con fluidez y eficiencia. Al igual que una medusa se mueve rápidamente a través del agua, JellyJobs ofrece una plataforma de búsqueda de empleo diseñada para que tanto empleadores como candidatos puedan encontrar lo que buscan de manera rápida y efectiva. Nuestro nombre une estos dos conceptos: 'Jelly', representando la flexibilidad y rapidez, y 'Jobs', simbolizando nuestro enfoque en conectar oportunidades laborales de forma ágil.</p>
+            <p>El nombre JellyJobs refleja agilidad y flexibilidad. Inspirados en las medusas, que se mueven con fluidez, nuestra plataforma conecta candidatos y empleadores de forma eficiente. Resalta nuestro enfoque en ofrecer oportunidades laborales rápidas y efectivas.</p>
           </div>
           <img src={jellyWall} alt="JellyJobs" className="about-img" />
         </section>
