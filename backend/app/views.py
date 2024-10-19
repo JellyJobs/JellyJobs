@@ -1,8 +1,7 @@
-from django.shortcuts import render
-from rest_framework import APIView
+from rest_framework.decorators import APIView
 from rest_framework.permissions import AllowAny
-from serializers import LoginSerializer
-from rest_framework import Response
+from app.serializers import LoginSerializer
+from rest_framework.response import Response
 
 #Login
 class AdminLoginView(APIView):
