@@ -2,7 +2,7 @@ import React from 'react';
 import { Button, Input, Typography, Tabs } from 'antd';
 import { UserOutlined, MailFilled, LockFilled, PoweroffOutlined, LeftCircleFilled } from '@ant-design/icons';
 import { Link } from "react-router-dom";
-import '../../assets/styles/pages/profile-page.css';
+import '../../assets/styles/pages/user-settings.css';
 import HeaderLog from '../../components/common/header-log';
 import videoFondo from '../../assets/images/medumedusin.mp4';
 
@@ -13,7 +13,7 @@ export default function ProfilePage() {
     const userEmail = "admin@example.com";
 
     return (
-        <div className='profile-page'>
+        <div className='user-settings'>
             <video autoPlay loop muted className='full-screen-background'>
                 <source src={videoFondo} type="video/mp4" />
                 Tu navegador no soporta el formato de video.
@@ -62,22 +62,25 @@ export default function ProfilePage() {
                                 </span>
                             }
                             key="3"
-                        >
+                            >
                             <div className='content-box'>
                                 <Title level={3} className='settings-subtitle'>Cambiar contraseña</Title>
                                 <label>Ingrese su contraseña actual</label>
-                                <Input className='profile-input' type="password" />
+                                <Input.Password className='profile-input' />
                                 <label>Ingrese la nueva contraseña</label>
-                                <Input className='profile-input' type="password" />
+                                <Input.Password className='profile-input' />
                                 <label>Repita la nueva contraseña</label>
-                                <Input className='profile-input' type="password" />
+                                <Input.Password className='profile-input' />
                                 <Button className='profile-btn'>Cambiar contraseña</Button>
                             </div>
                         </TabPane>
 
                         <TabPane
-                            tab={
-                                <Button className='logout-btn'>
+                             tab={
+                                <Button 
+                                    className='logout-btn'
+                                    onClick={() => window.location.href = '/'}
+                                >
                                     <PoweroffOutlined /> Cerrar Sesión
                                 </Button>
                             }

@@ -1,8 +1,10 @@
 :root {
-    --back-color: rgba(0, 0, 0, 0.7);
+    --black-color: rgba(0, 0, 0, 0.7);
+    --main-color: #00064a;
+    --option-color: #00E9F5;
 }
 
-.profile-page {
+.user-settings {
     display: flex;
     flex-direction: column; 
     align-items: center;
@@ -19,8 +21,8 @@
     display: flex;
     flex-direction: column;
     box-sizing: border-box;
-    border-radius: 15px; 
-    background-color: var(--back-color);
+    border-radius: 10px; 
+    background-color: var(--black-color);
     margin-top: 8%;
     margin-bottom: 8%;
     padding: 20px;
@@ -48,26 +50,35 @@
 }
 
 .profile-input, .ant-input, .ant-input-password {
-    background-color: rgba(255, 255, 255, 0.1) !important;
+    background-color: transparent !important;
+    border-radius: 15px;
+    outline: none;
+    border-bottom: 1px solid white !important; 
 }
 
 .profile-input:focus, .ant-input:focus, .ant-input-password:focus {
-    background-color: rgba(255, 255, 255, 0.1) !important;
+    background-color: transparent !important;
     color: white !important;
-    border-color: white;
 }
 
 .settings-layout {
-    display: flex;
+    display: center;
 }
 
-.ant-tabs-left .ant-tabs-tab {
-    color: white;
+.ant-tabs-tab-active .ant-tabs-tab-btn {
+    color: var(--option-color) !important;
+}
+
+.ant-tabs-ink-bar {
+    background-color: var(--option-color) !important;
+}
+
+.ant-tabs-tab-btn {
+    color: white !important;
 }
 
 .content-box label {
     color: white;
-    display: block;
     margin-bottom: 10px;
     font-size: 16px;
 }
@@ -84,42 +95,44 @@
     border-radius: 15px;
     border: none;
     padding: 10px;
-    outline: none;
 }
 
 .profile-input:focus {
-    background-color: rgba(255, 255, 255, 0.1); /* Mantén el fondo transparente al hacer clic */
+    background-color: transparent; 
     color: white;
     border: none;
 }
+
 .profile-btn {
     width: 100%;
     background-color: white;
+    color: var(--main-color);
     border: none;
-    color: var(--back-color);
     border-radius: 15px;
     padding: 10px;
     cursor: pointer;
 }
 
 .profile-btn:hover {
-    background-color: white;
-    color: var(--back-color);
+    background-color: var(--main-color) !important;
+    color: white !important;
 }
 
 .logout-btn {
     width: 100%;
     background-color: white;
     border: none;
-    color: var(--back-color);
+    color: var(--black-color);
     border-radius: 15px;
     padding: 10px;
     cursor: pointer;
+    color: var(--main-color);
+    margin-top: 200px;
 }
 
 .logout-btn:hover {
-    background-color: white;
-    color: var(--back-color) !important;
+    background-color: var(--main-color) !important;
+    color: white !important;
 }
 
 .back-arrow {

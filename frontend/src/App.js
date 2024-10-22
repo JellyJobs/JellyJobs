@@ -11,7 +11,7 @@ import Login from './pages/unlogged/login';
 import JoinUs from './pages/unlogged/joinUs';
 import AboutUs from './pages/unlogged/aboutUs';
 import Home from './pages/logged/home';
-import ProfilePage from './pages/logged/profile-page.jsx';
+import ProfilePage from './pages/logged/user-settings.jsx';
 
 
 
