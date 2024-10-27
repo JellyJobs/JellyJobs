@@ -1,12 +1,10 @@
 @import url(../components/header.css);
 :root {
-    --main-color: #052659;
-    --backround-color: #7DA0CA;
-    --secondary-color: #C1E8FF;
-    --alternative-color: #BFDDFC;
-}
+    --background-color: #1A4E8D;
+    --main-color: #00064a;
+    --option-color: #00E9F5;
+  }
 
-/* Estilos generales para centrar el contenedor del formulario */
 .JoinUs-page-contein {
     display: flex;
     flex-direction: column;
@@ -25,31 +23,267 @@
     object-fit: cover;
   }  
 
-.contain-form {
-    background-color: rgba(255, 255, 255,0);
-    padding: 30px;
-    border-radius: 8px;
-    box-shadow: 0px 4px 12px var(--main-color); /* Sombra suave alrededor del formulario */
-    width: 100%;
-    max-width: 500px; /* Para que no sea demasiado ancho */
-    margin: 10% 30%; /* Márgenes superior e inferior */
+  .contain-form {
+    display: flex;
     flex-direction: column;
-}
-    
-.form-items {
-    margin-bottom: 20px; /* Espacio entre los elementos del formulario */
-    
+    align-items: center; 
+    background-color: transparent;
+    backdrop-filter: blur(10px);
+    padding: 30px;
+    border-radius: 15px;
+    box-shadow: 0px 4px 12px var(--main-color);
+    width: 100%;
+    max-width: 600px;
+    margin: 5% auto;
 }
 
-button[type="submit"] {
-    width: 100%; /* Botón ocupa el ancho completo */
-    background-color: #1890ff; /* Color primario */
-    border: none;
-    color: white;
-    padding: 10px;
-    border-radius: 4px;
+.form-row {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap; 
+    margin-bottom: 30px; 
 }
-    
-button[type="submit"]:hover {
-     background-color: #40a9ff; /* Color al pasar el mouse */
+
+.form-items-joinUs {
+    flex: 1;
+    min-width: 45%; 
+    margin-bottom: 10px; 
+    margin-left: 10px;
+}
+
+.form-title, 
+.form-subtitle { 
+    color: white; 
+    font-size: 35px;
+    font-weight: bold; 
+    text-align: center; 
+    margin: 0;
+}
+
+.contain-form .ant-input,
+.contain-form .ant-select-selector {
+    background-color: transparent !important; 
+    color: white; 
+    border: 1px solid white; 
+}
+
+.contain-form .ant-input:focus,
+.contain-form .ant-select-selector:focus {
+    border-color: transparent; 
+    box-shadow: -5px 0 15px var(--main-color); 
+    background-color: transparent !important;
+}
+
+.contain-form .ant-input::placeholder,
+.contain-form .ant-select-selector::placeholder{
+    color: white; 
+}
+
+.contain-form .ant-select-selection-placeholder {
+    color: white !important; 
+}
+
+.birth-date-container {
+    display: flex;
+    flex-direction: column; 
+    align-items: center; 
+    width: 100%;
+}
+
+.date-picker-custom {
+    font-size: 16px;
+    padding: 10px;
+    height: 48px;
+    background-color: transparent;
+    width: 200px;
+    color: white;
+}
+
+.date-picker-custom:hover {
+    background-color: transparent !important; 
+}
+
+.date-picker-custom:focus{
+    border-color: transparent;
+    box-shadow: -5px 0 15px var(--main-color); 
+    background-color: transparent !important;
+}
+
+.contain-form .ant-picker,
+.contain-form .ant-select-selector {
+    background-color: transparent !important; 
+    color: white; 
+    border: 1px solid white; 
+    transition: border-color 0.3s, box-shadow 0.3s; 
+}
+
+.contain-form .ant-picker-input > input {
+    background-color: transparent !important; 
+    color: white !important; 
+}
+
+.contain-form .ant-picker-input > input::placeholder {
+    color: white !important;
+}
+
+.contain-form .ant-picker-input > input:focus {
+    background-color: transparent !important; 
+    border-color: transparent !important; 
+}
+
+.date-picker-custom:hover {
+    background-color: transparent !important; 
+}
+
+.date-picker-custom svg {
+    fill: white; 
+  }
+
+.contain-form .ant-picker:focus,
+.contain-form .ant-picker:focus-within {
+    border-color: transparent;
+    box-shadow: 0 0 8px var(--main-color);
+}  
+
+.contain-form .ant-select-dropdown,
+.contain-form .ant-select-item {
+    background-color: transparent !important; 
+}
+
+.contain-form .ant-select-selector:focus,
+.contain-form .ant-select-selector:focus-within {
+    border-color: transparent;
+    box-shadow: 0 0 8px var(--main-color) !important; 
+}
+
+.contain-form .ant-select-selector:hover,
+.contain-form .ant-picker:hover {
+    border-color: transparent !important;
+}
+
+.contain-form .button-item {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+}
+
+#joinUsButton {
+    width: 350px; 
+    background-color: white;
+    color: black;
+    border: none;
+    border-radius: 50px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s, color 0.3s;
+    padding: 5px 20px;
+    text-align: center;
+}
+
+#joinUsButton:hover {
+    background-color: var(--main-color); 
+    color: white; 
+}
+
+.imagen-preview span,
+.imagen-preview p,
+.contain-form .ant-upload-text {
+    color: white;
+}
+
+.imagen-preview {
+    margin-top: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.foto-preview {
+    border-radius: 50%; 
+    width: 100px; 
+    height: 100px;
+    object-fit: cover; 
+}
+
+.custom-checkbox .ant-checkbox-inner {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    border: 2px solid white; 
+    background-color: transparent; 
+    transition: background-color 0.3s ease, border-color 0.3s ease;
+}
+
+.custom-checkbox .ant-checkbox-checked .ant-checkbox-inner {
+    background-color: var(--option-color); 
+    border-color: var(--option-color); 
+}
+
+.custom-checkbox a {
+    color: var(--option-color);
+}
+
+.custom-checkbox .ant-checkbox-checked .ant-checkbox-inner::after {
+    border: solid black;
+    border-width: 0 2px 2px 0;
+    transform: rotate(45deg) scale(1);
+    top: 20%;
+    left: 35%;
+}
+
+.back-arrow {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    color: white;
+    font-size: 36px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    cursor: pointer;
+    z-index: 1 !important;
+  }
+  
+.back-arrow:hover {
+    transform: scale(1.2); 
+    color: var(--main-color);
+}
+
+@media (max-width: 768px) {
+    .JoinUs-page-contein {
+        margin-top: 20px;
+    }
+
+    .contain-form {
+        padding: 20px; 
+        margin: 5% 5%;
+        width: auto;
+    }
+
+    .form-title, 
+    .form-subtitle { 
+        font-size: 28px;
+    }
+
+    .form-items-joinUs {
+        min-width: 100%;
+        margin-left: 0; 
+    }
+
+    .date-picker-custom {
+        width: 100%;
+        max-width: none;
+    }
+
+    .contain-form .buttom-item {
+        width: 100%;
+    }
+
+    #joinUsButton {
+        width: 100%;
+    }
+
+    .foto-preview {
+        width: 80px;
+        height: 80px;
+    }
 }

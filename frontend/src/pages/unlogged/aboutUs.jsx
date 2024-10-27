@@ -1,68 +1,49 @@
 import React from 'react';
 import '../../assets/styles/pages/aboutUS.css';
-import logo from  '../../assets/images/logo.png';
-import medu from '../../assets/images/medu.jpg';
-import { Layout, Button } from 'antd';
-import gmail from '../../assets/images/gmail.webp';
-import twitter from '../../assets/images/tw.png';
-import instagram from '../../assets/images/inta.jpeg';
-import trabajo from '../../assets/images/trabajo.jpg'
-import ej2 from '../../assets/images/ej2.jpg'
-const { Header, Footer } = Layout;
+import Footer from '../../components/common/footer.jsx';
+import Header from '../../components/common/header.jsx';
+import jellyAccountant from '../../assets/images/jellyAccountant.jpeg';
+import jellyTools from '../../assets/images/jellyTools.jpeg';
+import jellyWall from '../../assets/images/jellyWall.jpeg';
+import videoFondo from '../../assets/images/medumedusin.mp4';
+
 const aboutUs=()=>{
-  
+  return(
+     <div className='aboutUs-page'>
+        <Header />
+        <video autoPlay loop muted className='full-screen-background'>
+            <source src={videoFondo} type="video/mp4" />
+            Tu navegador no soporta el formato de video.
+        </video>
 
-    return(
-    
-    
-    <div className='aboutUs-Page'>
-        <Header className='header'>
-            <a href="/" className='links,logo-JellyJobs'><img src={logo} alt="logo" /></a>
-        </Header>
-        <section className='information-section1'>
-            <dir className='contein-info-section1'>
-                <h2>¿Quienes somos?</h2>
-                <p>Somos JellyJobs una bolsa de trabajo rapida, donde podras encontrar empleos temporarios de manera rapida y pudiendo decidir y coordinar con el empleaodr para definir fecha,horario y sueldo acordes a tus habilidades y disponibilidad horaria.
-                </p>
-            </dir>
-            <img src={trabajo} alt='medusas en el oceano'></img>
-        </section>
-            
-        <section className='information-section2'>
-            
-            <img src={ej2} alt='medusas en el oceano'></img>
-            <dir className='contein-info-section2'>
-                <h2>¿Como podes unirte a la comunidads?</h2>
-                <p>Los pasos a seguir son muy sencillos, lo unico que tenes que hacer es enviarnos tu curriculum vitea y llenar un formulario acerca de algunos datos personales. Estos seran evaluados por nuestro equipo dentro de las porximas 24 horas, y una vez pasado dicho tiempo te llegara una respuesta sobre si fuiste aceptado o no. Lo  unico que queda hacer despues de esto es esperar!</p>
-            </dir>
-        </section>
-        <section className='information-section3'>
-            
-            
-            <dir className='contein-info-section3'>
-                <h2>¿Por que nuestro nombre?</h2>
-                <p>En JellyJobs, nos inspiramos en la agilidad y adaptabilidad de las medusas, criaturas que navegan por los mares con fluidez y eficiencia. Al igual que una medusa se mueve rápidamente a través del agua, JellyJobs ofrece una plataforma de búsqueda de empleo diseñada para que tanto empleadores como candidatos puedan encontrar lo que buscan de manera rápida y efectiva.Nuestro nombre une estos dos conceptos: 'Jelly', representando la flexibilidad y rapidez, y 'Jobs', simbolizando nuestro enfoque en conectar oportunidades laborales de forma ágil."</p>
-            </dir>
-            <img src={medu} alt='medusas en el oceano'></img>
-        </section>
+        <div className="aboutUs-content">
 
-        <Footer className='footer'>
-  <h2>Información</h2>
-  <nav className="footer-nav">
-    <div className="footer-item">
-      <a href='https://www.instagram.com/'><img src={instagram} alt="Instagram" className='logo' /></a>
-      <span className="footer-text">Instagram</span>
-    </div>
-    <div className="footer-item">
-      <a href='https://www.google.com/intl/es-419/gmail/about/'><img src={gmail} alt="Gmail" className='logo' /></a>
-      <span className="footer-text">Gmail</span>
-    </div>
-    <div className="footer-item">
-      <a href='https://x.com/?lang=es'><img src={twitter} alt="Twitter" className='logo' /></a>
-      <span className="footer-text">Twitter</span>
-    </div>
-  </nav>
-    </Footer>
+          <section className="about-section">
+            <div className="text-container">
+              <h1>¿Quiénes somos?</h1>
+              <p>Somos JellyJobs, una plataforma ágil que facilita la búsqueda de empleos. Te ayudamos a encontrar trabajos rápidamente y coordinar directamente con empleadores, ajustando fecha, horario y sueldo según tus habilidades y disponibilidad.</p>
+            </div>
+            <img src={jellyAccountant} alt="JellyJobs" className="about-img" />
+          </section>
+
+          <section className="about-section reverse">
+            <img src={jellyTools} alt="JellyJobs" className="about-img" />
+            <div className="text-container">
+              <h1>¿Cómo podés unirte a la comunidad?</h1>
+              <p>Unirte es simple. Solo necesitás enviar tu currículum y completar un formulario con tus datos. Nuestro equipo evaluará tu solicitud en menos de 24 horas, y recibirás una respuesta sobre si fuiste aceptado. ¡Luego, solo queda esperar!</p>
+            </div>
+          </section>
+
+          <section className="about-section">
+            <div className="text-container">
+              <h1>¿Por qué nuestro nombre?</h1>
+              <p>El nombre JellyJobs refleja agilidad y flexibilidad. Inspirados en las medusas, que se mueven con fluidez, nuestra plataforma conecta candidatos y empleadores de forma eficiente. Resalta nuestro enfoque en ofrecer oportunidades laborales rápidas y efectivas.</p>
+            </div>
+            <img src={jellyWall} alt="JellyJobs" className="about-img" />
+          </section>
+
+        </div>
+        <Footer />
     </div>
 
     );

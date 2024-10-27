@@ -5,12 +5,14 @@ import {
     Route,
 } from 'react-router-dom';
 import 'antd/dist/reset.css'; 
-import NotFound from './pages/unlogged/notFound';
-import Landing from './pages/unlogged/landing';
-import Login from './pages/unlogged/login';
-import JoinUs from './pages/unlogged/joinUs';
-import AboutUs from './pages/unlogged/aboutUs';
-import Home from './pages/home';
+import NotFound from './pages/unlogged/notFound.jsx';
+import Landing from './pages/unlogged/landing.jsx';
+import Login from './pages/unlogged/login.jsx';
+import JoinUs from './pages/unlogged/joinUs.jsx';
+import AboutUs from './pages/unlogged/aboutUs.jsx';
+import Home from './pages/logged/home.jsx';
+import ProfilePage from './pages/logged/user-settings.jsx';
+import ForgotPassword from './pages/unlogged/forgot-password.jsx';
 
 
 
@@ -20,11 +22,13 @@ function App() {
         <Router>
             <Routes>
                 <Route path="/" element={<Landing />} />
-                <Route path="home" element={<Home/>} />
+                <Route path="home" element={<Home />} />
+                <Route path="/perfil-user" element={<ProfilePage userEmail="admin@example.com" />} />
                 <Route path="*" element={<NotFound />} /> 
                 <Route path="login" element={<Login />} />
                 <Route path="joinUs" element={<JoinUs />} />
                 <Route path="aboutUs" element={<AboutUs />} />
+                <Route path="/forgot-password" element={<ForgotPassword />} />
                 
             </Routes>
         </Router>
