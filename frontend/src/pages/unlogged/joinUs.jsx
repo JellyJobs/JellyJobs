@@ -1,5 +1,5 @@
 import '../../assets/styles/pages/joinUs.css';
-import { Form, Input, Button, DatePicker, Select, Upload,} from 'antd';
+import { Form, Input, Button, DatePicker, Select, Upload, Checkbox} from 'antd';
 import { UploadOutlined, LeftCircleFilled } from '@ant-design/icons';
 import { Link } from "react-router-dom";
 import videoFondo from '../../assets/images/medumedusin.mp4';
@@ -276,11 +276,28 @@ export default function JoinUs() {
                     </Upload>
                 </Form.Item>
                 {mensajeCV && <p style={{ color: 'white' }}>{mensajeCV}</p>}
-        
+                
+                <Form.Item
+                    className="custom-checkbox"
+                    name="terminos"
+                    valuePropName="checked"
+                    rules={[
+                        {
+                            validator: (_, value) =>
+                                value ? Promise.resolve() : Promise.reject(new Error('Debes aceptar los términos y condiciones para registrarte en JellyJobs.')),
+                        },
+                    ]}
+                >
+                    <Checkbox style={{ color: 'white' }}>
+                        He leído y acepto los <a href="/terms" target="_blank" rel="noopener noreferrer">términos y condiciones.</a>
+                    </Checkbox>
+                </Form.Item>
 
         {/* Botón de enviar */}
-        <Form.Item wrapperCol={{ offset: 8, span: 16 }} className='buttom-item'>
-            <Button type="submit" id="joinUsButton">Enviar</Button>
+        <Form.Item className="button-item">
+            <button id="joinUsButton" type="submit">
+                Enviar
+            </button>
         </Form.Item>
                 
             </Form>

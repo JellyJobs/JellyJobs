@@ -52,7 +52,7 @@ const Login = () => {
             name="email"
             rules={[
               {
-                type: 'name',
+                type: 'email', 
                 message: 'Por favor, ingresa un email válido,',
               },
               {
@@ -82,6 +82,12 @@ const Login = () => {
             Acceder
             </Button>
           </Form.Item>
+
+          <p className="page-link">
+              <Link to="/forgot-password" className="page-link-label">
+              ¿Olvidaste tu contraseña?
+              </Link>
+          </p>
           
         </Form>
       </div>

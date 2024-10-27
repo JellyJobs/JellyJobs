@@ -1,5 +1,5 @@
 :root {
-    --backround-color: #1A4E8D;
+    --background-color: #1A4E8D;
     --main-color: #00064a;
 }
 
@@ -21,7 +21,7 @@
     top: 55px; 
     left: 0;
     width: 200px;
-    height: 100%;
+    height: calc(100% - 55px);
     background-color: var(--background-color);
     box-shadow: -5px 0 15px var(--main-color);
     transition: all 0.2s ease; 
@@ -61,4 +61,26 @@
 
 .menu-functions .ant-menu-item-selected .ant-menu-item-icon {
     color: white !important; 
+}
+
+@media (max-width: 768px) {
+    .menu-container {
+        width: 100%; 
+        height: auto; 
+        position: relative; 
+        top: 0; 
+        box-shadow: none; 
+    }
+
+    .menu-functions .ant-menu-item {
+        font-size: 14px; 
+    }
+
+    .menu-functions .ant-menu-item-icon {
+        font-size: 18px; 
+    }
+
+    .menu-functions .ant-menu-item:hover .ant-menu-item-icon {
+        transform: scale(1.2); 
+    }
 }

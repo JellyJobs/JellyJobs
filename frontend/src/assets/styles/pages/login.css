@@ -1,8 +1,7 @@
-@import url(../components/header.css);
-
 :root {
-  --backround-color: #1A4E8D;
+  --background-color: #1A4E8D;
   --main-color: #00064a;
+  --option-color: #00E9F5;
 }
 
 .contein-login-page {
@@ -11,7 +10,6 @@
   align-items: center; 
   width: 100vw;
   height: 100vh;
-  margin-top: 75px;
 }
 
 .full-screen-background {
@@ -35,8 +33,7 @@
   border-radius: 15px; 
   background-color: transparent;
   box-shadow: -5px 0 15px var(--main-color);
-  margin-top: 8%;
-  margin-bottom: 8%;
+  margin: 5% auto;
   padding: 20px;
   backdrop-filter: blur(10px);
 }
@@ -88,11 +85,28 @@
   fill: white; 
 }
 
+.page-link {
+  text-align: center;
+}
+
+.page-link-label {
+  cursor: pointer;
+  font-size: 12px;
+  text-decoration: underline; 
+  color: white; 
+}
+
+.page-link-label:hover {
+  color: var(--option-color) !important; 
+  text-decoration: underline; 
+  text-decoration-color: var(--option-color); 
+}
+
 .login-button {
   width: 100%; 
-  display: flex;
   justify-content: center; 
-  margin-top: 30px !important;
+  margin-top: 30px;
+  margin-bottom: 0 !important;
   margin: 20px;
   font-size: 16px;
   border: none;
@@ -122,4 +136,51 @@
 .back-arrow:hover {
   transform: scale(1.2); 
   color: var(--main-color);
+}
+
+@media (max-width: 600px) {
+  .conteain-login-page {
+    margin-top: 50px;
+  }
+
+  .box {
+    max-width: 90%; 
+    max-height: 450px; 
+    margin-top: 5%;
+    margin-bottom: 5%;
+    padding: 15px; 
+  }
+
+  .title-form {
+    font-size: 28px; 
+    margin: 10px;
+    padding-top: 10px; 
+  }
+
+  .form-items {
+    margin: 10px; 
+  }
+
+  .form-items .ant-input,
+  .form-items .ant-input-password {
+    padding: 8px; 
+    font-size: 14px; 
+  }
+
+  .login-button {
+    margin: 10px 0; 
+    font-size: 14px; 
+    padding: 10px; 
+  }
+
+  .page-link-label {
+    font-size: 12px; 
+    margin-top: 5px; 
+  }
+
+  .back-arrow {
+    font-size: 24px; 
+    top: 15px;
+    left: 15px;
+  }
 }
