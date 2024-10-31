@@ -7,9 +7,31 @@ import videoFondo from '../../assets/images/medumedusin.mp4';
 
 const Login = () => {
   const [form] = Form.useForm();
-  const onFinish = (values) => {
+  const onFinish = async (values) => {
     console.log('Received values of form: ', values);
-    //backend
+
+    try {
+      const response = await fetch('http://127.0.0.1:8000/app/login/', {  // Cambia la URL según sea necesario
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(values),
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        console.log(data.message);
+        // Redirige al usuario a la página de inicio después de un login exitoso
+        window.location.href = "/home";
+      } else {
+        const errorData = await response.json();
+        console.error('Error en el login:', errorData);
+        // Aquí puedes mostrar un mensaje de error al usuario
+      }
+    } catch (error) {
+      console.error('Error en la conexión:', error);
+    }
   };
 
   const passwordField = document.querySelector('.ant-input-password');
@@ -85,7 +107,7 @@ const Login = () => {
 
           <p className="page-link">
               <Link to="/forgot-password" className="page-link-label">
-              ¿Olvidaste tu contraseña?
+              Olvidaste tu contraseña?
               </Link>
           </p>
           
