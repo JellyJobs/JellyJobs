@@ -1,5 +1,6 @@
 from rest_framework import serializers
 from django.contrib.auth import authenticate
+from .models import Cv, Archivo
 
 #Login
 class LoginSerializer(serializers.Serializer):
@@ -17,7 +18,21 @@ class LoginSerializer(serializers.Serializer):
         attrs['user'] = user
         return attrs
 
-#Home
+#fotos ----------------------------------------------------
+
+class CvSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Cv
+        fields = ['idcv', 'cvlink']  
+
+class ArchivoSerializer(serializers.ModelSerializer):
+    class Meta: 
+        model = Archivo
+        fields = ['idarchivo' , 'archivolink']
+
+
+
+#Home---------------------------------------------------------
 
 
 #Trabajadores
