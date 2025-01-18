@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from django.contrib.auth import authenticate
-from .models import Cv, Archivo
+from .models import Cv, Archivo , Trabajador
 
 #Login
 class LoginSerializer(serializers.Serializer):
@@ -36,3 +36,8 @@ class ArchivoSerializer(serializers.ModelSerializer):
 
 
 #Trabajadores
+
+class TrabajadorSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Trabajador
+        fields = '__all__'

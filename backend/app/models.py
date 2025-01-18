@@ -53,6 +53,13 @@ class Provincia(models.Model):
 
 
 class Trabajador(models.Model):
+     
+    ESTADO_TRABAJO_CHOICES = [
+        ('disponible', 'Disponible'),
+        ('ocupado', 'Ocupado'),
+        ('inactivo', 'Inactivo'),
+    ]
+     
     idtrabajador = models.AutoField(db_column='idTrabajador', primary_key=True)
     nombre = models.TextField()
     apellido = models.TextField()
@@ -63,15 +70,25 @@ class Trabajador(models.Model):
     numtel = models.IntegerField(db_column='numTel')
     edad = models.IntegerField()
     descripcion = models.TextField()
-    estadotrabajo = models.TextField(db_column='estadoTrabajo')
-    estadocontrato = models.TextField(db_column='estadoContrato')
-    idprofesion = models.ForeignKey(Profesion,db_column='idProfesion', on_delete=models.CASCADE)
-    idlocalidad = models.ForeignKey(Localidad,db_column='idLocalidad', on_delete=models.CASCADE)
-    idarchivo = models.ForeignKey(Archivo,db_column='idArchivo', on_delete=models.CASCADE)
-    idcv = models.ForeignKey(Cv,db_column='idcv', blank=True, null=True, on_delete=models.SET_NULL)
+    estadotrabajo = models.CharField(
+        db_column='estadoTrabajo',
+        max_length=20,
+        choices=ESTADO_TRABAJO_CHOICES,
+        default='disponible',
+    )
+    estadocontrato = models.TextField(
+        db_column='estadoContrato',
+        choices=[('pendiente', 'Pendiente'), ('aceptado', 'Aceptado'), ('rechazado', 'Rechazado')],
+        default='pendiente'
+    )
+    idprofesion = models.ForeignKey(Profesion, db_column='idProfesion', on_delete=models.CASCADE)
+    idlocalidad = models.ForeignKey(Localidad, db_column='idLocalidad', on_delete=models.CASCADE)
+    idarchivo = models.ForeignKey(Archivo, db_column='idArchivo', on_delete=models.CASCADE)
+    idcv = models.ForeignKey(Cv, db_column='idcv', blank=True, null=True, on_delete=models.SET_NULL)
 
     class Meta:
         db_table = 'Trabajador'
+
 
 class Solicitud(models.Model):
     idsolicitud = models.AutoField(db_column='idSolicitud', primary_key=True)
