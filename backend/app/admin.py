@@ -16,21 +16,21 @@ class CvAdmin(admin.ModelAdmin):
     list_display = ('idcv', 'cvlink')
     search_fields = ('cvlink',)
 
+@admin.register(Provincia)
+class ProvinciaAdmin(admin.ModelAdmin):
+    list_display = ('idprovincia', 'nombre',)
+    search_fields = ('nombre',)
+    
 @admin.register(Localidad)
 class LocalidadAdmin(admin.ModelAdmin):
-    list_display = ('idlocalidad', 'nombre')
+    list_display = ('idlocalidad', 'nombre', 'idprovincia',)
     search_fields = ('nombre',)
+    list_filter = ('idprovincia',)
 
 @admin.register(Profesion)
 class ProfesionAdmin(admin.ModelAdmin):
-    list_display = ('idprofesion', 'nombre', 'experiencia')
+    list_display = ('idprofesion', 'nombre')
     search_fields = ('nombre',)
-
-@admin.register(Provincia)
-class ProvinciaAdmin(admin.ModelAdmin):
-    list_display = ('idprovincia', 'nombre', 'idlocalidad')
-    search_fields = ('nombre',)
-    list_filter = ('idlocalidad',)
 
 @admin.register(Trabajador)
 class TrabajadorAdmin(admin.ModelAdmin):

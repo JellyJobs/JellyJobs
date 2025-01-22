@@ -5,8 +5,15 @@ from django.conf import settings
 from django.conf.urls.static import static
 
 urlpatterns = [
-    path('admin/', admin.site.urls),  # Ruta de administración de Django
-    path('app/', include('app.appUrls')),  # Otras rutas de la aplicación
+    # Ruta de administración de Django
+    path('admin/', admin.site.urls),
+
+    # Rutas de tu aplicación
+    path('app/', include('app.appUrls')),
+
+    # Archivos estáticos
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT) + [
-    re_path(r'^.*$', TemplateView.as_view(template_name='index.html'), name='home'),  # Ruta de captura para index.html
+
+    # Ruta para servir el frontend (debe ir al final)
+    re_path(r'^.*$', TemplateView.as_view(template_name='index.html'), name='home'),
 ]

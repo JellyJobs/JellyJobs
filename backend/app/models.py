@@ -26,30 +26,28 @@ class Cv(models.Model):
         db_table = 'Cv'
 
 
-class Localidad(models.Model):
-    idlocalidad = models.AutoField(db_column='idLocalidad', primary_key=True)
-    nombre = models.TextField()
+class Provincia(models.Model):
+  idprovincia = models.AutoField(db_column='idProvincia', primary_key=True)
+  nombre = models.TextField()
 
-    class Meta:
-        db_table = 'Localidad'
+  class Meta:
+    db_table = 'Provincia'
+
+class Localidad(models.Model):
+  idlocalidad = models.AutoField(db_column='idLocalidad', primary_key=True)
+  nombre = models.TextField()
+  idprovincia = models.ForeignKey(Provincia, db_column='idprovincia', on_delete=models.CASCADE)
+
+  class Meta:
+    db_table = 'Localidad'
 
 
 class Profesion(models.Model):
-    idprofesion = models.AutoField(db_column='idProfesion', primary_key=True)
-    experiencia = models.IntegerField()
-    nombre = models.TextField()
+  idprofesion = models.AutoField(db_column='idProfesion', primary_key=True)
+  nombre = models.TextField()
 
-    class Meta:
-        db_table = 'Profesion'
-
-
-class Provincia(models.Model):
-    idprovincia = models.AutoField(db_column='idProvincia', primary_key=True)
-    nombre = models.TextField()
-    idlocalidad = models.ForeignKey(Localidad,db_column='idLocalidad', on_delete=models.CASCADE)
-
-    class Meta:
-        db_table = 'Provincia'
+  class Meta:
+    db_table = 'Profesion'
 
 
 class Trabajador(models.Model):

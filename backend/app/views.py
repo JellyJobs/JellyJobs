@@ -3,10 +3,11 @@ from rest_framework.permissions import AllowAny
 from app.serializers import LoginSerializer
 from rest_framework.response import Response
 from rest_framework import viewsets, status
-from .models import Cv, Archivo , Trabajador
-from .serializers import CvSerializer,ArchivoSerializer, TrabajadorSerializer
+from .models import Cv, Archivo , Trabajador, Profesion
+from .serializers import CvSerializer,ArchivoSerializer, TrabajadorSerializer,ProfesionSerializer
 from django.views.decorators.csrf import csrf_exempt
 from django.utils.decorators import method_decorator
+
 
 #Login
 class AdminLoginView(APIView):
@@ -29,7 +30,7 @@ class ArchivoViewSet(viewsets.ModelViewSet):
     queryset = Archivo.objects.all()
     serializer_class = ArchivoSerializer
 
-#Crear trabajador desde formulario
+#Crear trabajador desde formulario, despues se tiene que aceptar por admin
 @method_decorator(csrf_exempt, name='dispatch')
 class CrearTrabajadorPendienteView(APIView):
     def post(self, request): 
@@ -41,6 +42,8 @@ class CrearTrabajadorPendienteView(APIView):
             return Response({'message':'Trabajador creado, esperando aprobacion'}, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     
+#AGREGE ESTOS DECORADORES PARA PODER TESTEARLO CON POSTMAN SINO NO ME DEJABA, ESTE ENDPOINT DE ACTUALIZAR ES PARA QUE EL ADMIN 
+#RECHAZE O ACEPTE UN TRABAJADOR QUE SE REGISTRO POR EL FORMULARIO
 @method_decorator(csrf_exempt, name='dispatch')
 class ActualizarEstadoContratoView(APIView):
     def post(self, request, pk):
@@ -56,3 +59,45 @@ class ActualizarEstadoContratoView(APIView):
         trabajador.estadocontrato = nuevo_estado
         trabajador.save()
         return Response({'message': f'Trabajador {nuevo_estado} exitosamente'}, status=status.HTTP_200_OK)
+
+#listado  de profesiones
+class ProfesionAPIView(APIView):
+    def get(self, request):
+        """Retorna la lista de todas las profesiones"""
+        profesiones = Profesion.objects.all()
+        serializer = ProfesionSerializer(profesiones, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+    
+#Editar datos trabajador GET para los datos actuales, PUT para actualizar algun campo como email o nombre, delete para cambiar el estado a inactivo (Borrado logico)
+class TrabajadorDetailView(APIView):
+    def get_object(self, pk):
+        try:
+            return Trabajador.objects.get(pk=pk)
+        except Trabajador.DoesNotExist:
+            return None
+
+    def get(self, request, pk, format=None):
+        trabajador = self.get_object(pk)
+        if trabajador is None:
+            return Response({"error": "Trabajador no encontrado"}, status=status.HTTP_404_NOT_FOUND)
+        serializer = TrabajadorSerializer(trabajador)
+        return Response(serializer.data)
+
+    def put(self, request, pk, format=None):
+        trabajador = self.get_object(pk)
+        if trabajador is None:
+            return Response({"error": "Trabajador no encontrado"}, status=status.HTTP_404_NOT_FOUND)
+        serializer = TrabajadorSerializer(trabajador, data=request.data, partial=True)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    def delete(self, request, pk, format=None):
+        trabajador = self.get_object(pk)
+        if trabajador is None:
+            return Response({"error": "Trabajador no encontrado"}, status=status.HTTP_404_NOT_FOUND)
+        trabajador.estado_contrato = 'inactivo'
+        trabajador.save()
+        return Response({"message": "Trabajador marcado como inactivo"}, status=status.HTTP_200_OK)
+

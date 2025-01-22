@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from django.contrib.auth import authenticate
-from .models import Cv, Archivo , Trabajador
+from .models import Cv, Archivo , Trabajador,Profesion
 
 #Login
 class LoginSerializer(serializers.Serializer):
@@ -34,6 +34,11 @@ class ArchivoSerializer(serializers.ModelSerializer):
 
 #Home---------------------------------------------------------
 
+#profesion
+class ProfesionSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Profesion
+        fields = ['idprofesion', 'nombre']
 
 #Trabajadores
 
@@ -41,3 +46,16 @@ class TrabajadorSerializer(serializers.ModelSerializer):
     class Meta:
         model = Trabajador
         fields = '__all__'
+
+class ListaTrabajadoresSerializer(serializers.ModelSerializer):  # Nuevo nombre
+    archivo_url = serializers.SerializerMethodField()
+
+    class Meta:
+        model = Trabajador
+        fields = ['id', 'nombre', 'profesion', 'estadocontrato', 'archivo_url']
+
+    def get_archivo_url(self, obj):
+        archivo = Archivo.objects.filter(trabajador=obj).first()
+        if archivo:
+            return archivo.archivo.url  # Suponiendo que `archivo` es un FileField
+        return None
