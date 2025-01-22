@@ -41,7 +41,25 @@ export default function Home (){
     const onClick = (e) => {
         console.log('Click: ', e);
     };
-    
+      // Estado para almacenar los datos de los trabajadores
+  const [trabajadores, setTrabajadores] = useState([]);
+
+  // Obtener los datos de los trabajadores desde la API
+    useEffect(() => {
+    fetch('http://127.0.0.1:8000/app/trabajador-card/')
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error('Error al obtener los trabajadores');
+        }
+        return response.json();
+        })
+        .then((data) => {
+            setTrabajadores(data); // Guardar los trabajadores en el estado
+        })
+        .catch((error) => {
+            console.error('Error al cargar los trabajadores:', error);
+        });
+    }, []);
     return (
         <div className='home-page'>
             <HeaderLog userEmail={userEmail} />
@@ -53,42 +71,21 @@ export default function Home (){
                     items={items}
                 />
             </div>
-            <div className='trabajadores-container'>
-                <div className='trabajador-card'>
-                    <h3>nombre</h3>
-                    <p>profesion</p>
-                    <span>extra</span>
+            <div className="trabajadores-container">
+                {/* Renderizar dinámicamente las tarjetas de trabajadores */}
+                {trabajadores.map((trabajador, index) => (
+                <div className="trabajador-card" key={index}>
+                    <h3>
+                    {trabajador.nombre} {trabajador.apellido}
+                    </h3>
+                    <p>
+                    <strong>Profesión:</strong> {trabajador.profesion}
+                    </p>
+                    <p>
+                    <strong>Estado:</strong> {trabajador.estadotrabajo}
+                    </p>
                 </div>
-                <div className='trabajador-card'>
-                    <h3>nombre</h3>
-                    <p>profesion</p>
-                    <span>extra</span>
-                </div>
-                <div className='trabajador-card'>
-                    <h3>nombre</h3>
-                    <p>profesion</p>
-                    <span>extra</span>
-                </div>
-                <div className='trabajador-card'>
-                    <h3>nombre</h3>
-                    <p>profesion</p>
-                    <span>extra</span>
-                </div>
-                <div className='trabajador-card'>
-                    <h3>nombre</h3>
-                    <p>profesion</p>
-                    <span>extra</span>
-                </div>
-                <div className='trabajador-card'>
-                    <h3>nombre</h3>
-                    <p>profesion</p>
-                    <span>extra</span>
-                </div>
-                <div className='trabajador-card'>
-                    <h3>nombre</h3>
-                    <p>profesion</p>
-                    <span>extra</span>
-                </div>
+                ))}
             </div>
         </div>
     );

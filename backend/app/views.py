@@ -4,7 +4,7 @@ from app.serializers import LoginSerializer
 from rest_framework.response import Response
 from rest_framework import viewsets, status
 from .models import Cv, Archivo , Trabajador, Profesion
-from .serializers import CvSerializer,ArchivoSerializer, TrabajadorSerializer,ProfesionSerializer
+from .serializers import CvSerializer,ArchivoSerializer, TrabajadorSerializer,ProfesionSerializer,TrabajadorCardSerializer
 from django.views.decorators.csrf import csrf_exempt
 from django.utils.decorators import method_decorator
 
@@ -33,13 +33,39 @@ class ArchivoViewSet(viewsets.ModelViewSet):
 #Crear trabajador desde formulario, despues se tiene que aceptar por admin
 @method_decorator(csrf_exempt, name='dispatch')
 class CrearTrabajadorPendienteView(APIView):
-    def post(self, request): 
+    def post(self, request,*args, **kwargs): 
         data = request.data.copy()
-        data['estadocontrato'] = 'pendiente'
+        archivo_data = {'archivolink': request.FILES.get('archivo')}
+        archivo_serializer = ArchivoSerializer(data=archivo_data)
+        if archivo_serializer.is_valid():
+            archivo_obj = archivo_serializer.save()
+            data['idarchivo'] = archivo_obj.idarchivo
+        else:
+            return Response(archivo_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+        # Crear el CV
+        cv_data = {'cvlink': request.FILES.get('cv')}
+        cv_serializer = CvSerializer(data=cv_data)
+        if cv_serializer.is_valid():
+            cv_obj = cv_serializer.save()
+            data['idcv'] = cv_obj.idcv
+        else:
+            return Response(cv_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+        # Crear el trabajador
+        trabajador_serializer = TrabajadorSerializer(data=data)
+        if trabajador_serializer.is_valid():
+            trabajador_serializer.save()
+            return Response({'message': 'Trabajador creado, esperando aprobación'}, status=status.HTTP_201_CREATED)
+
+        return Response(trabajador_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        
         serializer = TrabajadorSerializer(data=data)
+        
         if serializer.is_valid():
             serializer.save()
-            return Response({'message':'Trabajador creado, esperando aprobacion'}, status=status.HTTP_201_CREATED)
+            return Response({'message': 'Trabajador creado, esperando aprobación'}, status=status.HTTP_201_CREATED)
+        
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     
 #AGREGE ESTOS DECORADORES PARA PODER TESTEARLO CON POSTMAN SINO NO ME DEJABA, ESTE ENDPOINT DE ACTUALIZAR ES PARA QUE EL ADMIN 
@@ -100,4 +126,10 @@ class TrabajadorDetailView(APIView):
         trabajador.estado_contrato = 'inactivo'
         trabajador.save()
         return Response({"message": "Trabajador marcado como inactivo"}, status=status.HTTP_200_OK)
+
+class TrabajadorCardView(APIView):
+     def get(self, request):
+        trabajadores = Trabajador.objects.all()
+        serializer = TrabajadorCardSerializer(trabajadores, many=True)
+        return Response(serializer.data)
 

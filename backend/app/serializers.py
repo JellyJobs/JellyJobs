@@ -23,12 +23,12 @@ class LoginSerializer(serializers.Serializer):
 class CvSerializer(serializers.ModelSerializer):
     class Meta:
         model = Cv
-        fields = ['idcv', 'cvlink']  
+        fields = ['cvlink']  
 
 class ArchivoSerializer(serializers.ModelSerializer):
     class Meta: 
         model = Archivo
-        fields = ['idarchivo' , 'archivolink']
+        fields = ['archivolink']
 
 
 
@@ -43,9 +43,13 @@ class ProfesionSerializer(serializers.ModelSerializer):
 #Trabajadores
 
 class TrabajadorSerializer(serializers.ModelSerializer):
+    localidad=serializers.CharField(source='idlocalidad.nombre',read_only=True)
+    profesion = serializers.CharField(source='idprofesion.nombre', read_only=True)
+    cv=serializers.FileField(source='idcv.cvlink',read_only=True)
+    archivo=serializers.ImageField(source='idarchivo.archivolink',read_only=True)
     class Meta:
         model = Trabajador
-        fields = '__all__'
+        fields = ['nombre','apellido','dni','email','numtel','localidad','edad','profesion','descripcion','cv','archivo']
 
 class ListaTrabajadoresSerializer(serializers.ModelSerializer):  # Nuevo nombre
     archivo_url = serializers.SerializerMethodField()
@@ -59,3 +63,10 @@ class ListaTrabajadoresSerializer(serializers.ModelSerializer):  # Nuevo nombre
         if archivo:
             return archivo.archivo.url  # Suponiendo que `archivo` es un FileField
         return None
+
+    
+class TrabajadorCardSerializer(serializers.ModelSerializer):
+    profesion = serializers.CharField(source='idprofesion.nombre', read_only=True)  # Accede al nombre de la profesión
+    class Meta:
+        model = Trabajador
+        fields = ['nombre', 'apellido', 'estadotrabajo', 'profesion']
