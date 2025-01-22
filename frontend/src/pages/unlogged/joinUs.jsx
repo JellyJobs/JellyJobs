@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 import videoFondo from '../../assets/images/medumedusin.mp4';
 import React, {useState} from 'react';
 import dayjs from 'dayjs';
-import { ProfessionSelect } from '../../funcionalitys/profesionLista'
+import { ProfessionSelect} from '../../funcionalitys/profesionLista'
 
 const { TextArea } = Input;
 

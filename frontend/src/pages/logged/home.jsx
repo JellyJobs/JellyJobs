@@ -37,7 +37,7 @@ const items = [
 
 export default function Home (){
     const userEmail = "admin@example.com";
-    //manejo de os items del menu (q pasaria cunado haces click)
+    //manejo de los items del menu (q pasaria cunado haces click)
     const onClick = (e) => {
         console.log('Click: ', e);
     };
@@ -52,6 +52,43 @@ export default function Home (){
                     mode="inline"
                     items={items}
                 />
+            </div>
+            <div className='trabajadores-container'>
+                <div className='trabajador-card'>
+                    <h3>nombre</h3>
+                    <p>profesion</p>
+                    <span>extra</span>
+                </div>
+                <div className='trabajador-card'>
+                    <h3>nombre</h3>
+                    <p>profesion</p>
+                    <span>extra</span>
+                </div>
+                <div className='trabajador-card'>
+                    <h3>nombre</h3>
+                    <p>profesion</p>
+                    <span>extra</span>
+                </div>
+                <div className='trabajador-card'>
+                    <h3>nombre</h3>
+                    <p>profesion</p>
+                    <span>extra</span>
+                </div>
+                <div className='trabajador-card'>
+                    <h3>nombre</h3>
+                    <p>profesion</p>
+                    <span>extra</span>
+                </div>
+                <div className='trabajador-card'>
+                    <h3>nombre</h3>
+                    <p>profesion</p>
+                    <span>extra</span>
+                </div>
+                <div className='trabajador-card'>
+                    <h3>nombre</h3>
+                    <p>profesion</p>
+                    <span>extra</span>
+                </div>
             </div>
         </div>
     );
