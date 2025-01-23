@@ -4,7 +4,7 @@ from app.serializers import LoginSerializer
 from rest_framework.response import Response
 from rest_framework import viewsets, status
 from .models import Cv, Archivo , Trabajador, Profesion
-from .serializers import CvSerializer,ArchivoSerializer, TrabajadorSerializer,ProfesionSerializer,TrabajadorCardSerializer
+from .serializers import CvSerializer,ArchivoSerializer, TrabajadorSerializer,ProfesionSerializer,TrabajadorCardSerializer, LoginSerializer
 from django.views.decorators.csrf import csrf_exempt
 from django.utils.decorators import method_decorator
 from rest_framework.parsers import MultiPartParser, FormParser
@@ -16,8 +16,8 @@ class AdminLoginView(APIView):
     def post(self, request):
         serializer = LoginSerializer(data=request.data)
         if serializer.is_valid():
-            user = serializer.validated_data['user']
-            return Response({"message": "Login Exitoso"}, status=200)
+            admin = serializer.validated_data['user']  # Usuario validado
+            return Response({"message": "Login Exitoso", "idadmin": admin.idadmin}, status=200)
         return Response(serializer.errors, status=401)
 
 
@@ -149,5 +149,4 @@ class TrabajadorCardView(APIView):
     def get(self, request):
         trabajadores = Trabajador.objects.all()
         serializer = TrabajadorCardSerializer(trabajadores, many=True)
-        return Response(serializer.data)
-
+        return Response(serializer.data, status=status.HTTP_200_OK)

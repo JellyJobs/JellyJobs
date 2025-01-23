@@ -1,6 +1,8 @@
 from rest_framework import serializers
 from django.contrib.auth import authenticate
 from .models import Cv, Archivo , Trabajador,Profesion
+from django.core.exceptions import ObjectDoesNotExist
+from .models import Admins
 
 #Login
 class LoginSerializer(serializers.Serializer):
@@ -11,11 +13,18 @@ class LoginSerializer(serializers.Serializer):
         email = attrs.get('email')
         password = attrs.get('password')
 
-        user = authenticate(self.context.get('request'), email=email, password=password)
-        if not user:
-            raise serializers.ValidationError('Credenciales inválidas.')
+        try:
+            # Buscar el administrador en la tabla Admins
+            admin = Admins.objects.get(email=email)
+        except ObjectDoesNotExist:
+            raise serializers.ValidationError("Credenciales inválidas. Usuario no encontrado.")
 
-        attrs['user'] = user
+        # Comparar la contraseña
+        if admin.contrasena != password:
+            raise serializers.ValidationError("Credenciales inválidas. Contraseña incorrecta.")
+
+        # Adjuntar el admin validado a los datos validados
+        attrs['user'] = admin
         return attrs
 
 #fotos ----------------------------------------------------
