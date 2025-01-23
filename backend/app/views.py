@@ -7,7 +7,7 @@ from .models import Cv, Archivo , Trabajador, Profesion
 from .serializers import CvSerializer,ArchivoSerializer, TrabajadorSerializer,ProfesionSerializer,TrabajadorCardSerializer
 from django.views.decorators.csrf import csrf_exempt
 from django.utils.decorators import method_decorator
-
+from rest_framework.parsers import MultiPartParser, FormParser
 
 #Login
 class AdminLoginView(APIView):
@@ -22,51 +22,69 @@ class AdminLoginView(APIView):
 
 
 
-class CvViewSet(viewsets.ModelViewSet):
-    queryset = Cv.objects.all()
-    serializer_class = CvSerializer
+class CvView(APIView):
+    parser_classes = [MultiPartParser, FormParser]  # Para manejar archivos y datos del formulario
 
-class ArchivoViewSet(viewsets.ModelViewSet):
-    queryset = Archivo.objects.all()
-    serializer_class = ArchivoSerializer
-
-#Crear trabajador desde formulario, despues se tiene que aceptar por admin
-@method_decorator(csrf_exempt, name='dispatch')
-class CrearTrabajadorPendienteView(APIView):
-    def post(self, request,*args, **kwargs): 
-        data = request.data.copy()
-        archivo_data = {'archivolink': request.FILES.get('archivo')}
-        archivo_serializer = ArchivoSerializer(data=archivo_data)
-        if archivo_serializer.is_valid():
-            archivo_obj = archivo_serializer.save()
-            data['idarchivo'] = archivo_obj.idarchivo
-        else:
-            return Response(archivo_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
-        # Crear el CV
-        cv_data = {'cvlink': request.FILES.get('cv')}
-        cv_serializer = CvSerializer(data=cv_data)
-        if cv_serializer.is_valid():
-            cv_obj = cv_serializer.save()
-            data['idcv'] = cv_obj.idcv
-        else:
-            return Response(cv_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
-        # Crear el trabajador
-        trabajador_serializer = TrabajadorSerializer(data=data)
-        if trabajador_serializer.is_valid():
-            trabajador_serializer.save()
-            return Response({'message': 'Trabajador creado, esperando aprobación'}, status=status.HTTP_201_CREATED)
-
-        return Response(trabajador_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-        
-        serializer = TrabajadorSerializer(data=data)
-        
+    def post(self, request, *args, **kwargs):
+        serializer = CvSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
-            return Response({'message': 'Trabajador creado, esperando aprobación'}, status=status.HTTP_201_CREATED)
-        
+            return Response({"idcv": serializer.data.get('idcv')}, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+@method_decorator(csrf_exempt, name='dispatch')
+class ArchivoView(APIView):
+    parser_classes = [MultiPartParser, FormParser]  # Para manejar archivos y datos del formulario
+
+    def post(self, request, *args, **kwargs):
+        serializer = ArchivoSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response({"idarchivo": serializer.data.get('idarchivo')}, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+#Crear trabajador desde formulario, despues se tiene que aceptar por admin
+class CrearTrabajadorPendienteView(APIView):
+    parser_classes = [MultiPartParser, FormParser]  # Para manejar archivos y datos del formulario
+
+    def post(self, request, *args, **kwargs):
+        # Procesar CV
+        cv_file = request.FILES.get('cvlink', None)  # Aquí extrae solo el archivo con clave 'cvlink'
+        archivo_file = request.FILES.get('archivolink', None)  # Aquí extrae solo el archivo con clave 'archivolink'
+        
+        cv_response = CvView().post(cv_file)  # Invocar CvView
+        archivo_response = ArchivoView().post(archivo_file)  # Invocar ArchivoView
+
+        # Obtener idcv y idarchivo de los responses
+        cv_instance = cv_response.data if cv_response.status_code == status.HTTP_201_CREATED else None
+        archivo_instance = archivo_response.data if archivo_response.status_code == status.HTTP_201_CREATED else None
+
+        cv = cv_instance.get('idcv') if cv_instance else None
+        archivo = archivo_instance.get('idarchivo') if archivo_instance else None
+
+        # Datos del trabajador
+        trabajador_data = {
+            "nombre": request.data.get("nombre"),
+            "apellido": request.data.get("apellido"),
+            "dni": request.data.get("dni"),
+            "email": request.data.get("email"),
+            "descripcion": request.data.get("descripcion"),
+            "numtel": request.data.get("numtel"),
+            "edad": request.data.get("edad"),
+        }
+
+        # Crear Trabajador y asociar los modelos creados
+        trabajador_serializer = TrabajadorSerializer(
+            data={**trabajador_data, "idcv": cv, "idarchivo": archivo}
+        )
+        if trabajador_serializer.is_valid():
+            trabajador_serializer.save()
+            return Response(trabajador_serializer.data, status=status.HTTP_201_CREATED)
+
+        return Response(trabajador_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+
     
 #AGREGE ESTOS DECORADORES PARA PODER TESTEARLO CON POSTMAN SINO NO ME DEJABA, ESTE ENDPOINT DE ACTUALIZAR ES PARA QUE EL ADMIN 
 #RECHAZE O ACEPTE UN TRABAJADOR QUE SE REGISTRO POR EL FORMULARIO
@@ -128,7 +146,7 @@ class TrabajadorDetailView(APIView):
         return Response({"message": "Trabajador marcado como inactivo"}, status=status.HTTP_200_OK)
 
 class TrabajadorCardView(APIView):
-     def get(self, request):
+    def get(self, request):
         trabajadores = Trabajador.objects.all()
         serializer = TrabajadorCardSerializer(trabajadores, many=True)
         return Response(serializer.data)

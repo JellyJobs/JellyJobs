@@ -102,12 +102,12 @@
     transform: translate(-50%, -50%);
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     border-radius: 8px;
-    background-image: url('../../images/836316_preview\ \(1\).jpg');
     background-size: cover;          /* Ajusta la imagen para cubrir el contenedor */
     background-repeat: no-repeat;    /* Evita repetir la imagen */
     background-position: center;     /* Centra la imagen */
     overflow-y: auto;                /* Habilita el scroll vertical */
     overflow-x: hidden;              /* Evita el scroll horizontal */
+    background-image: url('../../images/836316_preview.jpg');
 }
 
 .trabajador-card {

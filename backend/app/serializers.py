@@ -23,12 +23,12 @@ class LoginSerializer(serializers.Serializer):
 class CvSerializer(serializers.ModelSerializer):
     class Meta:
         model = Cv
-        fields = ['cvlink']  
+        fields = ['idcv','cvlink']  
 
 class ArchivoSerializer(serializers.ModelSerializer):
     class Meta: 
         model = Archivo
-        fields = ['archivolink']
+        fields = ['idcv','archivolink']
 
 
 
