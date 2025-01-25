@@ -8,6 +8,35 @@
     width: 100%;
     height: 100vh;
 }
+.search-bar {
+    position: absolute;
+    top: 10px; /* Ajusta según la posición deseada */
+    left: 50%;
+    transform: translateX(-50%); /* Centra la barra horizontalmente */
+    width: 400px; /* Ajusta el ancho de la barra de búsqueda */
+    display: flex;
+    align-items: center;
+    z-index: 1000; /* Para que quede encima del contenido del header */
+    background-color: var(--background-color); /* Puedes ajustar el fondo del contenedor */
+    padding: 10px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    border-radius: 8px;
+    color: black !important;
+}
+
+/* Ajusta el estilo del input dentro de la barra de búsqueda */
+.search-bar .ant-input {
+    width: 300px;
+    padding: 8px;
+    color: black !important;
+}
+
+/* Ajusta el estilo del select en la barra de búsqueda */
+.search-bar .ant-select {
+    margin-left: 10px;
+    color: black !important;
+}
+
 
 .home-page {
     width: 100%;
@@ -83,4 +112,71 @@
     .menu-functions .ant-menu-item:hover .ant-menu-item-icon {
         transform: scale(1.2); 
     }
+}
+
+.trabajadores-container {
+    margin-left: 8%;
+    margin-top: 2.2%;
+    width: 80%;                       /* Ancho del contenedor */
+    height: 80%;                      /* Altura del contenedor */
+    display: flex;                    /* Flexbox para organizar los elementos */
+    flex-wrap: wrap;                  /* Permite que los elementos pasen a nuevas filas */
+    gap: 16px;                        /* Espaciado entre elementos */
+    justify-content: center;          /* Centra las tarjetas horizontalmente */
+    align-items: flex-start;          /* Alinea las tarjetas al inicio verticalmente */
+    padding: 30px;
+    position: absolute;               /* Centrar en la pantalla */
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    background-size: cover;          /* Ajusta la imagen para cubrir el contenedor */
+    background-repeat: no-repeat;    /* Evita repetir la imagen */
+    background-position: center;     /* Centra la imagen */
+    overflow-y: auto;                /* Habilita el scroll vertical */
+    overflow-x: hidden;              /* Evita el scroll horizontal */
+    background-color: #00064a;
+}
+
+.trabajador-card {
+    background: #fff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    width: 250px;                    /* Ancho fijo para las tarjetas */
+    padding: 16px;
+    text-align: center;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: auto;                    /* Altura ajustable según el contenido */
+    min-height: 200px;               /* Altura mínima */
+    margin: 15px;                    /* Espaciado entre las tarjetas */
+    box-sizing: border-box;          /* Incluye padding y border en el tamaño */
+}
+
+.trabajador-card h3 {
+    font-size: 1.2em;
+    margin: 10px 0;
+}
+
+.trabajador-card p {
+    font-size: 1em;
+}
+
+.trabajador-card.disponible {
+    background-color: #28a745; /* Verde */
+    color: white;
+}
+
+.trabajador-card.ocupado {
+    background-color: #ffc107; /* Amarillo */
+    color: black !important;
+}
+
+.trabajador-card.inactivo {
+    background-color: #dc3545; /* Rojo */
+    color: white;
 }

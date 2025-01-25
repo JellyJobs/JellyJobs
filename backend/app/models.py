@@ -1,17 +1,18 @@
 from django.db import models
+from django.contrib.postgres.fields import ArrayField
 
-class Admin(models.Model):
+class Admins(models.Model):
     idadmin = models.AutoField(db_column='idAdmin', primary_key=True)
     email = models.TextField()
     contrasena = models.TextField()
 
     class Meta:
-        db_table = 'Admin'
+        db_table = 'Admins'
 
 
 class Archivo(models.Model):
     idarchivo = models.AutoField(db_column='idArchivo', primary_key=True)
-    archivolink = models.TextField(db_column='archivoLink', blank=True, null=True)
+    archivolink = models.ImageField(upload_to='photos/', blank=True)
 
     class Meta:
         db_table = 'Archivo'
@@ -19,65 +20,86 @@ class Archivo(models.Model):
 
 class Cv(models.Model):
     idcv = models.AutoField(primary_key=True)
-    cvlink = models.TextField()
+    cvlink = models.FileField(upload_to='cv/', blank=True)
 
     class Meta:
         db_table = 'Cv'
 
 
-class Localidad(models.Model):
-    idlocalidad = models.AutoField(db_column='idLocalidad', primary_key=True)
+class Provincia(models.Model):
+    idprovincia = models.AutoField(db_column='idProvincia', primary_key=True)
     nombre = models.TextField()
 
     class Meta:
-        db_table = 'Localidad'
+        db_table = 'Provincia'
+
+class Localidad(models.Model):
+    idlocalidad = models.AutoField(db_column='idLocalidad', primary_key=True)
+    nombre = models.TextField()
+    idprovincia = models.ForeignKey(Provincia, db_column='idprovincia', on_delete=models.CASCADE)
+
+class Meta:
+    db_table = 'Localidad'
 
 
 class Profesion(models.Model):
     idprofesion = models.AutoField(db_column='idProfesion', primary_key=True)
-    experiencia = models.IntegerField()
     nombre = models.TextField()
 
     class Meta:
         db_table = 'Profesion'
 
 
-class Provincia(models.Model):
-    idprovincia = models.AutoField(db_column='idProvincia', primary_key=True)
-    nombre = models.TextField()
-    idlocalidad = models.ForeignKey(Localidad,db_column='idLocalidad', on_delete=models.CASCADE)
-
-    class Meta:
-        db_table = 'Provincia'
-
-
-class Solicitud(models.Model):
-    idsolicitud = models.AutoField(db_column='idSolicitud', primary_key=True)
-    cantempleados = models.IntegerField(db_column='cantEmpleados')
-    idprofesion = models.ForeignKey(Profesion, db_column='idProfesion', on_delete=models.CASCADE)
-
-    class Meta:
-        db_table = 'Solicitud'
-
-
 class Trabajador(models.Model):
+
+    ESTADO_TRABAJO_CHOICES = [
+        ('disponible', 'Disponible'),
+        ('ocupado', 'Ocupado'),
+        ('inactivo', 'Inactivo'),
+    ]
+
     idtrabajador = models.AutoField(db_column='idTrabajador', primary_key=True)
     nombre = models.TextField()
     apellido = models.TextField()
+    uniforme = models.BooleanField(default=False)
+    talle = models.TextField()
     dni = models.IntegerField(db_column='DNI')
     email = models.TextField()
     numtel = models.IntegerField(db_column='numTel')
     edad = models.IntegerField()
     descripcion = models.TextField()
-    estadotrabajo = models.TextField(db_column='estadoTrabajo')
-    estadocontrato = models.TextField(db_column='estadoContrato')
-    idprofesion = models.ForeignKey(Profesion,db_column='idProfesion', on_delete=models.CASCADE)
-    idlocalidad = models.ForeignKey(Localidad,db_column='idLocalidad', on_delete=models.CASCADE)
-    idarchivo = models.ForeignKey(Archivo,db_column='idArchivo', on_delete=models.CASCADE)
-    idcv = models.ForeignKey(Cv,db_column='idcv', blank=True, null=True, on_delete=models.SET_NULL)
+    estadotrabajo = models.CharField(
+        db_column='estadoTrabajo',
+        max_length=20,
+        choices=ESTADO_TRABAJO_CHOICES,
+        default='disponible',
+    )
+    estadocontrato = models.TextField(
+        db_column='estadoContrato',
+        choices=[('pendiente', 'Pendiente'), ('aceptado', 'Aceptado'), ('rechazado', 'Rechazado')],
+        default='pendiente'
+    )
+    idprofesion = models.ForeignKey(Profesion, db_column='idProfesion', on_delete=models.CASCADE)
+    idlocalidad = models.ForeignKey(Localidad, db_column='idLocalidad', on_delete=models.CASCADE)
+    idarchivo = models.ForeignKey(Archivo, db_column='idArchivo', on_delete=models.CASCADE)
+    idcv = models.ForeignKey(Cv, db_column='idcv', blank=True, null=True, on_delete=models.SET_NULL)
 
     class Meta:
         db_table = 'Trabajador'
+
+
+class Solicitud(models.Model):
+    idsolicitud = models.AutoField(db_column='idSolicitud', primary_key=True)
+    empresa = models.TextField()
+    idtrabajadores = models.ManyToManyField(Trabajador, related_name='Solicitud')
+    fecha_inicio = models.DateField()
+    fecha_fin = models.DateField()
+
+    def __str__(self):
+        return f"Solicitud desde {self.fecha_inicio} hasta {self.fecha_fin}"
+    
+    class Meta:
+        db_table = 'Solicitud'
 
 
 class Trabajadorxprofesion(models.Model):

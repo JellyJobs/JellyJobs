@@ -1,50 +1,58 @@
 import '../../assets/styles/pages/joinUs.css';
-import { Form, Input, Button, DatePicker, Select, Upload, Checkbox} from 'antd';
+import { Form, Input, Button, DatePicker, Upload, Checkbox, notification} from 'antd';
 import { UploadOutlined, LeftCircleFilled } from '@ant-design/icons';
 import { Link } from "react-router-dom";
 import videoFondo from '../../assets/images/medumedusin.mp4';
 import React, {useState} from 'react';
 import dayjs from 'dayjs';
+import { ProfessionSelect} from '../../funcionalitys/profesionLista'
 
-const { Option } = Select;
 const { TextArea } = Input;
-const empleos = [
-    "Abogado", "Ingeniero en Sistemas", "Médico", "Arquitecto", "Profesor",
-    "Enfermero", "Psicólogo", "Contador", "Químico", "Biólogo", "Economista",
-    "Abogado Penalista", "Ingeniero Civil", "Diseñador Gráfico", "Programador Web",
-    "Desarrollador de Software", "Analista de Sistemas", "Investigador", 
-    "Marketing Digital", "Odontólogo", "Veterinario", "Farmacéutico", 
-    "Ingeniero Eléctrico", "Ingeniero Mecánico", "Piloto", "Administrador de Empresas", 
-    "Técnico en Electrónica", "Chef", "Cocinero", "Mesero", "Barbero", 
-    "Estilista", "Mecánico Automotriz", "Electricista", "Plomero", "Carpintero", 
-    "Albañil", "Pintor", "Cerrajero", "Ingeniero Químico", "Fotógrafo", 
-    "Periodista", "Redactor", "Traductor", "Intérprete", "Fisioterapeuta", 
-    "Nutricionista", "Entrenador Personal", "Soldador", "Jardinero", 
-    "Guardia de Seguridad", "Bombero", "Policía", "Militar", "Banquero", 
-    "Agente de Seguros", "Corredor de Bolsa", "Consultor", "Asesor Financiero", 
-    "Gestor de Proyectos", "Gerente de Ventas", "Desarrollador de Videojuegos", 
-    "Analista de Datos", "Ingeniero de Redes", "Especialista en Ciberseguridad", 
-    "Terapeuta", "Piloto de Drones", "Agrónomo", "Músico", "Artista Plástico"
-].sort();
 
 export default function JoinUs() {
-    const [filtroEmpleo, setFiltroEmpleo] = useState('');
+    const [loading, setLoading] = useState(false);
     const [imagenPresentacion, setImagenPresentacion] = useState(null); 
     const [mensajeCV, setMensajeCV] = useState('');
 
-    const manejarBusqueda = (value) => {
-        setFiltroEmpleo(value);
-    };
+
+    const submitData = async (values) => {
+        setLoading(true);
+        try {
+          const response = await fetch("http://127.0.0.1:8000/app/crear-trabajador/", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(values),
+          });
+    
+          if (!response.ok) {
+            throw new Error("Error al enviar los datos");
+          }
+    
+          const data = await response.json();
+          notification.success({
+            message: "Éxito",
+            description: "Los datos se enviaron correctamente.",
+          });
+        } catch (error) {
+          notification.error({
+            message: "Error",
+            description: "Hubo un problema al enviar los datos.",
+          });
+        } finally {
+          setLoading(false);
+        }
+      };
+    
+ 
 
     const disableFutureDates = (current) => {
         const today = dayjs();
         const yearsAgo = today.subtract(18, 'year');
         return current && (current.isAfter(today) || current.isSame(today, 'day') || current.isAfter(yearsAgo));
     };
-    
-    const empleosFiltrados = empleos.filter((empleo) =>
-        empleo.toLowerCase().includes(filtroEmpleo.toLowerCase())
-    );
+
 
     const manejarFotoSubida = (info) => {
         if (info.fileList.length > 0) {
@@ -75,7 +83,7 @@ export default function JoinUs() {
             <LeftCircleFilled />
         </Link>
         <div className='contain-form'>
-            <Form >
+            <Form onFinish={submitData}>
                 <h1 className='form-title'>Registrate</h1>
                 <div className='form-row'>
                 <Form.Item
@@ -186,7 +194,7 @@ export default function JoinUs() {
                     <DatePicker
                         className='date-picker-custom'
                         placeholder="Selecciona la fecha"
-                        disabledDate={disableFutureDates}> // Aquí se aplica la función
+                        disabledDate={disableFutureDates}> 
                     </DatePicker>
                 </Form.Item>
                 </div>
@@ -195,27 +203,12 @@ export default function JoinUs() {
         <h2 className='form-subtitle'>Cuéntanos sobre ti</h2>
                 {/* Selección de Empleo */}
                 <Form.Item
-                    name="empleo"
-                    rules={[
-                        {
-                            required: true,
-                            message: 'Por favor, selecciona tu empleo.',
-                        },
-                    ]}
-                >
-                    <Select
-                        placeholder="Selecciona tu empleo"
-                        onSearch={manejarBusqueda}
-                        showSearch
-                        filterOption={false}
+                    name="profession"
+                    rules={[{message: "Por favor selecciona una profesión" }]}
                     >
-                        {empleosFiltrados.map((empleo) => (
-                            <Option key={empleo} value={empleo}>
-                                {empleo}
-                            </Option>
-                        ))}
-                    </Select>
+                    <ProfessionSelect />
                 </Form.Item>
+                
                {/* Descripción */}
                <Form.Item
                     name="descripcion"
@@ -295,7 +288,7 @@ export default function JoinUs() {
 
         {/* Botón de enviar */}
         <Form.Item className="button-item">
-            <button id="joinUsButton" type="submit">
+            <button id="joinUsButton" type="submit" loading={loading}>
                 Enviar
             </button>
         </Form.Item>

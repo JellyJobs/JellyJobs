@@ -1,15 +1,34 @@
-import { Form, Input, Button,  } from 'antd';
+import { Form, Input, Button, message } from 'antd';
 import { LeftCircleFilled } from '@ant-design/icons';
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import '../../assets/styles/pages/login.css';
 import React from 'react';
 import videoFondo from '../../assets/images/medumedusin.mp4';
 
 const Login = () => {
   const [form] = Form.useForm();
-  const onFinish = (values) => {
-    console.log('Received values of form: ', values);
-    //backend
+  const navigate = useNavigate();
+
+  const onFinish = async (values) => {
+    try {
+      const response = await fetch('http://127.0.0.1:8000/app/login/', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(values),
+      });
+      
+      if (response.ok) {
+        message.success("Inicio de sesión exitoso");
+        navigate('/home');
+      } else {
+        const data = await response.json();
+        message.error(data.message || "Error en el inicio de sesión");
+      }
+    } catch (error) {
+      message.error("Error al conectar con el servidor");
+    }
   };
 
   const passwordField = document.querySelector('.ant-input-password');
@@ -32,10 +51,10 @@ const Login = () => {
         <source src={videoFondo} type="video/mp4" />
         Tu navegador no soporta el formato de video.
       </video>
-      <Link Link to="/" className="back-arrow">
+      <Link to="/" className="back-arrow">
         <LeftCircleFilled />
       </Link>
-        <div className='form-part box'>
+      <div className='form-part box'>
         <h1 className='title-form'>Iniciar Sesión</h1>
         <Form
           className='loginform'
@@ -46,49 +65,36 @@ const Login = () => {
           onFinish={onFinish}
           autoComplete="off"
         >
-          
           <Form.Item
             className='form-items'
             name="email"
             rules={[
-              {
-                type: 'email', 
-                message: 'Por favor, ingresa un email válido,',
-              },
-              {
-                required: true,
-                message: 'Por favor, ingresa tu email.',
-              },
+              { type: 'email', message: 'Por favor, ingresa un email válido.' },
+              { required: true, message: 'Por favor, ingresa tu email.' },
             ]}
           >
-            <Input placeholder='Email'/>
+            <Input placeholder='Email' />
           </Form.Item>
 
           <Form.Item
             className='form-items'
             name="password"
-            rules={[
-              {
-                required: true,
-                message: 'Por favor, ingresa tu contraseña.',
-              },
-            ]}
+            rules={[{ required: true, message: 'Por favor, ingresa tu contraseña.' }]}
           >
-            <Input.Password placeholder='Contraseña'/>
+            <Input.Password placeholder='Contraseña' />
           </Form.Item>
 
-          <Form.Item  className='form-button'>
-            <Button className='login-button' href='home' type="primary" htmlType="submit">
-            Acceder
+          <Form.Item className='form-button'>
+            <Button className='login-button' type="primary" htmlType="submit">
+              Acceder
             </Button>
           </Form.Item>
 
           <p className="page-link">
-              <Link to="/forgot-password" className="page-link-label">
+            <Link to="/forgot-password" className="page-link-label">
               ¿Olvidaste tu contraseña?
-              </Link>
+            </Link>
           </p>
-          
         </Form>
       </div>
     </div>
