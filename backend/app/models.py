@@ -27,37 +27,37 @@ class Cv(models.Model):
 
 
 class Provincia(models.Model):
-  idprovincia = models.AutoField(db_column='idProvincia', primary_key=True)
-  nombre = models.TextField()
+    idprovincia = models.AutoField(db_column='idProvincia', primary_key=True)
+    nombre = models.TextField()
 
-  class Meta:
-    db_table = 'Provincia'
+    class Meta:
+        db_table = 'Provincia'
 
 class Localidad(models.Model):
-  idlocalidad = models.AutoField(db_column='idLocalidad', primary_key=True)
-  nombre = models.TextField()
-  idprovincia = models.ForeignKey(Provincia, db_column='idprovincia', on_delete=models.CASCADE)
+    idlocalidad = models.AutoField(db_column='idLocalidad', primary_key=True)
+    nombre = models.TextField()
+    idprovincia = models.ForeignKey(Provincia, db_column='idprovincia', on_delete=models.CASCADE)
 
-  class Meta:
+class Meta:
     db_table = 'Localidad'
 
 
 class Profesion(models.Model):
-  idprofesion = models.AutoField(db_column='idProfesion', primary_key=True)
-  nombre = models.TextField()
+    idprofesion = models.AutoField(db_column='idProfesion', primary_key=True)
+    nombre = models.TextField()
 
-  class Meta:
-    db_table = 'Profesion'
+    class Meta:
+        db_table = 'Profesion'
 
 
 class Trabajador(models.Model):
-     
+
     ESTADO_TRABAJO_CHOICES = [
         ('disponible', 'Disponible'),
         ('ocupado', 'Ocupado'),
         ('inactivo', 'Inactivo'),
     ]
-     
+
     idtrabajador = models.AutoField(db_column='idTrabajador', primary_key=True)
     nombre = models.TextField()
     apellido = models.TextField()

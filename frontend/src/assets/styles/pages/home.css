@@ -164,6 +164,19 @@
 
 .trabajador-card p {
     font-size: 1em;
-    color: #555;
 }
 
+.trabajador-card.disponible {
+    background-color: #28a745; /* Verde */
+    color: white;
+}
+
+.trabajador-card.ocupado {
+    background-color: #ffc107; /* Amarillo */
+    color: black !important;
+}
+
+.trabajador-card.inactivo {
+    background-color: #dc3545; /* Rojo */
+    color: white;
+}

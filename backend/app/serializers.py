@@ -74,8 +74,13 @@ class ListaTrabajadoresSerializer(serializers.ModelSerializer):  # Nuevo nombre
         return None
 
     
+
 class TrabajadorCardSerializer(serializers.ModelSerializer):
     profesion = serializers.CharField(source='idprofesion.nombre', read_only=True)  # Accede al nombre de la profesión
+
+    # Añadir un campo para el estado de trabajo que será modificable
+    estadotrabajo = serializers.CharField(required=True)
+
     class Meta:
         model = Trabajador
-        fields = ['nombre', 'apellido', 'estadotrabajo', 'profesion']
+        fields = ['idtrabajador', 'nombre', 'apellido', 'estadotrabajo', 'profesion']

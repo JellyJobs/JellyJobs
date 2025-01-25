@@ -1,6 +1,6 @@
 import '../../assets/styles/pages/home.css';
 import React, { useEffect, useState } from 'react';
-import { Menu, Avatar, Input, Select } from 'antd';
+import { Menu, Avatar, Input, Select,Card } from 'antd';
 import { 
     SolutionOutlined, 
     MenuOutlined, 
@@ -47,6 +47,32 @@ export default function Home() {
     const [searchValue, setSearchValue] = useState('');
     const [estadoFilter, setEstadoFilter] = useState('');
     const [profesionFilter, setProfesionFilter] = useState('');
+    // Función para manejar el cambio de estado de un trabajador
+    const handleEstadoChange = (idtrabajador, newEstado) => {
+        // Actualizar el estado de los trabajadores en el frontend
+        setTrabajadores(trabajadores.map((trabajador) =>
+            trabajador.idtrabajador === idtrabajador
+                ? { ...trabajador, estadotrabajo: newEstado }
+                : trabajador
+        ));
+    
+        // Aquí se hace el fetch para actualizar el estado en la base de datos
+        fetch(`http://127.0.0.1:8000/app/update-trabajador/${idtrabajador}/`, {
+            method: 'PATCH',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ estadotrabajo: newEstado }), // Pasamos el nuevo estado
+        })
+        .then((response) => response.json())
+        .then((data) => {
+            console.log('Estado actualizado:', data);
+        })
+        .catch((error) => {
+            console.error('Error al actualizar el estado:', error);
+        });
+    };
+
 
     // Obtener los datos de los trabajadores desde la API
     useEffect(() => {
@@ -129,19 +155,21 @@ export default function Home() {
                 />
             </div>
             <div className="trabajadores-container">
-                {/* Renderizar dinámicamente las tarjetas de trabajadores filtrados */}
-                {filteredTrabajadores.map((trabajador, index) => (
-                    <div className="trabajador-card" key={index}>
-                        <h3>
-                            {trabajador.nombre} {trabajador.apellido}
-                        </h3>
-                        <p>
-                            <strong>Profesión:</strong> {trabajador.profesion}
+                {/* Usamos Cards de Ant Design para renderizar los trabajadores */}
+                {filteredTrabajadores.map((trabajador) => (
+                    <Card className={`trabajador-card ${trabajador.estadotrabajo.toLowerCase()}`}  key={trabajador.id} title={`${trabajador.nombre} ${trabajador.apellido}`}>
+                        <p><strong>Profesión:</strong> {trabajador.profesion}</p>
+                        <p><strong>Estado:</strong>
+                            <Select
+                                value={trabajador.estadotrabajo}
+                                onChange={(value) => handleEstadoChange(trabajador.idtrabajador, value)}
+                            >
+                                <Select.Option value="Disponible">Disponible</Select.Option>
+                                <Select.Option value="Ocupado">Ocupado</Select.Option>
+                                <Select.Option value="Inactivo">Inactivo</Select.Option>
+                            </Select>
                         </p>
-                        <p>
-                            <strong>Estado:</strong> {trabajador.estadotrabajo}
-                        </p>
-                    </div>
+                    </Card>
                 ))}
             </div>
         </div>

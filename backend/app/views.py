@@ -150,3 +150,20 @@ class TrabajadorCardView(APIView):
         trabajadores = Trabajador.objects.all()
         serializer = TrabajadorCardSerializer(trabajadores, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
+    
+
+class OptionView(APIView):
+    def patch(self, request, *args, **kwargs):
+        # Obtener el trabajador por idtrabajador
+        trabajador_id = kwargs.get('idtrabajador')
+        try:
+            trabajador = Trabajador.objects.get(idtrabajador=trabajador_id)
+        except Trabajador.DoesNotExist:
+            return Response({'detail': 'Trabajador no encontrado'}, status=status.HTTP_404_NOT_FOUND)
+
+        # Serializar los datos de la solicitud para actualizar el trabajador
+        serializer = TrabajadorCardSerializer(trabajador, data=request.data, partial=True)  # Usamos partial=True para permitir solo la actualización del campo necesario
+        if serializer.is_valid():
+            serializer.save()  # Guardar los cambios en el trabajador
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
