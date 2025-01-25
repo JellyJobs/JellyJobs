@@ -3,8 +3,8 @@ from rest_framework.permissions import AllowAny
 from app.serializers import LoginSerializer
 from rest_framework.response import Response
 from rest_framework import viewsets, status
-from .models import Cv, Archivo , Trabajador, Profesion
-from .serializers import CvSerializer,ArchivoSerializer, TrabajadorSerializer,ProfesionSerializer,TrabajadorCardSerializer, LoginSerializer
+from .models import Trabajador, Profesion,Localidad,Provincia
+from .serializers import TrabajadorSerializer,ProfesionSerializer,TrabajadorCardSerializer, LoginSerializer,TrabajadorCrearSerializer,LocalidadSerializer,ProvinciaSerializer
 from django.views.decorators.csrf import csrf_exempt
 from django.utils.decorators import method_decorator
 from rest_framework.parsers import MultiPartParser, FormParser
@@ -22,70 +22,19 @@ class AdminLoginView(APIView):
 
 
 
-class CvView(APIView):
-    parser_classes = [MultiPartParser, FormParser]  # Para manejar archivos y datos del formulario
 
+class CrearTrabajadorPendienteAPIView(APIView):
     def post(self, request, *args, **kwargs):
-        serializer = CvSerializer(data=request.data)
+        serializer = TrabajadorCrearSerializer(data=request.data)
         if serializer.is_valid():
-            serializer.save()
-            return Response({"idcv": serializer.data.get('idcv')}, status=status.HTTP_201_CREATED)
+            trabajador = serializer.save()
+            return Response({"message": "Trabajador creado con éxito", "id": trabajador.idtrabajador}, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-@method_decorator(csrf_exempt, name='dispatch')
-class ArchivoView(APIView):
-    parser_classes = [MultiPartParser, FormParser]  # Para manejar archivos y datos del formulario
-
-    def post(self, request, *args, **kwargs):
-        serializer = ArchivoSerializer(data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response({"idarchivo": serializer.data.get('idarchivo')}, status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
-#Crear trabajador desde formulario, despues se tiene que aceptar por admin
-class CrearTrabajadorPendienteView(APIView):
-    parser_classes = [MultiPartParser, FormParser]  # Para manejar archivos y datos del formulario
-
-    def post(self, request, *args, **kwargs):
-        # Procesar CV
-        cv_file = request.FILES.get('cvlink', None)  # Aquí extrae solo el archivo con clave 'cvlink'
-        archivo_file = request.FILES.get('archivolink', None)  # Aquí extrae solo el archivo con clave 'archivolink'
-        
-        cv_response = CvView().post(cv_file)  # Invocar CvView
-        archivo_response = ArchivoView().post(archivo_file)  # Invocar ArchivoView
-
-        # Obtener idcv y idarchivo de los responses
-        cv_instance = cv_response.data if cv_response.status_code == status.HTTP_201_CREATED else None
-        archivo_instance = archivo_response.data if archivo_response.status_code == status.HTTP_201_CREATED else None
-
-        cv = cv_instance.get('idcv') if cv_instance else None
-        archivo = archivo_instance.get('idarchivo') if archivo_instance else None
-
-        # Datos del trabajador
-        trabajador_data = {
-            "nombre": request.data.get("nombre"),
-            "apellido": request.data.get("apellido"),
-            "dni": request.data.get("dni"),
-            "email": request.data.get("email"),
-            "descripcion": request.data.get("descripcion"),
-            "numtel": request.data.get("numtel"),
-            "edad": request.data.get("edad"),
-        }
-
-        # Crear Trabajador y asociar los modelos creados
-        trabajador_serializer = TrabajadorSerializer(
-            data={**trabajador_data, "idcv": cv, "idarchivo": archivo}
-        )
-        if trabajador_serializer.is_valid():
-            trabajador_serializer.save()
-            return Response(trabajador_serializer.data, status=status.HTTP_201_CREATED)
-
-        return Response(trabajador_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
 
-    
+
 #AGREGE ESTOS DECORADORES PARA PODER TESTEARLO CON POSTMAN SINO NO ME DEJABA, ESTE ENDPOINT DE ACTUALIZAR ES PARA QUE EL ADMIN 
 #RECHAZE O ACEPTE UN TRABAJADOR QUE SE REGISTRO POR EL FORMULARIO
 @method_decorator(csrf_exempt, name='dispatch')

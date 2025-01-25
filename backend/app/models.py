@@ -9,23 +9,6 @@ class Admins(models.Model):
     class Meta:
         db_table = 'Admins'
 
-
-class Archivo(models.Model):
-    idarchivo = models.AutoField(db_column='idArchivo', primary_key=True)
-    archivolink = models.ImageField(upload_to='photos/', blank=True)
-
-    class Meta:
-        db_table = 'Archivo'
-
-
-class Cv(models.Model):
-    idcv = models.AutoField(primary_key=True)
-    cvlink = models.FileField(upload_to='cv/', blank=True)
-
-    class Meta:
-        db_table = 'Cv'
-
-
 class Provincia(models.Model):
     idprovincia = models.AutoField(db_column='idProvincia', primary_key=True)
     nombre = models.TextField()
@@ -81,8 +64,8 @@ class Trabajador(models.Model):
     )
     idprofesion = models.ForeignKey(Profesion, db_column='idProfesion', on_delete=models.CASCADE)
     idlocalidad = models.ForeignKey(Localidad, db_column='idLocalidad', on_delete=models.CASCADE)
-    idarchivo = models.ForeignKey(Archivo, db_column='idArchivo', on_delete=models.CASCADE)
-    idcv = models.ForeignKey(Cv, db_column='idcv', blank=True, null=True, on_delete=models.SET_NULL)
+    imagenlink = models.ImageField(upload_to='photos/', blank=True)
+    cvlink = models.FileField(upload_to='cv/', blank=True)
 
     class Meta:
         db_table = 'Trabajador'
