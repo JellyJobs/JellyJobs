@@ -119,21 +119,12 @@ class TrabajadorCrearSerializer(serializers.ModelSerializer):
 
         return trabajador
 
-
-
-
-
-
-
-
-
-
 class TrabajadorCardSerializer(serializers.ModelSerializer):
     profesion = serializers.CharField(source='idprofesion.nombre', read_only=True)  # Accede al nombre de la profesión
-
+    imagenlink = serializers.ImageField(use_url=True)  # Devuelve la URL completa
     # Añadir un campo para el estado de trabajo que será modificable
     estadotrabajo = serializers.CharField(required=True)
 
     class Meta:
         model = Trabajador
-        fields = ['idtrabajador', 'nombre', 'apellido', 'estadotrabajo', 'profesion']
+        fields = ['idtrabajador', 'nombre', 'apellido','dni','edad', 'estadotrabajo', 'profesion','imagenlink',]

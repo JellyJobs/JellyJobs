@@ -1,6 +1,6 @@
 import '../../assets/styles/pages/home.css';
 import React, { useEffect, useState } from 'react';
-import { Menu, Avatar, Input, Select,Card } from 'antd';
+import { Menu, Avatar, Input, Select,Card,Divider} from 'antd';
 import { 
     SolutionOutlined, 
     MenuOutlined, 
@@ -157,18 +157,38 @@ export default function Home() {
             <div className="trabajadores-container">
                 {/* Usamos Cards de Ant Design para renderizar los trabajadores */}
                 {filteredTrabajadores.map((trabajador) => (
-                    <Card className={`trabajador-card ${trabajador.estadotrabajo.toLowerCase()}`}  key={trabajador.id} title={`${trabajador.nombre} ${trabajador.apellido}`}>
+                    <Card className={`trabajador-card ${trabajador.estadotrabajo.toLowerCase()}`} key={trabajador.idtrabajador}>
+                        {/* Imagen con estilo circular */}
+                        <div className="trabajador-img-container">
+                        <img
+                            src={`http://localhost:8000${trabajador.imagenlink}`}
+                            alt={`${trabajador.nombre} ${trabajador.apellido}`}
+                            className="trabajador-img"
+                        />
+                        </div>
+                
+                        {/* Nombre y Apellido */}
+                        <h3 className="trabajador-nombre">{`${trabajador.nombre} ${trabajador.apellido}`}</h3>
+                
+                        {/* Línea separadora */}
+                        <Divider />
+                
+                        {/* Información adicional */}
+                        <p><strong>Edad:</strong> {trabajador.edad}</p>
+                        <p><strong>DNI:</strong> {trabajador.dni}</p>
                         <p><strong>Profesión:</strong> {trabajador.profesion}</p>
-                        <p><strong>Estado:</strong>
-                            <Select
-                                value={trabajador.estadotrabajo}
-                                onChange={(value) => handleEstadoChange(trabajador.idtrabajador, value)}
-                            >
-                                <Select.Option value="Disponible">Disponible</Select.Option>
-                                <Select.Option value="Ocupado">Ocupado</Select.Option>
-                                <Select.Option value="Inactivo">Inactivo</Select.Option>
-                            </Select>
-                        </p>
+                        <p><strong>Estado:</strong></p>
+                
+                        {/* Desplegable de estado */}
+                        <Select
+                        value={trabajador.estadotrabajo}
+                        onChange={(value) => handleEstadoChange(trabajador.idtrabajador, value)}
+                        className="trabajador-select"
+                        >
+                        <Select.Option value="Disponible">Disponible</Select.Option>
+                        <Select.Option value="Ocupado">Ocupado</Select.Option>
+                        <Select.Option value="Inactivo">Inactivo</Select.Option>
+                        </Select>
                     </Card>
                 ))}
             </div>

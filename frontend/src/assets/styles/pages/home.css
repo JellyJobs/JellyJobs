@@ -140,43 +140,85 @@
 }
 
 .trabajador-card {
-    background: #fff;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    width: 250px;                    /* Ancho fijo para las tarjetas */
-    padding: 16px;
-    text-align: center;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     display: flex;
     flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;  /* Asegura que todo esté alineado hacia el principio */
+    width: 290px;
+    padding: 15px;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    margin: 10px;
+    text-align: center;
+    position: relative;         /* Incluye padding y border en el tamaño */
+    transition: transform 0.3s ease, box-shadow 0.3s ease; /* Añade transiciones suaves para el tamaño y sombra */
+}
+
+.trabajador-card:hover {
+    transform: scale(1.1); /* Aumenta el tamaño de la tarjeta */
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2); /* Agrega una sombra más pronunciada */
+}
+/* Estilo del contenedor de la imagen */
+.trabajador-img-container {
+    width: 80px;
+    height: 80px;
+    margin-bottom: 10px; /* Reduce el espacio debajo de la imagen */
+    overflow: hidden;
+    border-radius: 50%;
+    display: flex;
     justify-content: center;
     align-items: center;
-    height: auto;                    /* Altura ajustable según el contenido */
-    min-height: 200px;               /* Altura mínima */
-    margin: 15px;                    /* Espaciado entre las tarjetas */
-    box-sizing: border-box;          /* Incluye padding y border en el tamaño */
+    position: relative;
+    z-index: 1; /* Asegura que la imagen esté por encima de otros elementos */
 }
 
-.trabajador-card h3 {
-    font-size: 1.2em;
+  /* Estilo de la imagen */
+.trabajador-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 50%;
+}
+
+  /* Estilo del nombre y apellido */
+.trabajador-nombre {
+    font-size: 18px;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 10px;
+}
+
+  /* Línea separadora */
+.ant-divider {
+    width: 100%;
     margin: 10px 0;
+    border-color: #ccc;
 }
 
+  /* Estilo de la información adicional */
 .trabajador-card p {
-    font-size: 1em;
+    font-size: 14px;
+    color: #555;
+    margin: 5px 0;
 }
 
+  /* Estilo del desplegable de estado */
+.trabajador-select {
+    width: 100%;
+    margin-top: 10px;
+    font-size: 14px;
+}
+  
+  /* Estilo por estado del trabajador */
 .trabajador-card.disponible {
-    background-color: #28a745; /* Verde */
-    color: white;
+    border: 3px solid rgb(0, 255, 0);
 }
-
+  
 .trabajador-card.ocupado {
-    background-color: #ffc107; /* Amarillo */
-    color: black !important;
+    border: 3px solid rgb(255, 255, 0);
 }
-
+  
 .trabajador-card.inactivo {
-    background-color: #dc3545; /* Rojo */
-    color: white;
+    border: 3px solid rgb(255, 0, 0);
 }

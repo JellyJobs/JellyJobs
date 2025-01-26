@@ -1,5 +1,7 @@
 from django.urls import path
 from app.views import AdminLoginView, CrearTrabajadorPendienteAPIView, ActualizarEstadoContratoView,ProfesionAPIView,TrabajadorDetailView,TrabajadorCardView,OptionView
+from django.conf import settings
+from django.conf.urls.static import static
 
 urlpatterns = [
     path('login/', AdminLoginView.as_view(), name='admin-login'),
@@ -10,4 +12,4 @@ urlpatterns = [
     path('trabajador-card/', TrabajadorCardView.as_view(),name='trabajador-card'),
     path('get-trabajadores/', OptionView.as_view(), name='get-trabajadores'),
     path('update-trabajador/<int:idtrabajador>/', OptionView.as_view(),name='update-trabajador'),
-]
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
