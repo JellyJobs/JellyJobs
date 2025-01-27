@@ -1,19 +1,13 @@
 import '../../assets/styles/pages/home.css';
 import React, { useEffect, useState } from 'react';
-import { Menu, Avatar, Input, Select,Card,Divider} from 'antd';
+import { Menu, Input, Select,Card,Divider} from 'antd';
 import { 
-    SolutionOutlined, 
-    MenuOutlined, 
-    TeamOutlined, 
     BellOutlined, 
-    UserOutlined, 
-    FormOutlined, 
-    RedoOutlined, 
     PlusSquareOutlined, 
     FileTextOutlined, 
     StarOutlined, 
     SearchOutlined, 
-    FilterOutlined
+  
 } from '@ant-design/icons';
 import HeaderLog from '../../components/common/header-log.jsx';
 

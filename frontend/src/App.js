@@ -13,6 +13,7 @@ import AboutUs from './pages/unlogged/aboutUs.jsx';
 import Home from './pages/logged/home.jsx';
 import ProfilePage from './pages/logged/user-settings.jsx';
 import ForgotPassword from './pages/unlogged/forgot-password.jsx';
+import Scores from './pages/logged/scores.jsx';
 
 
 
@@ -29,6 +30,7 @@ function App() {
                 <Route path="joinUs" element={<JoinUs />} />
                 <Route path="aboutUs" element={<AboutUs />} />
                 <Route path="/forgot-password" element={<ForgotPassword />} />
+                <Route path="scores" element={<Scores/>} />
                 
             </Routes>
         </Router>
