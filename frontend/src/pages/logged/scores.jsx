@@ -1,12 +1,14 @@
 import '../../assets/styles/pages/scores.css';
 import React, { useEffect, useState } from 'react';
-import { Menu, Input, Card, Divider, Button, Modal, Checkbox, FloatButton } from 'antd';
+import { Menu, Input, Card, Divider, Button, Modal, Checkbox } from 'antd';
 import {
     BellOutlined,
     PlusSquareOutlined,
     FileTextOutlined,
     StarOutlined,
     SearchOutlined,
+    LeftOutlined,
+    RightOutlined,
 } from '@ant-design/icons';
 import HeaderLog from '../../components/common/header-log.jsx';
 
@@ -20,95 +22,89 @@ const items = [
 export default function Home() {
     const userEmail = 'admin@example.com';
     const [trabajadores, setTrabajadores] = useState([]);
-    const [selectedTrabajadores, setSelectedTrabajadores] = useState([]);
-    const [modalOpiniones, setModalOpiniones] = useState([]);
-    const [modalVisible, setModalVisible] = useState(false);
+    const [opiniones, setOpiniones] = useState({});
     const [searchValue, setSearchValue] = useState('');
-
-    // Manejar selección de trabajadores
-    const handleCheckboxChange = (idtrabajador, checked) => {
-        setSelectedTrabajadores((prev) => {
-            if (checked) {
-                return [...prev, idtrabajador];
-            }
-            return prev.filter((id) => id !== idtrabajador);
-        });
-    };
+    const [selectedTrabajadores, setSelectedTrabajadores] = useState([]);
+    const [modalVisible, setModalVisible] = useState(false);
+    const [currentIndex, setCurrentIndex] = useState(0);
 
     // Obtener trabajadores desde el endpoint
     useEffect(() => {
         fetch('http://127.0.0.1:8000/app/trabajador-card/')
-            .then((response) => response.json())
-            .then((data) => setTrabajadores(data))
-            .catch((error) => console.error('Error al cargar los trabajadores:', error));
+            .then(response => response.ok ? response.json() : Promise.reject('Error al obtener los trabajadores'))
+            .then(data => setTrabajadores(data.filter(trabajador => trabajador.estadotrabajo === 'Disponible')))
+            .catch(error => console.error('Error al cargar los trabajadores:', error));
     }, []);
 
-    // Llamar al endpoint externo para obtener opiniones y puntajes
-    const obtenerOpiniones = () => {
-        fetch('https://api.opiniones-externas.com/opiniones/') // Reemplaza con la URL correcta
-            .then((response) => response.json())
-            .then((data) => {
-                // Agregar opiniones y puntajes a los trabajadores seleccionados
-                const updatedTrabajadores = trabajadores.map((trabajador) => {
-                    if (selectedTrabajadores.includes(trabajador.idtrabajador)) {
-                        const opinionData = data.find((d) => d.idtrabajador === trabajador.idtrabajador);
-                        return {
-                            ...trabajador,
-                            opinion: opinionData ? opinionData.opinion : 'Sin opinión',
-                            puntaje: opinionData ? opinionData.puntaje : 0,
-                        };
-                    }
-                    return trabajador;
+    // Obtener opiniones desde el endpoint externo
+    useEffect(() => {
+        fetch('https://api.opiniones-externas.com/opiniones/')
+            .then(response => response.ok ? response.json() : Promise.reject('Error al obtener las opiniones'))
+            .then(data => {
+                const opinionesMap = {};
+                data.forEach(opinion => {
+                    opinionesMap[opinion.idtrabajador] = opinion.opiniones;
                 });
-                setTrabajadores(updatedTrabajadores);
-                setModalVisible(true); // Mostrar el modal con las opiniones
-                setModalOpiniones(selectedTrabajadores.map((id) => {
-                    const trabajador = updatedTrabajadores.find((t) => t.idtrabajador === id);
-                    return {
-                        nombre: trabajador.nombre,
-                        opinion: trabajador.opinion,
-                        puntaje: trabajador.puntaje,
-                    };
-                }));
+                setOpiniones(opinionesMap);
             })
-            .catch((error) => console.error('Error al obtener opiniones:', error));
+            .catch(error => console.error('Error al cargar las opiniones:', error));
+    }, []);
+
+    const handleSearch = value => setSearchValue(value);
+
+    // Filtrar trabajadores según el campo de búsqueda
+    const filteredTrabajadores = trabajadores.filter(trabajador =>
+        trabajador.nombre.toLowerCase().includes(searchValue.toLowerCase())
+    );
+
+    // Manejar selección de trabajadores
+    const handleCheckboxChange = id => {
+        setSelectedTrabajadores(prevSelected =>
+            prevSelected.includes(id) ? prevSelected.filter(tid => tid !== id) : [...prevSelected, id]
+        );
     };
 
-    const closeModal = () => setModalVisible(false);
+    // Obtener datos del trabajador actual para el carrusel
+    const currentTrabajador = trabajadores.find(t => t.idtrabajador === selectedTrabajadores[currentIndex]);
 
-    const filteredTrabajadores = trabajadores.filter(
-        (trabajador) =>
-            trabajador.estadotrabajo === 'Disponible' &&
-            trabajador.nombre.toLowerCase().includes(searchValue.toLowerCase())
-    );
+    // Mostrar modal de opiniones seleccionadas en formato carrusel
+    const openModal = () => {
+        if (selectedTrabajadores.length > 0) {
+            setCurrentIndex(0);
+            setModalVisible(true);
+        }
+    };
+
+    const closeModal = () => {
+        setModalVisible(false);
+    };
 
     return (
         <div className="home-page">
             <HeaderLog userEmail={userEmail} />
             <div className="menu-container">
-                <Menu className="menu-functions" mode="inline" items={items} />
+                <Menu
+                    className="menu-functions"
+                    onClick={(e) => console.log('Click: ', e)}
+                    mode="inline"
+                    items={items}
+                />
             </div>
             <div className="search-bar">
                 <Input
                     placeholder="Buscar trabajador"
                     prefix={<SearchOutlined />}
                     value={searchValue}
-                    onChange={(e) => setSearchValue(e.target.value)}
+                    onChange={(e) => handleSearch(e.target.value)}
                 />
             </div>
             <div className="trabajadores-container">
-                {filteredTrabajadores.map((trabajador) => (
-                    <Card
-                        className="trabajador-card"
-                        key={trabajador.idtrabajador}
-                        title={
-                            <Checkbox
-                                onChange={(e) =>
-                                    handleCheckboxChange(trabajador.idtrabajador, e.target.checked)
-                                }
-                            />
-                        }
-                    >
+                {filteredTrabajadores.map(trabajador => (
+                    <Card className="trabajador-card disponible" key={trabajador.idtrabajador}>
+                        <Checkbox
+                            checked={selectedTrabajadores.includes(trabajador.idtrabajador)}
+                            onChange={() => handleCheckboxChange(trabajador.idtrabajador)}
+                        />
                         <div className="trabajador-img-container">
                             <img
                                 src={`http://localhost:8000${trabajador.imagenlink}`}
@@ -116,7 +112,7 @@ export default function Home() {
                                 className="trabajador-img"
                             />
                         </div>
-                        <h3>{`${trabajador.nombre} ${trabajador.apellido}`}</h3>
+                        <h3 className="trabajador-nombre">{`${trabajador.nombre} ${trabajador.apellido}`}</h3>
                         <Divider />
                         <p><strong>Edad:</strong> {trabajador.edad}</p>
                         <p><strong>DNI:</strong> {trabajador.dni}</p>
@@ -125,37 +121,53 @@ export default function Home() {
                 ))}
             </div>
 
-            {selectedTrabajadores.length > 0 && (
-                <FloatButton
+            {/* Botón para abrir el carrusel de opiniones */}
+            <div className="opiniones-boton-container">
+                <Button
                     type="primary"
-                    onClick={obtenerOpiniones}
-                    style={{
-                        position: 'absolute', // Cambiar de 'fixed' a 'absolute'
-                        bottom: '50%', // Centramos verticalmente dentro del contenedor
-                        left: '50%', // Centramos horizontalmente
-                        transform: 'translate(-50%, 50%)', // Ajuste para el centrado real
-                        zIndex: 10, // Aseguramos que esté encima de los elementos
-                    }}
+                    onClick={openModal}
+                    disabled={selectedTrabajadores.length === 0}
+                    style={{ position: 'fixed', bottom: '10px', right: '35px' }}
                 >
-                    Obtener Opiniones
-                </FloatButton>
-            )}
+                    Ver Opiniones
+                </Button>
+            </div>
 
+            {/* Modal con carrusel */}
             <Modal
-                title="Opiniones y Puntajes"
-                visible={modalVisible}
+                title="Opiniones de Trabajadores"
+                open={modalVisible}
                 onCancel={closeModal}
-                footer={[
-                    <Button key="close" onClick={closeModal}>
-                        Cerrar
-                    </Button>,
-                ]}
+                footer={null}
+                centered
             >
-                {modalOpiniones.map((item, index) => (
-                    <p key={index}>
-                        {item.nombre}: {item.opinion} (Puntaje: {item.puntaje})
-                    </p>
-                ))}
+                {currentTrabajador && (
+                    <div className="opinion-container">
+                        <h3>{currentTrabajador.nombre} {currentTrabajador.apellido}</h3>
+                        <Divider />
+                        <p><strong>Edad:</strong> {currentTrabajador.edad}</p>
+                        <p><strong>Profesión:</strong> {currentTrabajador.profesion}</p>
+                        <Divider />
+                        <p><strong>Puntuacion: </strong></p>
+                        <Divider />
+                        <p><strong>Opiniones:</strong></p>
+                        <p>{opiniones[currentTrabajador.idtrabajador]?.join(', ') || 'No hay opiniones disponibles'}</p>
+                        
+                        {/* Botones de navegación */}
+                        <div className="carousel-buttons">
+                            <Button
+                                icon={<LeftOutlined />}
+                                disabled={currentIndex === 0}
+                                onClick={() => setCurrentIndex(currentIndex - 1)}
+                            />
+                            <Button
+                                icon={<RightOutlined />}
+                                disabled={currentIndex === selectedTrabajadores.length - 1}
+                                onClick={() => setCurrentIndex(currentIndex + 1)}
+                            />
+                        </div>
+                    </div>
+                )}
             </Modal>
         </div>
     );
