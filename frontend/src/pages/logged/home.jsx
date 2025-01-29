@@ -6,6 +6,7 @@ import {
     PlusSquareOutlined,
     FileTextOutlined,
     StarOutlined,
+    SkinOutlined,
 } from '@ant-design/icons';
 import HeaderLog from '../../components/common/header-log.jsx';
 import DetalleTrabajador from '../../components/common/detail.jsx';
@@ -15,6 +16,7 @@ const items = [
     { key: 'Notificaciones', label: 'Notificaciones', icon: <BellOutlined /> },
     { key: 'Solicitudes', label: 'Solicitudes', icon: <FileTextOutlined /> },
     { key: 'Puntuación', label: 'Puntuación', icon: <StarOutlined /> },
+    { key: 'Uniformes', label: 'Uniformes', icon: <SkinOutlined /> },	
 ];
 
 export default function Home() {
