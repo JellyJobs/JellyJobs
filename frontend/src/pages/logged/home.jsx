@@ -111,6 +111,7 @@ export default function Home() {
                         <p><strong>Estado:</strong></p>
                         <Select
                             value={trabajador.estadotrabajo}
+                            onClick={(e) => e.stopPropagation()}  // Evita que el clic se propague al Card
                             onChange={(value) => handleEstadoChange(trabajador.idtrabajador, value)}
                             className="trabajador-select"
                         >
@@ -118,6 +119,7 @@ export default function Home() {
                             <Select.Option value="Ocupado">Ocupado</Select.Option>
                             <Select.Option value="Inactivo">Inactivo</Select.Option>
                         </Select>
+
                     </Card>
                 ))}
             </div>
