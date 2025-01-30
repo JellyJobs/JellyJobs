@@ -128,3 +128,8 @@ class TrabajadorCardSerializer(serializers.ModelSerializer):
     class Meta:
         model = Trabajador
         fields = ['idtrabajador', 'nombre', 'apellido','dni','edad', 'estadotrabajo', 'profesion','imagenlink',]
+
+class LocalidadListSerializer(serializers.ModelSerializer):
+    class Meta:
+        model =Localidad
+        fields =['idlocalidad','nombre','idprovincia']

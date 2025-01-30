@@ -4,7 +4,7 @@ from app.serializers import LoginSerializer
 from rest_framework.response import Response
 from rest_framework import viewsets, status
 from .models import Trabajador, Profesion,Localidad,Provincia
-from .serializers import TrabajadorSerializer,ProfesionSerializer,TrabajadorCardSerializer, LoginSerializer,TrabajadorCrearSerializer,LocalidadSerializer,ProvinciaSerializer
+from .serializers import TrabajadorSerializer,ProfesionSerializer,TrabajadorCardSerializer, LoginSerializer,TrabajadorCrearSerializer,LocalidadSerializer,ProvinciaSerializer,LocalidadListSerializer
 from django.views.decorators.csrf import csrf_exempt
 from django.utils.decorators import method_decorator
 from rest_framework.parsers import MultiPartParser, FormParser
@@ -116,3 +116,9 @@ class OptionView(APIView):
             serializer.save()  # Guardar los cambios en el trabajador
             return Response(serializer.data, status=status.HTTP_200_OK)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+class LocalidadListView(APIView):
+    def get(self,request):
+        localidad=Localidad.objects.all()
+        serializer = LocalidadListSerializer(localidad,many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
