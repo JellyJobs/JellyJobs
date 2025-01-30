@@ -25,7 +25,7 @@ class AdminLoginView(APIView):
 
 class CrearTrabajadorPendienteAPIView(APIView):
     def post(self, request, *args, **kwargs):
-        serializer = TrabajadorCrearSerializer(data=request.data)
+        serializer = TrabajadorSerializer(data=request.data)
         if serializer.is_valid():
             trabajador = serializer.save()
             return Response({"message": "Trabajador creado con éxito", "id": trabajador.idtrabajador}, status=status.HTTP_201_CREATED)

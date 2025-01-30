@@ -53,10 +53,6 @@ class TrabajadorSerializer(serializers.ModelSerializer):
         model = Trabajador
         fields = ['nombre', 'apellido', 'dni', 'email', 'descripcion', 'numtel', 'edad', 'cvlink', 'imagenlink', 'idprofesion', 'idlocalidad']
 
-from rest_framework import serializers
-from .models import Trabajador, Profesion, Localidad
-
-
 class ProvinciaSerializer(serializers.ModelSerializer):
     class Meta:
         model = Provincia
@@ -132,4 +128,7 @@ class TrabajadorCardSerializer(serializers.ModelSerializer):
 class LocalidadListSerializer(serializers.ModelSerializer):
     class Meta:
         model =Localidad
-        fields =['idlocalidad','nombre','idprovincia']
+        fields =['idlocalidad','nombre']
+
+
+

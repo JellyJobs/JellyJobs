@@ -3,7 +3,7 @@ import { Select, Spin } from "antd";
 
 const { Option } = Select;
 
-export const ProfessionSelect = () => {
+export const ProfessionSelect = ({ onChange }) => {
   const [professions, setProfessions] = useState([]);
   const [loading, setLoading] = useState(true);
 
@@ -31,7 +31,7 @@ export const ProfessionSelect = () => {
   }
 
   return (
-    <Select placeholder="Selecciona una profesión">
+    <Select placeholder="Selecciona una profesión" onChange={onChange}>
       {professions.map((profession) => (
         <Option key={profession.idprofesion} value={profession.idprofesion}>
           {profession.nombre}
