@@ -14,6 +14,7 @@ import Home from './pages/logged/home.jsx';
 import ProfilePage from './pages/logged/user-settings.jsx';
 import ForgotPassword from './pages/unlogged/forgot-password.jsx';
 import Scores from './pages/logged/scores.jsx';
+import Solicitudes from './pages/logged/requests.jsx';
 
 
 
@@ -31,6 +32,7 @@ function App() {
                 <Route path="aboutUs" element={<AboutUs />} />
                 <Route path="/forgot-password" element={<ForgotPassword />} />
                 <Route path="scores" element={<Scores/>} />
+                <Route path="/solicitudes" element={<Solicitudes />} />
                 
             </Routes>
         </Router>

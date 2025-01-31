@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from django.contrib.auth import authenticate
-from .models import Trabajador,Profesion,Localidad,Provincia
+from .models import Trabajador,Profesion,Localidad,Provincia, Solicitud
 from django.core.exceptions import ObjectDoesNotExist
 from .models import Admins
 
@@ -52,6 +52,10 @@ class TrabajadorSerializer(serializers.ModelSerializer):
     class Meta:
         model = Trabajador
         fields = ['nombre', 'apellido', 'dni', 'email', 'descripcion', 'numtel', 'edad', 'cvlink', 'imagenlink', 'idprofesion', 'idlocalidad']
+
+from rest_framework import serializers
+from .models import Trabajador, Profesion, Localidad
+
 
 class ProvinciaSerializer(serializers.ModelSerializer):
     class Meta:
@@ -128,7 +132,14 @@ class TrabajadorCardSerializer(serializers.ModelSerializer):
 class LocalidadListSerializer(serializers.ModelSerializer):
     class Meta:
         model =Localidad
-        fields =['idlocalidad','nombre']
+        fields =['idlocalidad','nombre','idprovincia']
 
+class SolicitudSerializer(serializers.ModelSerializer):
+    idtrabajadores = serializers.PrimaryKeyRelatedField(
+        queryset=Trabajador.objects.all(),  # Permite solo trabajadores existentes
+        many=True  # Es una relación de muchos a muchos
+    )
 
-
+    class Meta:
+        model = Solicitud
+        fields = ['idsolicitud', 'empresa', 'fecha_inicio', 'fecha_fin', 'idtrabajadores']

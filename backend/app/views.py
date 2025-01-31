@@ -2,12 +2,15 @@ from rest_framework.decorators import APIView
 from rest_framework.permissions import AllowAny
 from app.serializers import LoginSerializer
 from rest_framework.response import Response
-from rest_framework import viewsets, status
-from .models import Trabajador, Profesion,Localidad,Provincia
-from .serializers import TrabajadorSerializer,ProfesionSerializer,TrabajadorCardSerializer, LoginSerializer,TrabajadorCrearSerializer,LocalidadSerializer,ProvinciaSerializer,LocalidadListSerializer
+from rest_framework import  status
+from .models import Trabajador, Profesion,Localidad,Provincia, Solicitud
+from .serializers import TrabajadorSerializer,ProfesionSerializer,TrabajadorCardSerializer, LoginSerializer,LocalidadListSerializer, SolicitudSerializer
 from django.views.decorators.csrf import csrf_exempt
 from django.utils.decorators import method_decorator
 from rest_framework.parsers import MultiPartParser, FormParser
+from django.core.exceptions import ValidationError
+from .serializers import SolicitudSerializer, TrabajadorSerializer
+
 
 #Login
 class AdminLoginView(APIView):
@@ -122,3 +125,50 @@ class LocalidadListView(APIView):
         localidad=Localidad.objects.all()
         serializer = LocalidadListSerializer(localidad,many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
+
+
+
+# 🔹 Vista para que el ADMIN vea todas las solicitudes
+class SolicitudAPIView(APIView):
+    def get(self, request):
+        """Lista todas las solicitudes que han llegado al sistema."""
+        solicitudes = Solicitud.objects.all()
+        serializer = SolicitudSerializer(solicitudes, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+
+# 🔹 Vista para INTERACCIÓN EXTERNA (obtener trabajadores disponibles y crear solicitudes)
+class InteraccionAPIView(APIView):
+    def get(self, request):
+        """Lista los trabajadores disponibles para una nueva solicitud."""
+        trabajadores = Trabajador.objects.filter(estadotrabajo="disponible")
+        serializer = TrabajadorSerializer(trabajadores, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+    def post(self, request):
+        """Crea una nueva solicitud verificando que los trabajadores estén disponibles."""
+        trabajadores_ids = request.data.get("idtrabajadores", [])
+
+        # Verificar si los trabajadores seleccionados están disponibles
+        trabajadores_disponibles = Trabajador.objects.filter(idtrabajador__in=trabajadores_ids, estadotrabajo="disponible")
+
+        if trabajadores_disponibles.count() != len(trabajadores_ids):
+            return Response(
+                {"error": "Uno o más trabajadores seleccionados no están disponibles."},
+                status=status.HTTP_400_BAD_REQUEST
+            )
+
+        serializer = SolicitudSerializer(data=request.data)
+        
+        if serializer.is_valid():
+            solicitud = serializer.save()
+            
+            # Marcar trabajadores como "ocupados"
+            trabajadores_disponibles.update(estadotrabajo="ocupado")
+
+            return Response({
+                "message": "Solicitud creada exitosamente",
+                "solicitud": SolicitudSerializer(solicitud).data
+            }, status=status.HTTP_201_CREATED)
+        
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
