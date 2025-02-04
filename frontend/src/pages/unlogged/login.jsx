@@ -18,8 +18,13 @@ const Login = () => {
         },
         body: JSON.stringify(values),
       });
-      
+
       if (response.ok) {
+        const data = await response.json();
+        
+        // Guardar el JWT en localStorage
+        localStorage.setItem('access_token', data.access_token);
+
         message.success("Inicio de sesión exitoso");
         navigate('/home');
       } else {
@@ -68,10 +73,7 @@ const Login = () => {
           <Form.Item
             className='form-items'
             name="email"
-            rules={[
-              { type: 'email', message: 'Por favor, ingresa un email válido.' },
-              { required: true, message: 'Por favor, ingresa tu email.' },
-            ]}
+            rules={[{ type: 'email', message: 'Por favor, ingresa un email válido.' }, { required: true, message: 'Por favor, ingresa tu email.' }]}
           >
             <Input placeholder='Email' />
           </Form.Item>

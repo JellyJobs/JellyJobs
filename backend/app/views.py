@@ -1,4 +1,5 @@
 from rest_framework.decorators import APIView
+from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework import viewsets
 from rest_framework.permissions import AllowAny
 from app.serializers import LoginSerializer
@@ -21,7 +22,20 @@ class AdminLoginView(APIView):
         serializer = LoginSerializer(data=request.data)
         if serializer.is_valid():
             admin = serializer.validated_data['user']  # Usuario validado
-            return Response({"message": "Login Exitoso", "idadmin": admin.idadmin}, status=200)
+            refresh = RefreshToken.for_user(admin)
+            
+            # Añadir idadmin y email al payload del token
+            refresh.payload['idadmin'] = admin.idadmin
+            refresh.payload['email'] = admin.email
+
+            access_token = str(refresh.access_token)
+            
+            return Response({
+                "message": "Login Exitoso",
+                "idadmin": admin.idadmin,
+                "email": admin.email,
+                "access_token": access_token
+            }, status=200)
         return Response(serializer.errors, status=401)
 
 
