@@ -1,15 +1,15 @@
 import React, { useEffect, useState } from "react";
-import axios from "axios";
 
 const Solicitudes = () => {
     const [solicitudes, setSolicitudes] = useState([]);
 
     useEffect(() => {
-        axios.get("http://127.0.0.1:8000/app/listar-solicitudes/")
-            .then(response => {
+        fetch("http://127.0.0.1:8000/app/listar-solicitudes/")
+            .then(response => response.json())
+            .then(data => {
                 // Verifica si la API devuelve un array o un objeto con clave 'solicitudes'
-                const data = Array.isArray(response.data) ? response.data : response.data.solicitudes;
-                setSolicitudes(data || []);
+                const solicitudesData = Array.isArray(data) ? data : data.solicitudes;
+                setSolicitudes(solicitudesData || []);
             })
             .catch(error => {
                 console.error("Error al obtener las solicitudes:", error);
@@ -64,3 +64,4 @@ const Solicitudes = () => {
 };
 
 export default Solicitudes;
+

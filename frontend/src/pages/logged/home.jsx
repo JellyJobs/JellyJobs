@@ -27,6 +27,15 @@ export default function Home() {
     const [profesionFilter, setProfesionFilter] = useState('');
     const [selectedTrabajador, setSelectedTrabajador] = useState(null);
 
+    const handleTrabajadorClick = (idtrabajador) => {
+        fetch(`http://127.0.0.1:8000/app/trabajador/${idtrabajador}/`)
+            .then((response) => response.json())
+            .then((data) => setSelectedTrabajador(data))
+            .catch(console.error);
+    };
+    
+    
+
     // Actualizar el estado del trabajador
     const handleEstadoChange = (idtrabajador, newEstado) => {
         setTrabajadores(trabajadores.map((trabajador) =>
@@ -96,7 +105,7 @@ export default function Home() {
                     <Card
                         className={`trabajador-card ${trabajador.estadotrabajo.toLowerCase()}`}
                         key={trabajador.idtrabajador}
-                        onClick={() => setSelectedTrabajador(trabajador)}
+                        onClick={() => handleTrabajadorClick(trabajador.idtrabajador)}
                     >
                         <div className="trabajador-img-container">
                             <img

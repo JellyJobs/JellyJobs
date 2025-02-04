@@ -4,6 +4,10 @@ from .models import Trabajador,Profesion,Localidad,Provincia, Solicitud
 from django.core.exceptions import ObjectDoesNotExist
 from .models import Admins
 
+class LocalidadDetailSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Localidad
+        fields = ['idlocalidad','nombre']
 
 class ProvinciaSerializer(serializers.ModelSerializer):
     class Meta:
@@ -47,14 +51,26 @@ class ProfesionSerializer(serializers.ModelSerializer):
         fields = ['idprofesion', 'nombre']
 
 #Trabajadores
+class TrabajadorDetallesSerializer(serializers.ModelSerializer):
+    profesion = serializers.SerializerMethodField()
+    localidad = serializers.SerializerMethodField()
+    class Meta:
+        model = Trabajador
+        fields = ['nombre', 'apellido', 'dni', 'email', 'descripcion','talle', 'numtel', 'edad', 'cvlink', 'imagenlink', 'profesion', 'localidad','estadocontrato']
+    def get_profesion(self, obj):
+        # Accede al nombre de la profesión a través de la clave foránea
+        return obj.idprofesion.nombre if obj.idprofesion else "No especificado"
+    def get_localidad(self, obj):
+        # Accede al nombre de la profesión a través de la clave foránea
+        return obj.idlocalidad.nombre if obj.idlocalidad else "No especificado"
+
 
 class TrabajadorSerializer(serializers.ModelSerializer):
     class Meta:
         model = Trabajador
         fields = ['nombre', 'apellido', 'dni', 'email', 'descripcion', 'numtel', 'edad', 'cvlink', 'imagenlink', 'idprofesion', 'idlocalidad']
 
-from rest_framework import serializers
-from .models import Trabajador, Profesion, Localidad
+
 
 
 class ProvinciaSerializer(serializers.ModelSerializer):

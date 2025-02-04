@@ -1,10 +1,11 @@
 from rest_framework.decorators import APIView
+from rest_framework import viewsets
 from rest_framework.permissions import AllowAny
 from app.serializers import LoginSerializer
 from rest_framework.response import Response
 from rest_framework import  status
 from .models import Trabajador, Profesion,Localidad,Provincia, Solicitud
-from .serializers import TrabajadorSerializer,ProfesionSerializer,TrabajadorCardSerializer, LoginSerializer,LocalidadListSerializer, SolicitudSerializer
+from .serializers import TrabajadorSerializer,ProfesionSerializer,TrabajadorCardSerializer, LoginSerializer,LocalidadListSerializer, SolicitudSerializer,TrabajadorDetallesSerializer
 from django.views.decorators.csrf import csrf_exempt
 from django.utils.decorators import method_decorator
 from rest_framework.parsers import MultiPartParser, FormParser
@@ -76,7 +77,7 @@ class TrabajadorDetailView(APIView):
         trabajador = self.get_object(pk)
         if trabajador is None:
             return Response({"error": "Trabajador no encontrado"}, status=status.HTTP_404_NOT_FOUND)
-        serializer = TrabajadorSerializer(trabajador)
+        serializer = TrabajadorDetallesSerializer(trabajador)
         return Response(serializer.data)
 
     def put(self, request, pk, format=None):
@@ -96,6 +97,21 @@ class TrabajadorDetailView(APIView):
         trabajador.estado_contrato = 'inactivo'
         trabajador.save()
         return Response({"message": "Trabajador marcado como inactivo"}, status=status.HTTP_200_OK)
+    
+    def patch(self, request, pk, format=None):
+        try:
+            trabajador = Trabajador.objects.get(pk=pk)
+        except Trabajador.DoesNotExist:
+            return Response({'error': 'Trabajador no encontrado'}, status=status.HTTP_404_NOT_FOUND)
+        
+        # Creamos el serializador y pasamos los datos que recibimos en la solicitud
+        serializer = TrabajadorSerializer(trabajador, data=request.data, partial=True)  # `partial=True` permite actualizar solo algunos campos
+        
+        # Verificamos si el serializador es válido
+        if serializer.is_valid():
+            serializer.save()  # Guardamos los cambios en el trabajador
+            return Response(serializer.data, status=status.HTTP_200_OK)  # Devolvemos los datos actualizados
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 class TrabajadorCardView(APIView):
     def get(self, request):
