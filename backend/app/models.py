@@ -74,7 +74,7 @@ class Trabajador(models.Model):
 class Solicitud(models.Model):
     idsolicitud = models.AutoField(db_column='idSolicitud', primary_key=True)
     empresa = models.TextField()
-    idtrabajadores = models.ManyToManyField(Trabajador, related_name='Solicitud')
+    idtrabajadores = models.ManyToManyField(Trabajador, related_name='solicitudes')
     fecha_inicio = models.DateField()
     fecha_fin = models.DateField()
 
