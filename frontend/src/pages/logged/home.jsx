@@ -1,8 +1,8 @@
 import '../../assets/styles/pages/home.css';
 import { jwtDecode } from 'jwt-decode';
-
+import { ProfessionSelect } from '../../funcionalitys/profesionLista.jsx';
 import React, { useEffect, useState } from 'react';
-import { Menu, Select, Card, Divider } from 'antd';
+import { Menu, Select, Card, Divider,Input } from 'antd';
 import {
     BellOutlined,
     PlusSquareOutlined,
@@ -23,11 +23,11 @@ const items = [
 
 export default function Home() {
     const [trabajadores, setTrabajadores] = useState([]);
-    const [searchValue, ] = useState('');
     const [estadoFilter, setEstadoFilter] = useState('');
     const [profesionFilter, setProfesionFilter] = useState('');
     const [selectedTrabajador, setSelectedTrabajador] = useState(null);
     const [userEmail, setUserEmail] = useState('');
+    const [searchValue, setSearchValue] = useState('');
     
 
     const handleTrabajadorClick = (idtrabajador) => {
@@ -72,11 +72,20 @@ export default function Home() {
     }, []);
 
     const filteredTrabajadores = trabajadores.filter((trabajador) => {
-        const nombreMatch = trabajador.nombre.toLowerCase().includes(searchValue.toLowerCase());
-        const estadoMatch = !estadoFilter || trabajador.estadotrabajo === estadoFilter;
-        const profesionMatch = !profesionFilter || trabajador.profesion === profesionFilter;
+        const searchWords = searchValue.toLowerCase().trim();
+        const nombreCompleto = `${trabajador.nombre.toLowerCase()} ${trabajador.apellido.toLowerCase()}`;
+        const nombreMatch = searchWords === "" || nombreCompleto.includes(searchWords);
+    
+        const estadoMatch = !estadoFilter || (trabajador.estadotrabajo && trabajador.estadotrabajo.toLowerCase() === String(estadoFilter).toLowerCase());
+    
+        // Asegúrate de que `trabajador.profesion_id` sea el campo que contiene el ID
+        const profesionMatch = !profesionFilter || (trabajador.profesion=== profesionFilter);
+    
         return nombreMatch && estadoMatch && profesionMatch;
     });
+    
+
+    
 
     return (
         <div className="home-page">
@@ -90,28 +99,25 @@ export default function Home() {
                 />
             </div>
             <div className="search-bar">
+                <Input.Search
+                    style={{ width: 300, marginRight: 8 }}
+                    placeholder="Buscar por nombre o apellido"
+                    value={searchValue}
+                    onChange={(e) => setSearchValue(e.target.value)}
+                    enterButton
+                />
                 <Select
                     style={{ width: 120, marginLeft: 8 }}
                     placeholder="Estado"
                     value={estadoFilter}
                     onChange={setEstadoFilter}
                     options={[
-                        { value: 'inactivo', label: 'Inactivo' },
-                        { value: 'disponible', label: 'Disponible' },
-                        { value: 'ocupado', label: 'Ocupado' },
+                        { value: 'inactivo'||'Inactivo', label: 'Inactivo' },
+                        { value: 'disponible'||'Disponible', label: 'Disponible' },
+                        { value: 'ocupado'||'Ocupado', label: 'Ocupado' },
                     ]}
                 />
-                <Select
-                    style={{ width: 120, marginLeft: 8 }}
-                    placeholder="Profesión"
-                    value={profesionFilter}
-                    onChange={setProfesionFilter}
-                    options={[
-                        { value: 'Desarrollador', label: 'Desarrollador' },
-                        { value: 'Diseñador', label: 'Diseñador' },
-                        { value: 'Analista', label: 'Analista' },
-                    ]}
-                />
+                <ProfessionSelect onChange={(value) => setProfesionFilter(value)} />
             </div>
             <div className="trabajadores-container">
                 {filteredTrabajadores.map((trabajador) => (

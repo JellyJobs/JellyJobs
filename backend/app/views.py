@@ -12,9 +12,8 @@ from django.utils.decorators import method_decorator
 from rest_framework.parsers import MultiPartParser, FormParser
 from django.core.exceptions import ValidationError
 from .serializers import SolicitudSerializer, TrabajadorSerializer
+from rest_framework.permissions import IsAuthenticated
 
-
-#Login
 class AdminLoginView(APIView):
     permission_classes = [AllowAny]
 
@@ -22,21 +21,27 @@ class AdminLoginView(APIView):
         serializer = LoginSerializer(data=request.data)
         if serializer.is_valid():
             admin = serializer.validated_data['user']  # Usuario validado
+
+            # Genera los tokens
             refresh = RefreshToken.for_user(admin)
             
-            # Añadir idadmin y email al payload del token
+            # Añadir idadmin y email al payload del token (opcional)
             refresh.payload['idadmin'] = admin.idadmin
             refresh.payload['email'] = admin.email
 
             access_token = str(refresh.access_token)
-            
+            refresh_token = str(refresh)  # Obtén el refresh_token
+
             return Response({
                 "message": "Login Exitoso",
                 "idadmin": admin.idadmin,
                 "email": admin.email,
-                "access_token": access_token
+                "access_token": access_token,
+                "refresh_token": refresh_token  # Devolver también el refresh_token
             }, status=200)
+        
         return Response(serializer.errors, status=401)
+
 
 
 
