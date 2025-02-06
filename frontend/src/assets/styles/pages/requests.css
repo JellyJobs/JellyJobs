@@ -1,0 +1,121 @@
+.home-page {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+}
+
+
+.menu-container {
+    position: fixed;
+    top: 55px; 
+    left: 0;
+    width: 200px;
+    height: calc(100% - 55px);
+    background-color: var(--background-color);
+    box-shadow: -5px 0 15px var(--main-color);
+    transition: all 0.2s ease; 
+}
+
+.menu-functions {
+    background-color: var(--background-color);
+    height: 100%;
+    padding-top: 20px;
+    border-right: none;
+}
+
+.menu-functions .ant-menu-item {
+    color: white;
+    font-size: 16px;
+    transition: all 0.2s ease; 
+}
+
+.menu-functions .ant-menu-item:hover {
+    background-color:rgba(26, 78, 141, 0.5); 
+    color: white; 
+}
+
+.menu-functions .ant-menu-item-selected {
+    background-color: var(--main-color); 
+    color: white !important; 
+}
+
+.menu-functions .ant-menu-item-icon {
+    font-size: 20px;
+    color: white; 
+}
+
+.menu-functions .ant-menu-item:hover .ant-menu-item-icon {
+    transform: scale(1.4); 
+}
+
+.menu-functions .ant-menu-item-selected .ant-menu-item-icon {
+    color: white !important; 
+}
+
+@media (max-width: 768px) {
+    .menu-container {
+        width: 100%; 
+        height: auto; 
+        position: relative; 
+        top: 0; 
+        box-shadow: none; 
+    }
+
+    .menu-functions .ant-menu-item {
+        font-size: 14px; 
+    }
+
+    .menu-functions .ant-menu-item-icon {
+        font-size: 18px; 
+    }
+
+    .menu-functions .ant-menu-item:hover .ant-menu-item-icon {
+        transform: scale(1.2); 
+    }
+}
+.content {
+    flex: 1;
+    padding: 20px;
+    background: #f0f2f5;
+    margin: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.solicitudes-table {
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+}
+
+.home-page {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+}
+
+.main-container {
+    display: flex;
+    flex: 1;
+}
+
+
+
+.content {
+    flex: 1;
+    padding: 20px;
+    background: #f0f2f5;
+    margin-left: 270px; /* Separa el contenido del menú */
+    margin-top: 20px;  /* Separa del header */
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    width: calc(100% - 270px); /* Evita que la tabla sea demasiado ancha */
+    margin-top: 5%;
+}
+
+.solicitudes-table {
+    margin-top: 10px;
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+}
