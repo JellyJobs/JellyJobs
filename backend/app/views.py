@@ -1,48 +1,65 @@
 from rest_framework.decorators import APIView
-from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework import viewsets
 from rest_framework.permissions import AllowAny
 from app.serializers import LoginSerializer
 from rest_framework.response import Response
 from rest_framework import  status
-from .models import Trabajador, Profesion,Localidad,Provincia, Solicitud
+from .models import Trabajador, Profesion,Localidad,Provincia, Solicitud,Admins
 from .serializers import TrabajadorSerializer,ProfesionSerializer,TrabajadorCardSerializer, LoginSerializer,LocalidadListSerializer, SolicitudSerializer,TrabajadorDetallesSerializer
 from django.views.decorators.csrf import csrf_exempt
 from django.utils.decorators import method_decorator
 from rest_framework.parsers import MultiPartParser, FormParser
 from django.core.exceptions import ValidationError
 from .serializers import SolicitudSerializer, TrabajadorSerializer
-from rest_framework.permissions import IsAuthenticated
+from django.contrib.auth import authenticate
+from rest_framework_simplejwt.tokens import RefreshToken
+from django.contrib.auth.hashers import check_password
 
-class AdminLoginView(APIView):
-    permission_classes = [AllowAny]
 
-    def post(self, request):
-        serializer = LoginSerializer(data=request.data)
-        if serializer.is_valid():
-            admin = serializer.validated_data['user']  # Usuario validado
-
-            # Genera los tokens
-            refresh = RefreshToken.for_user(admin)
-            
-            # Añadir idadmin y email al payload del token (opcional)
-            refresh.payload['idadmin'] = admin.idadmin
-            refresh.payload['email'] = admin.email
-
-            access_token = str(refresh.access_token)
-            refresh_token = str(refresh)  # Obtén el refresh_token
-
-            return Response({
-                "message": "Login Exitoso",
-                "idadmin": admin.idadmin,
-                "email": admin.email,
-                "access_token": access_token,
-                "refresh_token": refresh_token  # Devolver también el refresh_token
-            }, status=200)
+class AdminInfoView(APIView):
+    def get(self, request):
+        # Obtén la ID del admin desde el encabezado o la sesión
+        idadmin = request.headers.get('Id-Admin')  # O 'Authorization' si usas JWT
         
-        return Response(serializer.errors, status=401)
+        if not idadmin:
+            return Response({"error": "Administrador no autenticado"}, status=401)
+        
+        try:
+            # Busca el admin en la base de datos por su ID
+            admin = Admins.objects.get(idadmin=idadmin)
+            return Response({
+                "email": admin.email,
+                "idadmin": admin.idadmin
+            })
+        except Admins.DoesNotExist:
+            return Response({"error": "Administrador no encontrado"}, status=404)
+#Login
+class AdminLoginView(APIView):
+    def post(self, request, *args, **kwargs):
+        email = request.data.get('email')
+        password = request.data.get('contrasena')
 
+        if not email or not password:
+            return Response({"error": "El email y la contraseña son obligatorios"}, status=status.HTTP_400_BAD_REQUEST)
 
+        try:
+            admin = Admins.objects.get(email=email)
+            # Verificar la contraseña
+            if check_password(password, admin.contrasena):
+                # Crear un token JWT personalizado
+                refresh = RefreshToken.for_user(admin)
+                access_token = str(refresh.access_token)
+
+                # También puedes agregar el email e idadmin al payload del JWT
+                access_token = refresh.access_token
+                access_token['email'] = admin.email
+                access_token['idadmin'] = admin.idadmin
+
+                return Response({"access_token": str(access_token)}, status=status.HTTP_200_OK)
+            else:
+                return Response({"error": "Contraseña incorrecta"}, status=status.HTTP_400_BAD_REQUEST)
+        except Admins.DoesNotExist:
+            return Response({"error": "El admin no existe"}, status=status.HTTP_400_BAD_REQUEST)
 
 
 

@@ -15,6 +15,7 @@ import ProfilePage from './pages/logged/user-settings.jsx';
 import ForgotPassword from './pages/unlogged/forgot-password.jsx';
 import Scores from './pages/logged/scores.jsx';
 import Solicitudes from './pages/logged/requests.jsx';
+import PrivateRoute from './funcionalitys/privateRout.jsx'
 
 
 
@@ -24,7 +25,9 @@ function App() {
         <Router>
             <Routes>
                 <Route path="/" element={<Landing />} />
-                <Route path="home" element={<Home />} />
+                <Route element={<PrivateRoute />}>
+                    <Route path="/home" element={<Home />} />
+                </Route>
                 <Route path="/perfil-user" element={<ProfilePage userEmail="admin@example.com" />} />
                 <Route path="*" element={<NotFound />} /> 
                 <Route path="login" element={<Login />} />
