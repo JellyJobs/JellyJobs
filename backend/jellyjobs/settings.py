@@ -103,14 +103,15 @@ REST_FRAMEWORK = {
     ),
 }
 SIMPLE_JWT = {
-    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=15),  # Duración del access token
-    'REFRESH_TOKEN_LIFETIME': timedelta(days=7),  # Duración del refresh token
-    'ROTATE_REFRESH_TOKENS': False,  # Para evitar la rotación de tokens
-    'BLACKLIST_AFTER_ROTATION': False,  # Si el refresh token debe ser invalidado después de su uso
-    'ALGORITHM': 'HS256',  # Algoritmo de firma
-    'SIGNING_KEY': SECRET_KEY,  # Debe usar la misma clave secreta que el resto de Django
-    'USER_ID_FIELD': 'idadmin',
+    'USER_ID_FIELD': 'idadmin',  # Usar 'idadmin' en lugar de 'id'
+    "ACCESS_TOKEN_LIFETIME": timedelta(minutes=5),  # ⏳ Expira en 5 minutos
+    "REFRESH_TOKEN_LIFETIME": timedelta(days=1),    # 🔄 Refresh Token dura 1 día
 }
+
+AUTHENTICATION_BACKENDS = [
+    'django.contrib.auth.backends.ModelBackend',  # Backend por defecto para otros usuarios
+    'app.authentication_backend.AdminEmailBackend',  # Nuestro backend para Admin
+]
 
 
 # Internationalization

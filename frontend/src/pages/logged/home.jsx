@@ -56,14 +56,14 @@ export default function Home() {
     // Cargar trabajadores desde la API
     useEffect(() => {
          // Obtener el JWT del localStorage
-         const token = localStorage.getItem('access_token');
+        const token = localStorage.getItem('access_token');
         
-         if (token) {
+        if (token) {
              // Decodificar el JWT
-             const decoded = jwtDecode(token);
+            const decoded = jwtDecode(token);
 
              // Establecer el email del admin desde el payload
-             setUserEmail(decoded.email);  // Suponiendo que el campo del email en el JWT es 'email'
+            setUserEmail(decoded.email);  // Suponiendo que el campo del email en el JWT es 'email'
          }
         fetch('http://127.0.0.1:8000/app/trabajador-card/')
             .then((response) => response.json())

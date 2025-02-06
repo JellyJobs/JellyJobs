@@ -1,8 +1,9 @@
 import { Form, Input, Button, message } from 'antd';
+import {jwtDecode} from 'jwt-decode';
 import { LeftCircleFilled } from '@ant-design/icons';
 import { Link, useNavigate } from "react-router-dom";
 import '../../assets/styles/pages/login.css';
-import React from 'react';
+import React from 'react'; 
 import videoFondo from '../../assets/images/medumedusin.mp4';
 
 const Login = () => {
@@ -16,39 +17,36 @@ const Login = () => {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(values),
+        body: JSON.stringify(values), // Envía email y contrasena
       });
 
+      const data = await response.json();
+
       if (response.ok) {
-        const data = await response.json();
-        
+        const token = data.access_token;
+
         // Guardar el JWT en localStorage
-        localStorage.setItem('access_token', data.access_token);
+        localStorage.setItem('access_token', token);
+
+        // Decodificar el JWT para obtener el email y idadmin
+        const decoded = jwtDecode(token);
+        const { email, idadmin } = decoded; // Asegúrate de que el backend envía "idadmin"
+
+        console.log('Email:', email);
+        console.log('ID Admin:', idadmin);
 
         message.success("Inicio de sesión exitoso");
+
+        // Redirigir a la página de inicio
         navigate('/home');
       } else {
-        const data = await response.json();
-        message.error(data.message || "Error en el inicio de sesión");
+        message.error(data.error || "Error en el inicio de sesión");
       }
     } catch (error) {
+      console.error("Error al conectar con el servidor:", error);
       message.error("Error al conectar con el servidor");
     }
   };
-
-  const passwordField = document.querySelector('.ant-input-password');
-
-  if (passwordField) {
-    passwordField.addEventListener('input', function() {
-      if (passwordField.value === '') {
-        passwordField.style.backgroundColor = 'transparent';
-      } else {
-        passwordField.style.backgroundColor = 'white';
-      }
-    });
-  } else {
-    console.error('El campo de contraseña no se encontró en el DOM.');
-  }  
 
   return (
     <div className='contein-login-page'>
@@ -73,15 +71,20 @@ const Login = () => {
           <Form.Item
             className='form-items'
             name="email"
-            rules={[{ type: 'email', message: 'Por favor, ingresa un email válido.' }, { required: true, message: 'Por favor, ingresa tu email.' }]}
+            rules={[
+              { type: 'email', message: 'Por favor, ingresa un email válido.' },
+              { required: true, message: 'Por favor, ingresa tu email.' }
+            ]}
           >
             <Input placeholder='Email' />
           </Form.Item>
 
           <Form.Item
             className='form-items'
-            name="password"
-            rules={[{ required: true, message: 'Por favor, ingresa tu contraseña.' }]}
+            name="contrasena" // <-- Asegura que el frontend envía "contrasena"
+            rules={[
+              { required: true, message: 'Por favor, ingresa tu contraseña.' }
+            ]}
           >
             <Input.Password placeholder='Contraseña' />
           </Form.Item>
@@ -104,3 +107,4 @@ const Login = () => {
 };
 
 export default Login;
+
