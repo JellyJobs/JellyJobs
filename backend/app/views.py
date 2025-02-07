@@ -1,19 +1,16 @@
 from rest_framework.decorators import APIView
-from rest_framework import viewsets
-from rest_framework.permissions import AllowAny
-from app.serializers import LoginSerializer
 from rest_framework.response import Response
 from rest_framework import  status
-from .models import Trabajador, Profesion,Localidad,Provincia, Solicitud,Admins
-from .serializers import TrabajadorSerializer,ProfesionSerializer,TrabajadorCardSerializer, LoginSerializer,LocalidadListSerializer, SolicitudSerializer,TrabajadorDetallesSerializer
+from .models import Trabajador, Profesion,Localidad, Solicitud,Admins
+from .serializers import TrabajadorSerializer,ProfesionSerializer,TrabajadorCardSerializer,LocalidadListSerializer, SolicitudSerializer,TrabajadorDetallesSerializer
 from django.views.decorators.csrf import csrf_exempt
 from django.utils.decorators import method_decorator
-from rest_framework.parsers import MultiPartParser, FormParser
-from django.core.exceptions import ValidationError
 from .serializers import SolicitudSerializer, TrabajadorSerializer
-from django.contrib.auth import authenticate
 from rest_framework_simplejwt.tokens import RefreshToken
 from django.contrib.auth.hashers import check_password
+
+from rest_framework.decorators import api_view
+
 
 
 class AdminInfoView(APIView):
@@ -224,3 +221,14 @@ class InteraccionAPIView(APIView):
             }, status=status.HTTP_201_CREATED)
         
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+
+@api_view(["DELETE"])
+def eliminar_solicitud(request, idsolicitud):
+    try:
+        solicitud = Solicitud.objects.get(idsolicitud=idsolicitud)
+        solicitud.delete()
+        return Response({"mensaje": "Solicitud eliminada"}, status=status.HTTP_204_NO_CONTENT)
+    except Solicitud.DoesNotExist:
+        return Response({"error": "Solicitud no encontrada"}, status=status.HTTP_404_NOT_FOUND)

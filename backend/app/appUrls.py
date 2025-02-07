@@ -1,5 +1,5 @@
 from django.urls import path
-from app.views import AdminLoginView, CrearTrabajadorPendienteAPIView, ActualizarEstadoContratoView,ProfesionAPIView,TrabajadorDetailView,TrabajadorCardView,OptionView,LocalidadListView, SolicitudAPIView, InteraccionAPIView
+from app.views import AdminLoginView, CrearTrabajadorPendienteAPIView, ActualizarEstadoContratoView,ProfesionAPIView,TrabajadorDetailView,TrabajadorCardView,OptionView,LocalidadListView, SolicitudAPIView, InteraccionAPIView, eliminar_solicitud
 from django.conf import settings
 from django.conf.urls.static import static
 
@@ -15,6 +15,6 @@ urlpatterns = [
     path('localidad/',LocalidadListView.as_view(),name='localidad'),
     path('solicitudes/', SolicitudAPIView.as_view(), name='listar_solicitudes'),  # 🔹 SOLO ADMIN
     path('interaccion/', InteraccionAPIView.as_view(), name='interaccion'),  # 🔹 INTERACCIÓN EXTERNA
-
+    path("solicitudes/<int:idsolicitud>/", eliminar_solicitud, name="eliminar_solicitud"),
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from "react";
-import { Menu, Table, Spin, Input } from "antd";
+import { Menu, Table, Spin, Input, Button, Popconfirm } from "antd";
 import {
     BellOutlined,
     PlusSquareOutlined,
     FileTextOutlined,
     StarOutlined,
     SkinOutlined,
+    DeleteOutlined,
 } from "@ant-design/icons";
 import HeaderLog from "../../components/common/header-log.jsx";
 import '../../assets/styles/pages/requests.css';
@@ -36,6 +37,20 @@ const Solicitudes = () => {
             .finally(() => setLoading(false));
     }, []);
 
+    const handleDelete = (id) => {
+        fetch(`http://127.0.0.1:8000/app/solicitudes/${id}/`, {
+            method: "DELETE",
+        })
+        .then(response => {
+            if (response.ok) {
+                setSolicitudes(solicitudes.filter(solicitud => solicitud.idsolicitud !== id));
+            } else {
+                console.error("Error al eliminar la solicitud");
+            }
+        })
+        .catch(error => console.error("Error en la solicitud de eliminación:", error));
+    };
+
     const filteredSolicitudes = solicitudes.filter(solicitud =>
         solicitud.empresa.toLowerCase().includes(searchValue.toLowerCase())
     );
@@ -53,10 +68,24 @@ const Solicitudes = () => {
                 idtrabajadores && idtrabajadores.length > 0 ? (
                     <ul>
                         {idtrabajadores.map(trabajador => (
-                            <li key={trabajador.id}>{trabajador.nombre}</li>
+                            <li key={trabajador.idtrabajador}>{trabajador.nombre} {trabajador.apellido}</li>
                         ))}
                     </ul>
                 ) : "Sin trabajadores"
+            )
+        },
+        {
+            title: "Acciones",
+            key: "acciones",
+            render: (_, record) => (
+                <Popconfirm
+                    title="¿Estás seguro de eliminar esta solicitud?"
+                    onConfirm={() => handleDelete(record.idsolicitud)}
+                    okText="Sí"
+                    cancelText="No"
+                >
+                    <Button type="primary" danger icon={<DeleteOutlined />} />
+                </Popconfirm>
             )
         }
     ];

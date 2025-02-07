@@ -150,11 +150,13 @@ class LocalidadListSerializer(serializers.ModelSerializer):
         model =Localidad
         fields =['idlocalidad','nombre','idprovincia']
 
+class TrabajadorSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Trabajador
+        fields = ['idtrabajador', 'nombre', 'apellido']  # Incluye los datos que necesitas
+
 class SolicitudSerializer(serializers.ModelSerializer):
-    idtrabajadores = serializers.PrimaryKeyRelatedField(
-        queryset=Trabajador.objects.all(),  # Permite solo trabajadores existentes
-        many=True  # Es una relación de muchos a muchos
-    )
+    idtrabajadores = TrabajadorSerializer(many=True, read_only=True)  # Serializador anidado
 
     class Meta:
         model = Solicitud
