@@ -1,52 +1,39 @@
 import { Form, Input, Button, message } from 'antd';
 import {jwtDecode} from 'jwt-decode';
+import { useState } from "react";
 import { LeftCircleFilled } from '@ant-design/icons';
 import { Link, useNavigate } from "react-router-dom";
 import '../../assets/styles/pages/login.css';
 import React from 'react'; 
 import videoFondo from '../../assets/images/medumedusin.mp4';
+import Cookies from "js-cookie";
 
 const Login = () => {
   const [form] = Form.useForm();
   const navigate = useNavigate();
+  const [error, setError] = useState("");
 
   const onFinish = async (values) => {
     try {
-      const response = await fetch('http://127.0.0.1:8000/app/login/', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(values), // Envía email y contrasena
+      const response = await fetch("http://localhost:8000/app/login/", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(values),
+        credentials: "include", // Para permitir cookies en la respuesta
       });
 
-      const data = await response.json();
-
-      if (response.ok) {
-        const token = data.access_token;
-
-        // Guardar el JWT en localStorage
-        localStorage.setItem('access_token', token);
-
-        // Decodificar el JWT para obtener el email y idadmin
-        const decoded = jwtDecode(token);
-        const { email, idadmin } = decoded; // Asegúrate de que el backend envía "idadmin"
-
-        console.log('Email:', email);
-        console.log('ID Admin:', idadmin);
-
-        message.success("Inicio de sesión exitoso");
-
-        // Redirigir a la página de inicio
-        navigate('/home');
-      } else {
-        message.error(data.error || "Error en el inicio de sesión");
+      if (!response.ok) {
+        throw new Error("Credenciales incorrectas");
       }
+
+      const data = await response.json();
+      Cookies.set("access_token", data.access); // Almacena el JWT en cookies
+      navigate("/home"); // Redirige al home
     } catch (error) {
-      console.error("Error al conectar con el servidor:", error);
-      message.error("Error al conectar con el servidor");
+      setError(error.message);
     }
   };
+
 
   return (
     <div className='contein-login-page'>

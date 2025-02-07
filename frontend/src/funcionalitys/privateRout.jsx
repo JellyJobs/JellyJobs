@@ -1,32 +1,21 @@
-import { Navigate, Outlet } from "react-router-dom";
-import { jwtDecode } from "jwt-decode";
-import { message } from "antd";
-
+import React from 'react';
+import { Outlet, Navigate } from 'react-router-dom';
+import Cookies from 'js-cookie'; // Para leer el token de las cookies
 const PrivateRoute = () => {
-    const token = localStorage.getItem("access_token");
+  // Verifica si el usuario está autenticado (en este caso, si hay un token en las cookies)
+    const isAuthenticated = Cookies.get("access_token");
 
-    if (!token) {
-        message.error("Debes iniciar sesión para acceder");
-        return <Navigate to="/login" replace />;
+    if (!isAuthenticated) {
+        // Si no está autenticado, redirigimos a la página de login
+        return <Navigate to="/login" />;
     }
-
-    try {
-        const decoded = jwtDecode(token);
-        const currentTime = Date.now() / 1000; // Convertir a segundos
-
-        if (decoded.exp < currentTime) {
-        message.error("Tu sesión ha expirado. Inicia sesión nuevamente.");
-        localStorage.removeItem("access_token");
-        return <Navigate to="/login" replace />;
-        }
-    } catch (error) {
-        message.error("Token inválido. Inicia sesión nuevamente.");
-        localStorage.removeItem("access_token");
-        return <Navigate to="/login" replace />;
-    }
-
+    
+      // Si está autenticado, renderiza el contenido protegido
     return <Outlet />;
-};
-
+}
+    
 export default PrivateRoute;
+
+
+
 

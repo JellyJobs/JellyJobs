@@ -8,8 +8,14 @@ from django.utils.decorators import method_decorator
 from .serializers import SolicitudSerializer, TrabajadorSerializer
 from rest_framework_simplejwt.tokens import RefreshToken
 from django.contrib.auth.hashers import check_password
-
+from .utils import create_access_token
 from rest_framework.decorators import api_view
+from django.shortcuts import get_object_or_404
+from rest_framework.permissions import IsAuthenticated
+import jwt
+from rest_framework import exceptions
+from rest_framework.exceptions import AuthenticationFailed
+from django.conf import settings
 
 
 
@@ -31,32 +37,53 @@ class AdminInfoView(APIView):
         except Admins.DoesNotExist:
             return Response({"error": "Administrador no encontrado"}, status=404)
 #Login
+
+
+class VerifyTokenView(APIView):
+    permission_classes = [IsAuthenticated]  # Aseguramos que el usuario esté autenticado
+    
+    def post(self, request):
+        try:
+            # Obtener el token desde la cookie 'token'
+            token = request.COOKIES.get('token')
+
+            if not token:
+                raise AuthenticationFailed("Token no proporcionado")
+
+            # Decodifica y verifica el token usando la clave secreta
+            decoded = jwt.decode(token, settings.SECRET_KEY, algorithms=['HS256'])  # Usando la clave secreta configurada en settings
+
+            # Si el token es válido, devolvemos la respuesta afirmativa
+            return Response({"isValid": True})
+
+        except jwt.ExpiredSignatureError:
+            # Si el token ha expirado
+            return Response({"isValid": False, "error": "Token expirado"})
+        except jwt.InvalidTokenError:
+            # Si el token es inválido
+            return Response({"isValid": False, "error": "Token inválido"})
+        except AuthenticationFailed as e:
+            # En caso de que no haya token o sea inválido
+            return Response({"isValid": False, "error": str(e)})
+
 class AdminLoginView(APIView):
     def post(self, request, *args, **kwargs):
+        # Extrae el email y la contraseña del cuerpo de la solicitud
         email = request.data.get('email')
         password = request.data.get('contrasena')
 
-        if not email or not password:
-            return Response({"error": "El email y la contraseña son obligatorios"}, status=status.HTTP_400_BAD_REQUEST)
+        # Busca al administrador por el email
+        admin = get_object_or_404(Admins, email=email)
 
-        try:
-            admin = Admins.objects.get(email=email)
-            # Verificar la contraseña
-            if check_password(password, admin.contrasena):
-                # Crear un token JWT personalizado
-                refresh = RefreshToken.for_user(admin)
-                access_token = str(refresh.access_token)
+        # Verifica la contraseña usando check_password de Django
+        if check_password(password, admin.contrasena):  # admin.contrasena debe estar guardada como un hash
+            # Si la contraseña es correcta, puedes proceder a generar el token
+            token = create_access_token(admin)
+            return Response({'access': token})
+        else:
+            # Si la contraseña es incorrecta, lanzar un error
+            raise exceptions.AuthenticationFailed('Credenciales incorrectas')
 
-                # También puedes agregar el email e idadmin al payload del JWT
-                access_token = refresh.access_token
-                access_token['email'] = admin.email
-                access_token['idadmin'] = admin.idadmin
-
-                return Response({"access_token": str(access_token)}, status=status.HTTP_200_OK)
-            else:
-                return Response({"error": "Contraseña incorrecta"}, status=status.HTTP_400_BAD_REQUEST)
-        except Admins.DoesNotExist:
-            return Response({"error": "El admin no existe"}, status=status.HTTP_400_BAD_REQUEST)
 
 
 

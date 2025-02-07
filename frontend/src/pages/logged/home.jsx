@@ -1,6 +1,7 @@
 import '../../assets/styles/pages/home.css';
 import { jwtDecode } from 'jwt-decode';
 import { ProfessionSelect } from '../../funcionalitys/profesionLista.jsx';
+import Cookies from 'js-cookie'; // Para leer el token de las cookies
 import React, { useEffect, useState } from 'react';
 import { Menu, Select, Card, Divider,Input } from 'antd';
 import {
@@ -56,7 +57,7 @@ export default function Home() {
     // Cargar trabajadores desde la API
     useEffect(() => {
          // Obtener el JWT del localStorage
-        const token = localStorage.getItem('access_token');
+        const token = Cookies.get("access_token");
         
         if (token) {
              // Decodificar el JWT
@@ -64,7 +65,7 @@ export default function Home() {
 
              // Establecer el email del admin desde el payload
             setUserEmail(decoded.email);  // Suponiendo que el campo del email en el JWT es 'email'
-         }
+        }
         fetch('http://127.0.0.1:8000/app/trabajador-card/')
             .then((response) => response.json())
             .then((data) => setTrabajadores(data))
