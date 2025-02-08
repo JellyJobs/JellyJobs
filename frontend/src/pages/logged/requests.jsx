@@ -8,21 +8,15 @@ import {
     SkinOutlined,
     DeleteOutlined,
 } from "@ant-design/icons";
+import { useNavigate } from "react-router-dom"; // Importar useNavigate
 import HeaderLog from "../../components/common/header-log.jsx";
 import '../../assets/styles/pages/requests.css';
-
-const items = [
-    { key: "Crear Trabajador", label: "Crear", icon: <PlusSquareOutlined /> },
-    { key: "Notificaciones", label: "Notificaciones", icon: <BellOutlined /> },
-    { key: "Solicitudes", label: "Solicitudes", icon: <FileTextOutlined /> },
-    { key: "Puntuación", label: "Puntuación", icon: <StarOutlined /> },
-    { key: "Uniformes", label: "Uniformes", icon: <SkinOutlined /> },
-];
 
 const Solicitudes = () => {
     const [solicitudes, setSolicitudes] = useState([]);
     const [loading, setLoading] = useState(true);
     const [searchValue, setSearchValue] = useState("");
+    const navigate = useNavigate(); // Hook para navegación
 
     useEffect(() => {
         fetch("http://127.0.0.1:8000/app/solicitudes/")
@@ -98,7 +92,18 @@ const Solicitudes = () => {
             <div className="main-container">
                 {/* MENU LATERAL */}
                 <div className="menu-container">
-                    <Menu className="menu-functions" mode="inline" items={items} />
+                    <Menu
+                        className="menu-functions"
+                        mode="inline"
+                        onClick={({ key }) => navigate(key)} // Maneja la navegación
+                        items={[
+                            { key: "/create", label: "Crear", icon: <PlusSquareOutlined /> },
+                            { key: "/notificaciones", label: "Notificaciones", icon: <BellOutlined /> },
+                            { key: "/requests", label: "Solicitudes", icon: <FileTextOutlined /> },
+                            { key: "/scores", label: "Puntuación", icon: <StarOutlined /> },
+                            { key: "/uniformes", label: "Uniformes", icon: <SkinOutlined /> },
+                        ]}
+                    />
                 </div>
 
                 {/* CONTENIDO PRINCIPAL */}

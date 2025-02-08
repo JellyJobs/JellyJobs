@@ -16,6 +16,8 @@ import ForgotPassword from './pages/unlogged/forgot-password.jsx';
 import Scores from './pages/logged/scores.jsx';
 import Solicitudes from './pages/logged/requests.jsx';
 import PrivateRoute from './funcionalitys/privateRout.jsx'
+import Create from './pages/logged/create.jsx';
+import Notify from './pages/logged/notify.jsx';
 
 
 
@@ -35,7 +37,11 @@ function App() {
                 <Route path="aboutUs" element={<AboutUs />} />
                 <Route path="/forgot-password" element={<ForgotPassword />} />
                 <Route path="scores" element={<Scores/>} />
-                <Route path="/solicitudes" element={<Solicitudes />} />
+                <Route path="/requests" element={<Solicitudes />} />
+                <Route path="/create" element={< Create/>} />
+                <Route path="/notify" element={< Notify/>} />
+
+
                 
             </Routes>
         </Router>

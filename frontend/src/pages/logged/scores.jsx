@@ -9,17 +9,13 @@ import {
     SearchOutlined,
     LeftOutlined,
     RightOutlined,
+    SkinOutlined
 } from '@ant-design/icons';
+import { useNavigate } from "react-router-dom"; // Importar useNavigate
 import HeaderLog from '../../components/common/header-log.jsx';
 
-const items = [
-    { key: 'Crear Trabajador', label: 'Crear', icon: <PlusSquareOutlined /> },
-    { key: 'Notificaciones', label: 'Notificaciones', icon: <BellOutlined /> },
-    { key: 'Solicitudes', label: 'Solicitudes', icon: <FileTextOutlined /> },
-    { key: 'Puntuación', label: 'Puntuación', icon: <StarOutlined /> },
-];
-
 export default function Home() {
+    const navigate = useNavigate(); // Hook de navegación
     const userEmail = 'admin@example.com';
     const [trabajadores, setTrabajadores] = useState([]);
     const [opiniones, setOpiniones] = useState({});
@@ -56,8 +52,7 @@ export default function Home() {
     const filteredTrabajadores = trabajadores.filter((trabajador) => {
         const searchWords = searchValue.toLowerCase().trim();
         const nombreCompleto = `${trabajador.nombre.toLowerCase()} ${trabajador.apellido.toLowerCase()}`;
-        const nombreMatch = searchWords === "" || nombreCompleto.includes(searchWords);
-        return nombreMatch;
+        return searchWords === "" || nombreCompleto.includes(searchWords);
     });
 
     // Manejar selección de trabajadores
@@ -85,14 +80,24 @@ export default function Home() {
     return (
         <div className="home-page">
             <HeaderLog userEmail={userEmail} />
+            
+            {/* MENU LATERAL */}
             <div className="menu-container">
                 <Menu
                     className="menu-functions"
-                    onClick={(e) => console.log('Click: ', e)}
                     mode="inline"
-                    items={items}
+                    onClick={({ key }) => navigate(key)} // Redirige al usuario según la opción seleccionada
+                    items={[
+                        { key: "/create", label: "Crear", icon: <PlusSquareOutlined /> },
+                        { key: "/notificaciones", label: "Notificaciones", icon: <BellOutlined /> },
+                        { key: "/requests", label: "Solicitudes", icon: <FileTextOutlined /> },
+                        { key: "/scores", label: "Puntuación", icon: <StarOutlined /> },
+                        { key: "/uniformes", label: "Uniformes", icon: <SkinOutlined /> },
+                    ]}
                 />
             </div>
+
+            {/* BARRA DE BÚSQUEDA */}
             <div className="search-bar">
                 <Input
                     placeholder="Buscar trabajador"
@@ -101,6 +106,8 @@ export default function Home() {
                     onChange={(e) => handleSearch(e.target.value)}
                 />
             </div>
+
+            {/* TARJETAS DE TRABAJADORES */}
             <div className="trabajadores-container">
                 {filteredTrabajadores.map(trabajador => (
                     <Card className="trabajador-card disponible" key={trabajador.idtrabajador}>
@@ -124,7 +131,7 @@ export default function Home() {
                 ))}
             </div>
 
-            {/* Botón para abrir el carrusel de opiniones */}
+            {/* BOTÓN PARA VER OPINIONES */}
             <div className="opiniones-boton-container">
                 <Button
                     type="primary"
@@ -136,7 +143,7 @@ export default function Home() {
                 </Button>
             </div>
 
-            {/* Modal con carrusel */}
+            {/* MODAL CON OPINIONES */}
             <Modal
                 title="Opiniones de Trabajadores"
                 open={modalVisible}
@@ -151,11 +158,11 @@ export default function Home() {
                         <p><strong>Edad:</strong> {currentTrabajador.edad}</p>
                         <p><strong>Profesión:</strong> {currentTrabajador.profesion}</p>
                         <Divider />
-                        <p><strong>Puntuacion: </strong></p>
+                        <p><strong>Puntuación: </strong></p>
                         <Divider />
                         <p><strong>Opiniones:</strong></p>
                         <p>{opiniones[currentTrabajador.idtrabajador]?.join(', ') || 'No hay opiniones disponibles'}</p>
-                        
+
                         {/* Botones de navegación */}
                         <div className="carousel-buttons">
                             <Button

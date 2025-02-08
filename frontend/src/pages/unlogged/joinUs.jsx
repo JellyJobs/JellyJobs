@@ -56,7 +56,7 @@ export default function JoinUs() {
             });
 
             if (!response.ok) {
-                alert('tontito')
+                alert('error')
                 throw new Error("Error al enviar los datos");
                 
             }

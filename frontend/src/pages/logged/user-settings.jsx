@@ -3,7 +3,6 @@ import { Button, Input, Typography, Tabs } from 'antd';
 import { UserOutlined, MailFilled, LockFilled, PoweroffOutlined, LeftCircleFilled } from '@ant-design/icons';
 import { Link } from "react-router-dom";
 import '../../assets/styles/pages/user-settings.css';
-import HeaderLog from '../../components/common/header-log';
 import videoFondo from '../../assets/images/medumedusin.mp4';
 
 const { Title, Text } = Typography;

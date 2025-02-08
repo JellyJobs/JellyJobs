@@ -1,9 +1,9 @@
 import '../../assets/styles/pages/home.css';
 import { jwtDecode } from 'jwt-decode';
 import { ProfessionSelect } from '../../funcionalitys/profesionLista.jsx';
-import Cookies from 'js-cookie'; // Para leer el token de las cookies
+import Cookies from 'js-cookie'; 
 import React, { useEffect, useState } from 'react';
-import { Menu, Select, Card, Divider,Input } from 'antd';
+import { Menu, Select, Card, Divider, Input } from 'antd';
 import {
     BellOutlined,
     PlusSquareOutlined,
@@ -13,16 +13,10 @@ import {
 } from '@ant-design/icons';
 import HeaderLog from '../../components/common/header-log.jsx';
 import DetalleTrabajador from '../../components/common/detail.jsx';
-
-const items = [
-    { key: 'Crear Trabajador', label: 'Crear', icon: <PlusSquareOutlined /> },
-    { key: 'Notificaciones', label: 'Notificaciones', icon: <BellOutlined /> },
-    { key: 'Solicitudes', label: 'Solicitudes', icon: <FileTextOutlined /> },
-    { key: 'Puntuación', label: 'Puntuación', icon: <StarOutlined /> },
-    { key: 'Uniformes', label: 'Uniformes', icon: <SkinOutlined /> },	
-];
+import { useNavigate } from 'react-router-dom';
 
 export default function Home() {
+    const navigate = useNavigate();
     const [trabajadores, setTrabajadores] = useState([]);
     const [estadoFilter, setEstadoFilter] = useState('');
     const [profesionFilter, setProfesionFilter] = useState('');
@@ -32,20 +26,34 @@ export default function Home() {
     const [professions, setProfessions] = useState([]);
     const [selectedProfessionName, setSelectedProfessionName] = useState('');
 
+    const items = [
+        { key: 'crear', label: 'Crear', icon: <PlusSquareOutlined />, path: '/create' },
+        { key: 'notificaciones', label: 'Notificaciones', icon: <BellOutlined />, path: '/notificaciones' },
+        { key: 'solicitudes', label: 'Solicitudes', icon: <FileTextOutlined />, path: '/requests' },
+        { key: 'puntuacion', label: 'Puntuación', icon: <StarOutlined />, path: '/scores' },
+        { key: 'uniformes', label: 'Uniformes', icon: <SkinOutlined />, path: '/uniformes' },
+    ];
+
+    const handleMenuClick = (e) => {
+        const selectedItem = items.find(item => item.key === e.key);
+        if (selectedItem) {
+            navigate(selectedItem.path);
+        }
+    };
+
     useEffect(() => {
         fetch('http://127.0.0.1:8000/app/profesionlista/')
             .then((response) => response.json())
-            .then((data) => setProfessions(data)) // Guardar la lista de profesiones
+            .then((data) => setProfessions(data))
             .catch(console.error);
     }, []);
+
     useEffect(() => {
-        // Buscar la profesión correspondiente al idprofesion seleccionado
         const selectedProfession = professions.find(prof => prof.idprofesion === parseInt(profesionFilter));
         if (selectedProfession) {
-            setSelectedProfessionName(selectedProfession.nombre); // Establecer el nombre de la profesión
+            setSelectedProfessionName(selectedProfession.nombre);
         }
     }, [profesionFilter, professions]);
-    
 
     const handleTrabajadorClick = (idtrabajador) => {
         fetch(`http://127.0.0.1:8000/app/trabajador/${idtrabajador}/`)
@@ -53,10 +61,7 @@ export default function Home() {
             .then((data) => setSelectedTrabajador(data))
             .catch(console.error);
     };
-    
-    
 
-    // Actualizar el estado del trabajador
     const handleEstadoChange = (idtrabajador, newEstado) => {
         setTrabajadores(trabajadores.map((trabajador) =>
             trabajador.idtrabajador === idtrabajador
@@ -70,17 +75,11 @@ export default function Home() {
         }).catch(console.error);
     };
 
-    // Cargar trabajadores desde la API
     useEffect(() => {
-         // Obtener el JWT del localStorage
         const token = Cookies.get("access_token");
-        
         if (token) {
-             // Decodificar el JWT
             const decoded = jwtDecode(token);
-
-             // Establecer el email del admin desde el payload
-            setUserEmail(decoded.email);  // Suponiendo que el campo del email en el JWT es 'email'
+            setUserEmail(decoded.email);
         }
         fetch('http://127.0.0.1:8000/app/trabajador-card/')
             .then((response) => response.json())
@@ -92,16 +91,10 @@ export default function Home() {
         const searchWords = searchValue.toLowerCase().trim();
         const nombreCompleto = `${trabajador.nombre.toLowerCase()} ${trabajador.apellido.toLowerCase()}`;
         const nombreMatch = searchWords === "" || nombreCompleto.includes(searchWords);
-    
         const estadoMatch = !estadoFilter || (trabajador.estadotrabajo && trabajador.estadotrabajo.toLowerCase() === String(estadoFilter).toLowerCase());
-    
-        // Asegúrate de que `trabajador.profesion` contenga el valor correcto
         const profesionMatch = !selectedProfessionName || trabajador.profesion.toLowerCase() === selectedProfessionName.toLowerCase();
-    
         return nombreMatch && estadoMatch && profesionMatch;
     });
-    
-    
 
     return (
         <div className="home-page">
@@ -109,9 +102,9 @@ export default function Home() {
             <div className="menu-container">
                 <Menu
                     className="menu-functions"
-                    onClick={(e) => console.log('Click: ', e)}
                     mode="inline"
                     items={items}
+                    onClick={handleMenuClick}
                 />
             </div>
             <div className="search-bar">
@@ -127,9 +120,9 @@ export default function Home() {
                     value={estadoFilter}
                     onChange={setEstadoFilter}
                     options={[
-                        { value: 'inactivo'||'Inactivo', label: 'Inactivo' },
-                        { value: 'disponible'||'Disponible', label: 'Disponible' },
-                        { value: 'ocupado'||'Ocupado', label: 'Ocupado' },
+                        { value: 'inactivo', label: 'Inactivo' },
+                        { value: 'disponible', label: 'Disponible' },
+                        { value: 'ocupado', label: 'Ocupado' },
                     ]}
                 />
                 <ProfessionSelect onChange={(value) => setProfesionFilter(value)} />
@@ -156,7 +149,7 @@ export default function Home() {
                         <p><strong>Estado:</strong></p>
                         <Select
                             value={trabajador.estadotrabajo}
-                            onClick={(e) => e.stopPropagation()}  // Evita que el clic se propague al Card
+                            onClick={(e) => e.stopPropagation()}  
                             onChange={(value) => handleEstadoChange(trabajador.idtrabajador, value)}
                             className="trabajador-select"
                         >
@@ -164,7 +157,6 @@ export default function Home() {
                             <Select.Option value="Ocupado">Ocupado</Select.Option>
                             <Select.Option value="Inactivo">Inactivo</Select.Option>
                         </Select>
-
                     </Card>
                 ))}
             </div>
