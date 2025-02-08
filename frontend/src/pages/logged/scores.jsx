@@ -53,9 +53,12 @@ export default function Home() {
     const handleSearch = value => setSearchValue(value);
 
     // Filtrar trabajadores según el campo de búsqueda
-    const filteredTrabajadores = trabajadores.filter(trabajador =>
-        trabajador.nombre.toLowerCase().includes(searchValue.toLowerCase())
-    );
+    const filteredTrabajadores = trabajadores.filter((trabajador) => {
+        const searchWords = searchValue.toLowerCase().trim();
+        const nombreCompleto = `${trabajador.nombre.toLowerCase()} ${trabajador.apellido.toLowerCase()}`;
+        const nombreMatch = searchWords === "" || nombreCompleto.includes(searchWords);
+        return nombreMatch;
+    });
 
     // Manejar selección de trabajadores
     const handleCheckboxChange = id => {

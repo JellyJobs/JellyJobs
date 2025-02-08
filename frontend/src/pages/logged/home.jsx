@@ -29,6 +29,22 @@ export default function Home() {
     const [selectedTrabajador, setSelectedTrabajador] = useState(null);
     const [userEmail, setUserEmail] = useState('');
     const [searchValue, setSearchValue] = useState('');
+    const [professions, setProfessions] = useState([]);
+    const [selectedProfessionName, setSelectedProfessionName] = useState('');
+
+    useEffect(() => {
+        fetch('http://127.0.0.1:8000/app/profesionlista/')
+            .then((response) => response.json())
+            .then((data) => setProfessions(data)) // Guardar la lista de profesiones
+            .catch(console.error);
+    }, []);
+    useEffect(() => {
+        // Buscar la profesión correspondiente al idprofesion seleccionado
+        const selectedProfession = professions.find(prof => prof.idprofesion === parseInt(profesionFilter));
+        if (selectedProfession) {
+            setSelectedProfessionName(selectedProfession.nombre); // Establecer el nombre de la profesión
+        }
+    }, [profesionFilter, professions]);
     
 
     const handleTrabajadorClick = (idtrabajador) => {
@@ -79,13 +95,12 @@ export default function Home() {
     
         const estadoMatch = !estadoFilter || (trabajador.estadotrabajo && trabajador.estadotrabajo.toLowerCase() === String(estadoFilter).toLowerCase());
     
-        // Asegúrate de que `trabajador.profesion_id` sea el campo que contiene el ID
-        const profesionMatch = !profesionFilter || (trabajador.profesion=== profesionFilter);
+        // Asegúrate de que `trabajador.profesion` contenga el valor correcto
+        const profesionMatch = !selectedProfessionName || trabajador.profesion.toLowerCase() === selectedProfessionName.toLowerCase();
     
         return nombreMatch && estadoMatch && profesionMatch;
     });
     
-
     
 
     return (
@@ -101,14 +116,13 @@ export default function Home() {
             </div>
             <div className="search-bar">
                 <Input.Search
-                    style={{ width: 300, marginRight: 8 }}
                     placeholder="Buscar por nombre o apellido"
                     value={searchValue}
                     onChange={(e) => setSearchValue(e.target.value)}
                     enterButton
+                    className='buscador'
                 />
                 <Select
-                    style={{ width: 120, marginLeft: 8 }}
                     placeholder="Estado"
                     value={estadoFilter}
                     onChange={setEstadoFilter}
