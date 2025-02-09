@@ -46,7 +46,7 @@ class Trabajador(models.Model):
     apellido = models.TextField()
     uniforme = models.BooleanField(default=False)
     talle = models.TextField()
-    dni = models.IntegerField(db_column='DNI')
+    dni = models.IntegerField(db_column='dni')
     email = models.TextField()
     numtel = models.IntegerField(db_column='numTel')
     edad = models.IntegerField()

@@ -84,9 +84,6 @@ class AdminLoginView(APIView):
             # Si la contraseña es incorrecta, lanzar un error
             raise exceptions.AuthenticationFailed('Credenciales incorrectas')
 
-
-
-
 class CrearTrabajadorPendienteAPIView(APIView):
     def post(self, request, *args, **kwargs):
         serializer = TrabajadorSerializer(data=request.data)

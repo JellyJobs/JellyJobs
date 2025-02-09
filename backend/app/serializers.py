@@ -153,7 +153,7 @@ class LocalidadListSerializer(serializers.ModelSerializer):
 class TrabajadorSerializer(serializers.ModelSerializer):
     class Meta:
         model = Trabajador
-        fields = ['idtrabajador', 'nombre', 'apellido']  # Incluye los datos que necesitas
+        fields = ['idtrabajador', 'nombre', 'apellido', 'dni', 'email', 'numtel', 'edad', 'idlocalidad', 'idprofesion', 'descripcion', 'cvlink', 'imagenlink']  # Incluye los datos que necesitas
 
 class SolicitudSerializer(serializers.ModelSerializer):
     idtrabajadores = TrabajadorSerializer(many=True, read_only=True)  # Serializador anidado

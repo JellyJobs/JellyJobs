@@ -1,16 +1,24 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Button, Input, Typography, Tabs } from 'antd';
 import { UserOutlined, MailFilled, LockFilled, PoweroffOutlined, LeftCircleFilled } from '@ant-design/icons';
 import { Link } from "react-router-dom";
 import '../../assets/styles/pages/user-settings.css';
 import videoFondo from '../../assets/images/medumedusin.mp4';
+import { jwtDecode } from 'jwt-decode';
+import Cookies from 'js-cookie'; 
 
 const { Title, Text } = Typography;
 const { TabPane } = Tabs;
 
 export default function ProfilePage() {
-    const userEmail = "admin@example.com";
-
+    const [userEmail, setUserEmail] = useState('');
+    useEffect(() => {
+    const token = Cookies.get("access_token");
+        if (token) {
+            const decoded = jwtDecode(token);
+            setUserEmail(decoded.email);
+        }
+    }, []);
     return (
         <div className='user-settings'>
             <video autoPlay loop muted className='full-screen-background'>
