@@ -1,4 +1,4 @@
-import { Form, Input, Button, message } from 'antd';
+import { Form, Input, Button, message,notification } from 'antd';
 import {jwtDecode} from 'jwt-decode';
 import { useState } from "react";
 import { LeftCircleFilled } from '@ant-design/icons';
@@ -23,9 +23,17 @@ const Login = () => {
       });
 
       if (!response.ok) {
+        notification.error({
+          message: "Error",
+          description: "Hubo un problema al enviar los datos.",
+        });
         throw new Error("Credenciales incorrectas");
+        
       }
-
+      notification.success({
+        message: "Éxito",
+        description: "Bienvenido...",
+      });
       const data = await response.json();
       Cookies.set("access_token", data.access); // Almacena el JWT en cookies
       navigate("/home"); // Redirige al home

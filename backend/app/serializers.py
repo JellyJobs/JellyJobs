@@ -3,6 +3,26 @@ from django.contrib.auth import authenticate
 from .models import Trabajador,Profesion,Localidad,Provincia, Solicitud
 from django.core.exceptions import ObjectDoesNotExist
 from .models import Admins
+from django.contrib.auth.hashers import make_password
+
+class AdminEmailSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Admins
+        fields = ['email']  # Aquí solo tomamos email y password
+
+class AdminSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Admins
+        fields = ['email', 'contrasena']  # Aquí solo tomamos email y password
+
+    def update(self, instance, validated_data):
+        """
+        Sobreescribimos el método update para encriptar la nueva contraseña.
+        """
+        password = validated_data.get('password', None)
+        if password:
+            instance.password = make_password(password)  # Encriptar la contraseña antes de guardarla
+        return super().update(instance, validated_data)
 
 class LocalidadDetailSerializer(serializers.ModelSerializer):
     class Meta:

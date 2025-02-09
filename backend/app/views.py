@@ -2,7 +2,7 @@ from rest_framework.decorators import APIView
 from rest_framework.response import Response
 from rest_framework import  status
 from .models import Trabajador, Profesion,Localidad, Solicitud,Admins
-from .serializers import TrabajadorSerializer,ProfesionSerializer,TrabajadorCardSerializer,LocalidadListSerializer, SolicitudSerializer,TrabajadorDetallesSerializer
+from .serializers import TrabajadorSerializer,ProfesionSerializer,TrabajadorCardSerializer,LocalidadListSerializer, SolicitudSerializer,TrabajadorDetallesSerializer,AdminSerializer,AdminEmailSerializer
 from django.views.decorators.csrf import csrf_exempt
 from django.utils.decorators import method_decorator
 from .serializers import SolicitudSerializer, TrabajadorSerializer
@@ -16,8 +16,110 @@ import jwt
 from rest_framework import exceptions
 from rest_framework.exceptions import AuthenticationFailed
 from django.conf import settings
+import random
+import string
+from django.core.mail import send_mail
+from django.contrib.auth.hashers import make_password
 
+class CambiarContrasenaView(APIView):
+    def post(self, request):
+        email = request.data.get("email")
+        contrasena_actual = request.data.get("contrasena_actual")
+        nueva_contrasena = request.data.get("nueva_contrasena")
+        confirmar_contrasena = request.data.get("confirmar_contrasena")
 
+        if not email or not contrasena_actual or not nueva_contrasena or not confirmar_contrasena:
+            return Response({"error": "Todos los campos son obligatorios."}, status=status.HTTP_400_BAD_REQUEST)
+
+        try:
+            admin = Admins.objects.get(email=email)
+
+            # Verificar la contraseña actual
+            if not check_password(contrasena_actual, admin.contrasena):
+                return Response({"error": "La contraseña actual es incorrecta."}, status=status.HTTP_400_BAD_REQUEST)
+
+            # Verificar que la nueva contraseña y la confirmación coincidan
+            if nueva_contrasena != confirmar_contrasena:
+                return Response({"error": "Las contraseñas no coinciden."}, status=status.HTTP_400_BAD_REQUEST)
+
+            # Guardar la nueva contraseña con el serializer
+            nueva_contrasena_encriptada = make_password(nueva_contrasena)
+            serializer = AdminSerializer(admin, data={"contrasena": nueva_contrasena_encriptada}, partial=True)
+            if serializer.is_valid():
+                serializer.save()
+                return Response({"message": "Contraseña actualizada correctamente."}, status=status.HTTP_200_OK)
+
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+        except Admins.DoesNotExist:
+            return Response({"error": "El usuario no existe."}, status=status.HTTP_400_BAD_REQUEST)
+
+class CambiarEmailView(APIView):
+    def post(self, request):
+        email_actual = request.data.get("email_actual")
+        nuevo_email = request.data.get("nuevo_email")
+
+        if not email_actual or not nuevo_email:
+            return Response({"error": "Ambos campos 'email_actual' y 'nuevo_email' son obligatorios."}, status=status.HTTP_400_BAD_REQUEST)
+
+        try:
+            admin = Admins.objects.get(email=email_actual)
+
+            # Usamos el serializer para actualizar el email
+            serializer = AdminEmailSerializer(admin, data={"email": nuevo_email,})
+
+            if serializer.is_valid():
+                # Guarda el admin con el nuevo email
+                serializer.save()
+
+                # Generar el nuevo token JWT usando tu función personalizada
+                access_token = create_access_token(admin)
+
+                # Devolver el nuevo token en la respuesta
+                return Response({
+                    "message": "El correo electrónico se ha actualizado con éxito.",
+                    "access_token": access_token  # Devuelves el nuevo token generado
+                }, status=status.HTTP_200_OK)
+
+            return Response({"error": "Error al actualizar el correo electrónico."}, status=status.HTTP_400_BAD_REQUEST)
+
+        except Admins.DoesNotExist:
+            return Response({"error": "El correo actual no corresponde a un administrador."}, status=status.HTTP_400_BAD_REQUEST)
+
+class RecuperarContrasenaView(APIView):
+    def post(self, request):
+        email = request.data.get("email")
+
+        if not email:
+            return Response({"error": "El campo 'email' es obligatorio."}, status=status.HTTP_400_BAD_REQUEST)
+
+        try:
+            admin = Admins.objects.get(email=email)  # Busca el admin con ese email
+
+            # Generar nueva contraseña aleatoria
+            nueva_contrasena = ''.join(random.choices(string.ascii_letters + string.digits, k=10))
+            nueva_contrasena_encriptada = make_password(nueva_contrasena)
+
+            admin_data = {"email": admin.email, "contrasena": nueva_contrasena_encriptada}
+            serializer = AdminSerializer(admin, data=admin_data)
+            if serializer.is_valid():
+                serializer.save()  # Esto guarda la nueva contraseña (encriptada)
+                
+                # Enviar el correo con la nueva contraseña
+                send_mail(
+                    subject="Recuperación de Contraseña",
+                    message=f"Tu nueva contraseña es: {nueva_contrasena}",
+                    from_email="valenxity@gmail.com",
+                    recipient_list=[email],
+                    fail_silently=False,
+                )
+
+                return Response({"message": "Se ha enviado un correo con la nueva contraseña."}, status=status.HTTP_200_OK)
+            else:
+                return Response({"error": "Error al actualizar la contraseña."}, status=status.HTTP_400_BAD_REQUEST)
+
+        except Admins.DoesNotExist:
+            return Response({"error": "El correo ingresado no pertenece a un administrador."}, status=status.HTTP_400_BAD_REQUEST)
 
 class AdminInfoView(APIView):
     def get(self, request):

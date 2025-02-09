@@ -16,7 +16,7 @@ const HeaderLog = ({ userEmail }) => {
         Cookies.remove("access_token");
 
         // Redirigir al login después de eliminar la cookie
-        navigate("/login"); // Redirige al login
+        navigate("/"); // Redirige al login
     };
     const itemNotification=[
         {

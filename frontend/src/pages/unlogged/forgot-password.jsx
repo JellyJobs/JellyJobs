@@ -1,14 +1,38 @@
 import React from 'react';
-import { Form, Input, Button } from 'antd';
+import { Form, Input, Button,notification } from 'antd';
 import { Link } from "react-router-dom";
 import { LockOutlined, LeftCircleFilled } from '@ant-design/icons';
 import '../../assets/styles/pages/forgotPassword.css';
 import videoFondo from '../../assets/images/medumedusin.mp4';
 
 const ForgotPassword = () => {
+  
   const onFinish = (values) => {
-    console.log('Email enviado: ', values.email);
-    // Lógica para enviar el email para recuperar la contraseña
+    const email = values.email;
+    fetch("http://127.0.0.1:8000/app/recuperar-contrasena/", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ email: email })
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.message) {
+            console.log(data.message); // Muestra el mensaje de éxito
+            notification.success({
+                            message: "Éxito",
+                            description: "Revise su email.",
+                        }); 
+        } else {
+            console.error(data.error); // Muestra el mensaje de error
+            notification.error({
+                            message: "Error",
+                            description: "Hubo un problema al enviar los datos.",
+                        });
+        }
+    })
+    .catch(error => console.error("Error:", error));
   };
 
   return (

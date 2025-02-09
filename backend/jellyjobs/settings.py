@@ -2,6 +2,15 @@ from pathlib import Path
 from datetime import timedelta
 import os
 
+EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
+EMAIL_HOST = "smtp.gmail.com"
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = "valenxity@gmail.com"  # Tu correo de Gmail
+EMAIL_HOST_PASSWORD = "gtid gsck exqq jpfc"  # La contraseña de aplicación que Google te dio
+DEFAULT_FROM_EMAIL = EMAIL_HOST_USER  # Dirección predeterminada de "from"
+
+
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 SECRET_KEY = 'django-insecure-g_5as3h&^(qq58yo7c!1(yjg$&nwhf4)vf8bfk=^nh$e2odohe'
