@@ -20,6 +20,17 @@ import random
 import string
 from django.core.mail import send_mail
 from django.contrib.auth.hashers import make_password
+from django.utils.timezone import now
+
+class CountValidSolicitudes(APIView):
+    def get(self, request):
+        count = Solicitud.objects.filter(fecha_inicio=now().date()).count()
+        return Response({"count": count}, status=200)
+
+class CountPendingWorkers(APIView):
+    def get(self, request):
+        count = Trabajador.objects.filter(estadocontrato='pendiente').count()
+        return Response({"count": count}, status=200)
 
 class CambiarContrasenaView(APIView):
     def post(self, request):

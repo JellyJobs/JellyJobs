@@ -3,7 +3,7 @@ import { jwtDecode } from 'jwt-decode';
 import { ProfessionSelect } from '../../funcionalitys/profesionLista.jsx';
 import Cookies from 'js-cookie'; 
 import React, { useEffect, useState } from 'react';
-import { Menu, Select, Card, Divider, Input } from 'antd';
+import { Menu, Select, Card, Divider, Input, Badge} from 'antd';
 import {
     BellOutlined,
     PlusSquareOutlined,
@@ -25,11 +25,45 @@ export default function Home() {
     const [searchValue, setSearchValue] = useState('');
     const [professions, setProfessions] = useState([]);
     const [selectedProfessionName, setSelectedProfessionName] = useState('');
+    const [workersCount, setWorkersCount] = useState(0);
+    const [solicitudesCount, setSolicitudesCount] = useState(0);
+
+    const fetchWorkersCount = async () => {
+        try {
+            const response = await fetch("http://127.0.0.1:8000/app/trabajadores-pendientes-num/");
+            const data = await response.json();
+            setWorkersCount(data.count);
+        } catch (error) {
+            console.error("Error fetching workers count:", error);
+        }
+    };
+
+    const fetchSolicitudesCount = async () => {
+        try {
+            const response = await fetch("http://127.0.0.1:8000/app/solicitudes-pendientes-num/");
+            const data = await response.json();
+            setSolicitudesCount(data.count);
+        } catch (error) {
+            console.error("Error fetching solicitudes count:", error);
+        }
+    };
+
+    useEffect(() => {
+        fetchWorkersCount();
+        fetchSolicitudesCount();
+        const interval = setInterval(() => {
+            fetchWorkersCount();
+            fetchSolicitudesCount();
+        }, 5000);
+        return () => clearInterval(interval);
+    }, []);
 
     const items = [
         { key: 'crear', label: 'Crear', icon: <PlusSquareOutlined />, path: '/create' },
-        { key: 'notificaciones', label: 'Notificaciones', icon: <BellOutlined />, path: '/notificaciones' },
-        { key: 'solicitudes', label: 'Solicitudes', icon: <FileTextOutlined />, path: '/requests' },
+        { key: 'notificaciones', label: 'Notificaciones', icon: <Badge count={workersCount} size="small" offset={[5, -5]}>
+        <BellOutlined /></Badge>, path: '/notificaciones' },
+        { key: 'solicitudes', label: 'Solicitudes', icon: <Badge count={solicitudesCount} size="small" offset={[5, -5]}>
+        <FileTextOutlined /></Badge>, path: '/requests' },
         { key: 'puntuacion', label: 'Puntuación', icon: <StarOutlined />, path: '/scores' },
         { key: 'uniformes', label: 'Uniformes', icon: <SkinOutlined />, path: '/uniformes' },
     ];

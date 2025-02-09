@@ -103,7 +103,7 @@ export default function JoinUs() {
                 <source src={videoFondo} type="video/mp4" />
                 Tu navegador no soporta el formato de video.
             </video>
-            <Link to="/" className="back-arrow">
+            <Link to="/home" className="back-arrow">
                 <LeftCircleFilled />
             </Link>
             <div className='contain-form'>
