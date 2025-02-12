@@ -181,3 +181,16 @@ class SolicitudSerializer(serializers.ModelSerializer):
     class Meta:
         model = Solicitud
         fields = ['idsolicitud', 'empresa', 'fecha_inicio', 'fecha_fin', 'idtrabajadores']
+
+class TrabajadoresSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Trabajador
+        fields = [
+            'nombre', 'apellido', 'dni', 'email', 'numtel', 'idlocalidad', 
+            'idprofesion', 'edad', 'descripcion', 'talle', 'uniforme',
+            'estadotrabajo','estadocontrato', 'imagenlink', 'cvlink'
+        ]
+
+    
+
+    

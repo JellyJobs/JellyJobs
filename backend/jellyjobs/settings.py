@@ -18,10 +18,11 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
-CORS_ALLOW_CREDENTIALS = True
 CORS_ALLOWED_ORIGINS = [
     'http://localhost:3000',  # o el puerto en el que corre tu frontend
 ]
+CORS_ALLOW_CREDENTIALS = True  # Permitir cookies con credenciales
+
 
 INSTALLED_APPS = [
     'django.contrib.admin',

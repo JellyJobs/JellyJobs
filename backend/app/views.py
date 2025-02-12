@@ -2,7 +2,7 @@ from rest_framework.decorators import APIView
 from rest_framework.response import Response
 from rest_framework import  status
 from .models import Trabajador, Profesion,Localidad, Solicitud,Admins
-from .serializers import TrabajadorSerializer,ProfesionSerializer,TrabajadorCardSerializer,LocalidadListSerializer, SolicitudSerializer,TrabajadorDetallesSerializer,AdminSerializer,AdminEmailSerializer
+from .serializers import TrabajadorSerializer,ProfesionSerializer,TrabajadorCardSerializer,LocalidadListSerializer, SolicitudSerializer,TrabajadorDetallesSerializer,AdminSerializer,AdminEmailSerializer,TrabajadoresSerializer
 from django.views.decorators.csrf import csrf_exempt
 from django.utils.decorators import method_decorator
 from .serializers import SolicitudSerializer, TrabajadorSerializer
@@ -369,3 +369,25 @@ def eliminar_solicitud(request, idsolicitud):
         return Response({"mensaje": "Solicitud eliminada"}, status=status.HTTP_204_NO_CONTENT)
     except Solicitud.DoesNotExist:
         return Response({"error": "Solicitud no encontrada"}, status=status.HTTP_404_NOT_FOUND)
+
+class ModificarTrabajadorView(APIView):
+    def patch(self, request, dni, format=None):
+        try:
+            # Buscar el trabajador por DNI
+            trabajador = Trabajador.objects.get(dni=dni)
+        except Trabajador.DoesNotExist:
+            return Response(
+                {"error": "Trabajador no encontrado"},
+                status=status.HTTP_404_NOT_FOUND
+            )
+
+        # Serializar los datos recibidos
+        serializer = TrabajadoresSerializer(trabajador, data=request.data, partial=True)
+        
+        # Validar y guardar los datos
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        
+        # Si los datos no son válidos, devolver los errores
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
