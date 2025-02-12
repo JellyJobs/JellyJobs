@@ -3,6 +3,7 @@
     --main-color: #00064a;
 }
 
+/* 🔹 Header principal */
 .header {
     position: fixed;
     display: flex;                
@@ -12,22 +13,25 @@
     left: 0;
     width: 100%;
     height: 75px;
-    padding: 10px;
-    z-index: 1;
+    padding: 10px 20px;
+    z-index: 1000;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
     transition: 0.3s ease;
     background: linear-gradient(90deg, rgba(0, 6, 74, 1), rgba(26, 78, 141, 0.9)); 
 }
 
+/* 🔹 Efecto hover */
 .header:hover {
     background: linear-gradient(90deg, var(--main-color), var(--background-color)); 
 }
 
+/* 🔹 Logo */
 .logo-JellyJobs img {
     width: 180px;
     height: auto; 
 }
 
+/* 🔹 Usuario en el header */
 .user-log {
     display: flex;
     align-items: center;
@@ -44,8 +48,9 @@
     cursor: pointer;
 }
 
+/* 🔹 Menú desplegable */
 .ant-dropdown-menu {
-    background-color: white;
+
     color: var(--main-color);
 }
 
@@ -59,3 +64,4 @@
     color: white !important;
     transform: scale(0.9); 
 }
+

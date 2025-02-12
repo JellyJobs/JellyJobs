@@ -3,13 +3,14 @@ import { jwtDecode } from 'jwt-decode';
 import { ProfessionSelect } from '../../funcionalitys/profesionLista.jsx';
 import Cookies from 'js-cookie'; 
 import React, { useEffect, useState } from 'react';
-import { Menu, Select, Card, Divider, Input, Badge} from 'antd';
+import { Menu, Select, Card, Divider, Input, Badge, Button} from 'antd';
 import {
     BellOutlined,
     PlusSquareOutlined,
     FileTextOutlined,
     StarOutlined,
     SkinOutlined,
+    DeleteOutlined,
 } from '@ant-design/icons';
 import HeaderLog from '../../components/common/header-log.jsx';
 import DetalleTrabajador from '../../components/common/detail.jsx';
@@ -18,8 +19,8 @@ import { useNavigate } from 'react-router-dom';
 export default function Home() {
     const navigate = useNavigate();
     const [trabajadores, setTrabajadores] = useState([]);
-    const [estadoFilter, setEstadoFilter] = useState('');
-    const [profesionFilter, setProfesionFilter] = useState('');
+    const [estadoFilter, setEstadoFilter] = useState(null);
+    const [profesionFilter, setProfesionFilter] = useState(null);
     const [selectedTrabajador, setSelectedTrabajador] = useState(null);
     const [userEmail, setUserEmail] = useState('');
     const [searchValue, setSearchValue] = useState('');
@@ -54,9 +55,16 @@ export default function Home() {
         const interval = setInterval(() => {
             fetchWorkersCount();
             fetchSolicitudesCount();
-        }, 5000);
+        }, 100000);
         return () => clearInterval(interval);
     }, []);
+
+
+    const limpiarFiltros = () => {
+        setEstadoFilter(null); // Restablece el filtro de estado
+        setProfesionFilter(null); // Restablece el filtro de profesión
+    };
+
 
     const items = [
         { key: 'crear', label: 'Crear', icon: <PlusSquareOutlined />, path: '/create' },
@@ -146,21 +154,38 @@ export default function Home() {
                     placeholder="Buscar por nombre o apellido"
                     value={searchValue}
                     onChange={(e) => setSearchValue(e.target.value)}
-                    enterButton
                     className='buscador'
                 />
                 <Select
-                    placeholder="Estado"
+                    className="trabajador-select"
+                    placeholder="Selecciona un estado"
+                    style={{ marginBottom: '9px' }}
                     value={estadoFilter}
                     onChange={setEstadoFilter}
                     options={[
-                        { value: 'inactivo', label: 'Inactivo' },
-                        { value: 'disponible', label: 'Disponible' },
-                        { value: 'ocupado', label: 'Ocupado' },
+                        { value: 'Disponible', label: 'Disponible' },
+                        { value: 'Ocupado', label: 'Ocupado' },
+                        { value: 'Inactivo', label: 'Inactivo' },
                     ]}
                 />
-                <ProfessionSelect onChange={(value) => setProfesionFilter(value)} />
+
+                <ProfessionSelect
+                    onChange={(value) => setProfesionFilter(value)}
+                    value={profesionFilter} // Asegúrate de pasar el valor
+                     placeholder="Selecciona una profesión"
+                />
+
+                {/* Botón para limpiar filtros */}
+                <Button
+                    type="default"
+                    icon={<DeleteOutlined />} // Ícono de cerrar
+                    onClick={limpiarFiltros} // Función para limpiar filtros
+                    style={{ marginLeft: '10px' , padding: '10px'}} // Estilo opcional
+                >
+                   
+                </Button>
             </div>
+
             <div className="trabajadores-container">
                 {filteredTrabajadores.map((trabajador) => (
                     <Card
@@ -183,7 +208,7 @@ export default function Home() {
                         <p><strong>Estado:</strong></p>
                         <Select
                             value={trabajador.estadotrabajo}
-                            onClick={(e) => e.stopPropagation()}  
+                            onClick={(e) => e.stopPropagation()}
                             onChange={(value) => handleEstadoChange(trabajador.idtrabajador, value)}
                             className="trabajador-select"
                         >
@@ -194,6 +219,7 @@ export default function Home() {
                     </Card>
                 ))}
             </div>
+
             {selectedTrabajador && (
                 <DetalleTrabajador
                     trabajador={selectedTrabajador}
