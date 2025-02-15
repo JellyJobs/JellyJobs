@@ -20,7 +20,7 @@ import random
 import string
 from django.core.mail import send_mail
 from django.contrib.auth.hashers import make_password
-from django.utils.timezone import now
+from django.utils.timezone import now, timedelta
 
 class CountValidSolicitudes(APIView):
     def get(self, request):
@@ -391,3 +391,25 @@ class ModificarTrabajadorView(APIView):
         
         # Si los datos no son válidos, devolver los errores
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    
+
+class NotificacionesView(APIView):
+    def get(self, request):
+        fecha_limite = now() - timedelta(days=7)  # Últimos 7 días
+
+        # 🛠️ Obtener los 10 últimos trabajadores (simulación de "recientes")
+        trabajadores_recientes = Trabajador.objects.all().order_by('-idtrabajador')[:10]
+        trabajadores_data = TrabajadorSerializer(trabajadores_recientes, many=True).data
+
+        # 🛠️ Obtener las 10 últimas solicitudes
+        solicitudes_recientes = Solicitud.objects.all().order_by('-idsolicitud')[:10]
+        solicitudes_data = SolicitudSerializer(solicitudes_recientes, many=True).data
+
+        # 🛠️ Construcción de la lista de notificaciones
+        notificaciones = [
+            {"tipo": "trabajador", "data": trabajador} for trabajador in trabajadores_data
+        ] + [
+            {"tipo": "solicitud", "data": solicitud} for solicitud in solicitudes_data
+        ]
+
+        return Response(notificaciones)

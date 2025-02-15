@@ -11,11 +11,12 @@ import {
     RightOutlined,
     SkinOutlined
 } from '@ant-design/icons';
-import { useNavigate } from "react-router-dom"; // Importar useNavigate
+import { useNavigate } from "react-router-dom";
 import HeaderLog from '../../components/common/header-log.jsx';
+import NotificationPopup from "../../components/common/notifyPopUp.jsx"; // Importación correcta
 
-export default function Home() {
-    const navigate = useNavigate(); // Hook de navegación
+export default function Scores() {
+    const navigate = useNavigate();
     const userEmail = 'admin@example.com';
     const [trabajadores, setTrabajadores] = useState([]);
     const [opiniones, setOpiniones] = useState({});
@@ -23,8 +24,8 @@ export default function Home() {
     const [selectedTrabajadores, setSelectedTrabajadores] = useState([]);
     const [modalVisible, setModalVisible] = useState(false);
     const [currentIndex, setCurrentIndex] = useState(0);
+    const [isNotificationOpen, setIsNotificationOpen] = useState(false); // Estado para manejar el popup
 
-    // Obtener trabajadores desde el endpoint
     useEffect(() => {
         fetch('http://127.0.0.1:8000/app/trabajador-card/')
             .then(response => response.ok ? response.json() : Promise.reject('Error al obtener los trabajadores'))
@@ -32,7 +33,6 @@ export default function Home() {
             .catch(error => console.error('Error al cargar los trabajadores:', error));
     }, []);
 
-    // Obtener opiniones desde el endpoint externo
     useEffect(() => {
         fetch('https://api.opiniones-externas.com/opiniones/')
             .then(response => response.ok ? response.json() : Promise.reject('Error al obtener las opiniones'))
@@ -48,24 +48,20 @@ export default function Home() {
 
     const handleSearch = value => setSearchValue(value);
 
-    // Filtrar trabajadores según el campo de búsqueda
     const filteredTrabajadores = trabajadores.filter((trabajador) => {
         const searchWords = searchValue.toLowerCase().trim();
         const nombreCompleto = `${trabajador.nombre.toLowerCase()} ${trabajador.apellido.toLowerCase()}`;
         return searchWords === "" || nombreCompleto.includes(searchWords);
     });
 
-    // Manejar selección de trabajadores
     const handleCheckboxChange = id => {
         setSelectedTrabajadores(prevSelected =>
             prevSelected.includes(id) ? prevSelected.filter(tid => tid !== id) : [...prevSelected, id]
         );
     };
 
-    // Obtener datos del trabajador actual para el carrusel
     const currentTrabajador = trabajadores.find(t => t.idtrabajador === selectedTrabajadores[currentIndex]);
 
-    // Mostrar modal de opiniones seleccionadas en formato carrusel
     const openModal = () => {
         if (selectedTrabajadores.length > 0) {
             setCurrentIndex(0);
@@ -77,6 +73,30 @@ export default function Home() {
         setModalVisible(false);
     };
 
+    const menuItems = [
+        { key: "/create", label: "Crear", icon: <PlusSquareOutlined /> },
+        { 
+            key: "notificaciones", 
+            label: "Notificaciones", 
+            icon: (
+             
+                    <BellOutlined />
+                
+            )
+        },
+        { key: "/requests", label: "Solicitudes", icon: <FileTextOutlined /> },
+        { key: "/scores", label: "Puntuación", icon: <StarOutlined /> },
+        { key: "/uniformes", label: "Uniformes", icon: <SkinOutlined /> },
+    ];
+
+    const handleMenuClick = ({ key }) => {
+        if (key === "notificaciones") {
+            setIsNotificationOpen(true); // Abre el popup de notificaciones
+        } else {
+            navigate(key);
+        }
+    };
+
     return (
         <div className="home-page">
             <HeaderLog userEmail={userEmail} />
@@ -86,14 +106,8 @@ export default function Home() {
                 <Menu
                     className="menu-functions"
                     mode="inline"
-                    onClick={({ key }) => navigate(key)} // Redirige al usuario según la opción seleccionada
-                    items={[
-                        { key: "/create", label: "Crear", icon: <PlusSquareOutlined /> },
-                        { key: "/notificaciones", label: "Notificaciones", icon: <BellOutlined /> },
-                        { key: "/requests", label: "Solicitudes", icon: <FileTextOutlined /> },
-                        { key: "/scores", label: "Puntuación", icon: <StarOutlined /> },
-                        { key: "/uniformes", label: "Uniformes", icon: <SkinOutlined /> },
-                    ]}
+                    onClick={handleMenuClick} // Maneja la navegación y notificaciones
+                    items={menuItems}
                 />
             </div>
 
@@ -179,6 +193,12 @@ export default function Home() {
                     </div>
                 )}
             </Modal>
+
+            {/* POPUP DE NOTIFICACIONES */}
+            <NotificationPopup
+                isOpen={isNotificationOpen}
+                onClose={() => setIsNotificationOpen(false)}
+            />
         </div>
     );
 }

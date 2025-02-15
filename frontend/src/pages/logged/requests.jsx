@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Menu, Table, Spin, Input, Button, Popconfirm } from "antd";
+import { Menu, Table, Spin, Input, Button, Popconfirm, Badge } from "antd";
 import {
     BellOutlined,
     PlusSquareOutlined,
@@ -10,13 +10,15 @@ import {
 } from "@ant-design/icons";
 import { useNavigate } from "react-router-dom"; // Importar useNavigate
 import HeaderLog from "../../components/common/header-log.jsx";
+import NotificationPopup from "../../components/common/notifyPopUp.jsx"; // Importar correctamente el popup
 import '../../assets/styles/pages/requests.css';
 
 const Solicitudes = () => {
     const [solicitudes, setSolicitudes] = useState([]);
     const [loading, setLoading] = useState(true);
     const [searchValue, setSearchValue] = useState("");
-    const navigate = useNavigate(); // Hook para navegación
+    const [isNotificationOpen, setIsNotificationOpen] = useState(false); // Estado para manejar el popup
+    const navigate = useNavigate();
 
     useEffect(() => {
         fetch("http://127.0.0.1:8000/app/solicitudes/")
@@ -84,6 +86,30 @@ const Solicitudes = () => {
         }
     ];
 
+    const menuItems = [
+        { key: "/create", label: "Crear", icon: <PlusSquareOutlined /> },
+        { 
+            key: "notificaciones", 
+            label: "Notificaciones", 
+            icon: (
+                
+                    <BellOutlined />
+                
+            )
+        },
+        { key: "/requests", label: "Solicitudes", icon: <FileTextOutlined /> },
+        { key: "/scores", label: "Puntuación", icon: <StarOutlined /> },
+        { key: "/uniformes", label: "Uniformes", icon: <SkinOutlined /> },
+    ];
+
+    const handleMenuClick = ({ key }) => {
+        if (key === "notificaciones") {
+            setIsNotificationOpen(true); // Abre el popup de notificaciones
+        } else {
+            navigate(key);
+        }
+    };
+
     return (
         <div className="home-page">
             {/* HEADER */}
@@ -95,14 +121,8 @@ const Solicitudes = () => {
                     <Menu
                         className="menu-functions"
                         mode="inline"
-                        onClick={({ key }) => navigate(key)} // Maneja la navegación
-                        items={[
-                            { key: "/create", label: "Crear", icon: <PlusSquareOutlined /> },
-                            { key: "/notificaciones", label: "Notificaciones", icon: <BellOutlined /> },
-                            { key: "/requests", label: "Solicitudes", icon: <FileTextOutlined /> },
-                            { key: "/scores", label: "Puntuación", icon: <StarOutlined /> },
-                            { key: "/uniformes", label: "Uniformes", icon: <SkinOutlined /> },
-                        ]}
+                        onClick={handleMenuClick} // Modificado para manejar notificaciones
+                        items={menuItems}
                     />
                 </div>
 
@@ -132,6 +152,12 @@ const Solicitudes = () => {
                     )}
                 </div>
             </div>
+
+            {/* POPUP DE NOTIFICACIONES */}
+            <NotificationPopup
+                isOpen={isNotificationOpen}
+                onClose={() => setIsNotificationOpen(false)}
+            />
         </div>
     );
 };

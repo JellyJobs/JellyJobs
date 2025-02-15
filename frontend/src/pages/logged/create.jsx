@@ -108,7 +108,7 @@ export default function JoinUs() {
             </Link>
             <div className='contain-form'>
                 <Form form={form} onFinish={submitData}>
-                    <h1 className='form-title'>Registrate</h1>
+                    <h1 className='form-title'>Registra un trabajador</h1>
                     <div className='form-row'>
                         <Form.Item
                             className='form-items-joinUs'
@@ -190,7 +190,7 @@ export default function JoinUs() {
                         </div>
                     </div>
 
-                    <h2 className='form-subtitle'>Cuéntanos sobre ti</h2>
+                    <h2 className='form-subtitle'>Descripcion del trabajador</h2>
 
                     {/* Selección de Empleo */}
                     <Form.Item

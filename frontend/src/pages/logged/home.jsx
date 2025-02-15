@@ -15,6 +15,8 @@ import {
 import HeaderLog from '../../components/common/header-log.jsx';
 import DetalleTrabajador from '../../components/common/detail.jsx';
 import { useNavigate } from 'react-router-dom';
+import NotificationPopup from '../../components/common/notifyPopUp.jsx';
+
 
 export default function Home() {
     const navigate = useNavigate();
@@ -28,6 +30,8 @@ export default function Home() {
     const [selectedProfessionName, setSelectedProfessionName] = useState('');
     const [workersCount, setWorkersCount] = useState(0);
     const [solicitudesCount, setSolicitudesCount] = useState(0);
+    const [isNotificationOpen, setIsNotificationOpen] = useState(false);
+
 
     const fetchWorkersCount = async () => {
         try {
@@ -68,20 +72,40 @@ export default function Home() {
 
     const items = [
         { key: 'crear', label: 'Crear', icon: <PlusSquareOutlined />, path: '/create' },
-        { key: 'notificaciones', label: 'Notificaciones', icon: <Badge count={workersCount} size="small" offset={[5, -5]}>
-        <BellOutlined /></Badge>, path: '/notificaciones' },
-        { key: 'solicitudes', label: 'Solicitudes', icon: <Badge count={solicitudesCount} size="small" offset={[5, -5]}>
-        <FileTextOutlined /></Badge>, path: '/requests' },
+        { 
+            key: 'notificaciones', 
+            label: 'Notificaciones', 
+            icon: (
+                
+                    <BellOutlined />
+                
+            )
+        },
+        { 
+            key: 'solicitudes', 
+            label: 'Solicitudes', 
+            icon: (
+                
+                    <FileTextOutlined />
+               
+            ), 
+            path: '/requests' 
+        },
         { key: 'puntuacion', label: 'Puntuación', icon: <StarOutlined />, path: '/scores' },
         { key: 'uniformes', label: 'Uniformes', icon: <SkinOutlined />, path: '/uniformes' },
     ];
-
+    
     const handleMenuClick = (e) => {
-        const selectedItem = items.find(item => item.key === e.key);
-        if (selectedItem) {
-            navigate(selectedItem.path);
+        if (e.key === 'notificaciones') {
+            setIsNotificationOpen(true); // Abre el popup de notificaciones
+        } else {
+            const selectedItem = items.find(item => item.key === e.key);
+            if (selectedItem && selectedItem.path) {
+                navigate(selectedItem.path);
+            }
         }
     };
+    
 
     useEffect(() => {
         fetch('http://127.0.0.1:8000/app/profesionlista/')
@@ -227,6 +251,13 @@ export default function Home() {
                     onClose={() => setSelectedTrabajador(null)}
                 />
             )}
+
+            <NotificationPopup
+            isOpen={isNotificationOpen} 
+            onClose={() => setIsNotificationOpen(false)} 
+            />
+
         </div>
+        
     );
 }
