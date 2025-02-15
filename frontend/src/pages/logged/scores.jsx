@@ -14,10 +14,12 @@ import {
 import { useNavigate } from "react-router-dom";
 import HeaderLog from '../../components/common/header-log.jsx';
 import NotificationPopup from "../../components/common/notifyPopUp.jsx"; // Importación correcta
+import { jwtDecode } from 'jwt-decode';
+import Cookies from 'js-cookie';
 
 export default function Scores() {
     const navigate = useNavigate();
-    const userEmail = 'admin@example.com';
+    const [userEmail, setUserEmail] = useState('');
     const [trabajadores, setTrabajadores] = useState([]);
     const [opiniones, setOpiniones] = useState({});
     const [searchValue, setSearchValue] = useState('');
@@ -27,6 +29,11 @@ export default function Scores() {
     const [isNotificationOpen, setIsNotificationOpen] = useState(false); // Estado para manejar el popup
 
     useEffect(() => {
+        const token = Cookies.get("access_token");
+        if (token) {
+            const decoded = jwtDecode(token);
+            setUserEmail(decoded.email);
+        }
         fetch('http://127.0.0.1:8000/app/trabajador-card/')
             .then(response => response.ok ? response.json() : Promise.reject('Error al obtener los trabajadores'))
             .then(data => setTrabajadores(data.filter(trabajador => trabajador.estadotrabajo === 'Disponible')))

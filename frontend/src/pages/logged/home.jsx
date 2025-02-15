@@ -1,7 +1,7 @@
 import '../../assets/styles/pages/home.css';
 import { jwtDecode } from 'jwt-decode';
+import Cookies from 'js-cookie';
 import { ProfessionSelect } from '../../funcionalitys/profesionLista.jsx';
-import Cookies from 'js-cookie'; 
 import React, { useEffect, useState } from 'react';
 import { Menu, Select, Card, Divider, Input, Badge, Button} from 'antd';
 import {
