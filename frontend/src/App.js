@@ -17,6 +17,7 @@ import Scores from './pages/logged/scores.jsx';
 import Solicitudes from './pages/logged/requests.jsx';
 import PrivateRoute from './funcionalitys/privateRout.jsx';
 import Create from './pages/logged/create.jsx';
+import Uniform from './pages/logged/uniform.jsx';
 
 
 function App() {
@@ -37,6 +38,7 @@ function App() {
                     <Route path="scores" element={<Scores/>} />
                     <Route path="/requests" element={<Solicitudes />} />
                     <Route path="/create" element={< Create/>} />
+                    <Route path="/uniform" element={< Uniform/>} />
                 </Routes>
         </Router>
     );

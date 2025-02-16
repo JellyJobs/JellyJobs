@@ -93,7 +93,7 @@ export default function Scores() {
         },
         { key: "/requests", label: "Solicitudes", icon: <FileTextOutlined /> },
         { key: "/scores", label: "Puntuación", icon: <StarOutlined /> },
-        { key: "/uniformes", label: "Uniformes", icon: <SkinOutlined /> },
+        { key: "/uniform", label: "Uniformes", icon: <SkinOutlined /> },
     ];
 
     const handleMenuClick = ({ key }) => {

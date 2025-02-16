@@ -1,9 +1,9 @@
 import '../../assets/styles/pages/home.css';
 import { jwtDecode } from 'jwt-decode';
-import Cookies from 'js-cookie';
 import { ProfessionSelect } from '../../funcionalitys/profesionLista.jsx';
+import Cookies from 'js-cookie'; 
 import React, { useEffect, useState } from 'react';
-import { Menu, Select, Card, Divider, Input, Badge, Button} from 'antd';
+import { Menu, Select, Card, Divider, Input, Button} from 'antd';
 import {
     BellOutlined,
     PlusSquareOutlined,
@@ -28,8 +28,8 @@ export default function Home() {
     const [searchValue, setSearchValue] = useState('');
     const [professions, setProfessions] = useState([]);
     const [selectedProfessionName, setSelectedProfessionName] = useState('');
-    const [workersCount, setWorkersCount] = useState(0);
-    const [solicitudesCount, setSolicitudesCount] = useState(0);
+    const [setWorkersCount] = useState(0);
+    const [ setSolicitudesCount] = useState(0);
     const [isNotificationOpen, setIsNotificationOpen] = useState(false);
 
 
@@ -92,7 +92,7 @@ export default function Home() {
             path: '/requests' 
         },
         { key: 'puntuacion', label: 'Puntuación', icon: <StarOutlined />, path: '/scores' },
-        { key: 'uniformes', label: 'Uniformes', icon: <SkinOutlined />, path: '/uniformes' },
+        { key: 'uniformes', label: 'Uniformes', icon: <SkinOutlined />, path: '/uniform' },
     ];
     
     const handleMenuClick = (e) => {

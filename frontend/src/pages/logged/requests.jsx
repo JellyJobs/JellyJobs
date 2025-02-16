@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Menu, Table, Spin, Input, Button, Popconfirm, Badge } from "antd";
+import { Menu, Table, Spin, Input, Button, Popconfirm} from "antd";
 import {
     BellOutlined,
     PlusSquareOutlined,
@@ -12,8 +12,6 @@ import { useNavigate } from "react-router-dom"; // Importar useNavigate
 import HeaderLog from "../../components/common/header-log.jsx";
 import NotificationPopup from "../../components/common/notifyPopUp.jsx"; // Importar correctamente el popup
 import '../../assets/styles/pages/requests.css';
-import { jwtDecode } from 'jwt-decode';
-import Cookies from 'js-cookie';
 
 const Solicitudes = () => {
     const [solicitudes, setSolicitudes] = useState([]);
@@ -21,14 +19,8 @@ const Solicitudes = () => {
     const [searchValue, setSearchValue] = useState("");
     const [isNotificationOpen, setIsNotificationOpen] = useState(false); // Estado para manejar el popup
     const navigate = useNavigate();
-    const [userEmail, setUserEmail] = useState('');
 
     useEffect(() => {
-        const token = Cookies.get("access_token");
-        if (token) {
-            const decoded = jwtDecode(token);
-            setUserEmail(decoded.email);
-        }
         fetch("http://127.0.0.1:8000/app/solicitudes/")
             .then(response => response.json())
             .then(data => {
@@ -107,7 +99,7 @@ const Solicitudes = () => {
         },
         { key: "/requests", label: "Solicitudes", icon: <FileTextOutlined /> },
         { key: "/scores", label: "Puntuación", icon: <StarOutlined /> },
-        { key: "/uniformes", label: "Uniformes", icon: <SkinOutlined /> },
+        { key: "/uniform", label: "Uniformes", icon: <SkinOutlined /> },
     ];
 
     const handleMenuClick = ({ key }) => {
@@ -121,7 +113,7 @@ const Solicitudes = () => {
     return (
         <div className="home-page">
             {/* HEADER */}
-            <HeaderLog userEmail={userEmail}/>
+            <HeaderLog />
 
             <div className="main-container">
                 {/* MENU LATERAL */}
