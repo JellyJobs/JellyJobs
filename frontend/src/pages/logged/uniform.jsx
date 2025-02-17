@@ -11,6 +11,8 @@ import {
 import HeaderLog from '../../components/common/header-log.jsx';
 import { useNavigate } from 'react-router-dom';
 import NotificationPopup from '../../components/common/notifyPopUp.jsx';
+import Cookies from 'js-cookie';
+import { jwtDecode } from 'jwt-decode';
 
 export default function Uniform() {
     const navigate = useNavigate();
@@ -18,8 +20,14 @@ export default function Uniform() {
     const [isNotificationOpen, setIsNotificationOpen] = useState(false);
     const [manga, setManga] = useState("Corta");  // Estado para manga
     const [talle, setTalle] = useState("M");  // Estado para talle
+    const [userEmail, setUserEmail] = useState('');
 
     useEffect(() => {
+        const token = Cookies.get("access_token");
+        if (token) {
+            const decoded = jwtDecode(token);
+            setUserEmail(decoded.email);
+        }
         fetch('http://127.0.0.1:8000/app/trabajador-card/')
             .then((response) => response.json())
             .then((data) => {
@@ -86,7 +94,7 @@ export default function Uniform() {
 
     return (
         <div className="home-page">
-            <HeaderLog userEmail="admin@jellyjobs.com" />
+            <HeaderLog userEmail={userEmail}/>
             <div className="menu-container">
                 <Menu
                     className="menu-functions"

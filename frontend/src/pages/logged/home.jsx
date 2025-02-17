@@ -23,6 +23,7 @@ export default function Home() {
     const [trabajadores, setTrabajadores] = useState([]);
     const [estadoFilter, setEstadoFilter] = useState(null);
     const [profesionFilter, setProfesionFilter] = useState(null);
+    const [locali, setLocalidades] = useState(null);
     const [selectedTrabajador, setSelectedTrabajador] = useState(null);
     const [userEmail, setUserEmail] = useState('');
     const [searchValue, setSearchValue] = useState('');
@@ -111,6 +112,12 @@ export default function Home() {
         fetch('http://127.0.0.1:8000/app/profesionlista/')
             .then((response) => response.json())
             .then((data) => setProfessions(data))
+            .catch(console.error);
+    }, []);
+    useEffect(() => {
+        fetch('http://127.0.0.1:8000/app/localidad/')
+            .then((response) => response.json())
+            .then((data) => setLocalidades(data))
             .catch(console.error);
     }, []);
 
@@ -249,6 +256,8 @@ export default function Home() {
                     trabajador={selectedTrabajador}
                     visible={!!selectedTrabajador}
                     onClose={() => setSelectedTrabajador(null)}
+                    profesiones={professions}
+                    localidades={locali}
                 />
             )}
 

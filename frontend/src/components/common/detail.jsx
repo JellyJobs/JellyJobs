@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Modal, Descriptions, Avatar, Button, Grid, Input, Form, Select, Switch } from 'antd';
 import { DownloadOutlined, CloseOutlined, EditOutlined } from '@ant-design/icons';
 import PropTypes from 'prop-types';
@@ -11,14 +11,22 @@ const { useBreakpoint } = Grid;
 
 const DetalleTrabajador = ({ trabajador, onClose, visible, onSave, profesiones, localidades }) => {
   const screens = useBreakpoint();
-  const [isEditing, setIsEditing] = useState(false); // Estado para saber si estamos en modo edición
-  const [form] = Form.useForm(); // Usamos Form para manejar el estado del formulario
+  const [isEditing, setIsEditing] = useState(false); 
+  const [form] = Form.useForm(); 
 
   if (!trabajador) return null;
 
-  // Maneja el cambio de estado de edición
   const handleEditClick = () => {
     setIsEditing(true);
+    const local= localidades.find(
+      (locali)=> locali.nombre===trabajador.localidad
+    );
+    const localidadId = local? local.idlocalidad: null
+    const profession = profesiones.find(
+      (profession) => profession.nombre === trabajador.profesion
+    );
+    const professionId = profession ? profession.idprofesion : null;
+    
     form.setFieldsValue({
       nombre: trabajador.nombre,
       apellido: trabajador.apellido,
@@ -27,9 +35,8 @@ const DetalleTrabajador = ({ trabajador, onClose, visible, onSave, profesiones, 
       numtel: trabajador.numtel,
       email: trabajador.email,
       talle: trabajador.talle || null,
-      uniforme: trabajador.uniforme === 1,
-      idlocalidad: trabajador.idlocalidad?.idlocalidad,
-      idprofesion: trabajador.idprofesion?.idprofesion,
+      idlocalidad: localidadId,
+      idprofesion: professionId,
       descripcion: trabajador.descripcion,
       estadocontrato: trabajador.estadocontrato
     });
@@ -38,7 +45,7 @@ const DetalleTrabajador = ({ trabajador, onClose, visible, onSave, profesiones, 
   const handleSave = async () => {
     try {
       const values = await form.validateFields();
-  
+
       const formData = new FormData();
       formData.append('nombre', trabajador.nombre);
       formData.append('apellido', trabajador.apellido);
@@ -49,9 +56,9 @@ const DetalleTrabajador = ({ trabajador, onClose, visible, onSave, profesiones, 
       formData.append('idprofesion', values.idprofesion);
       formData.append('edad', values.edad);
       formData.append('descripcion', values.descripcion);
-      formData.append('talle', values.talle || '');
+      formData.append('talle', values.talle !== undefined ? values.talle : '');
       formData.append('estadocontrato', values.estado);
-  
+
       const mensaje = `
         Nombre: ${trabajador.nombre}
         Apellido: ${trabajador.apellido}
@@ -66,22 +73,22 @@ const DetalleTrabajador = ({ trabajador, onClose, visible, onSave, profesiones, 
         Estado del contrato: ${values.estado}
       `;
       alert(mensaje);
-  
+
       const response = await fetch(`http://127.0.0.1:8000/app/trabajadores/${trabajador.dni}/`, {
         method: 'PATCH',
         body: formData,
       });
-  
+
       if (!response.ok) {
         throw new Error(`Error en la solicitud: ${response.statusText}`);
       }
-  
+
       let data;
       const responseText = await response.text();
       if (responseText) {
         data = JSON.parse(responseText);
       } else {
-        data = {}; // Si no hay contenido, asigna un objeto vacío
+        data = {}; 
       }
       setIsEditing(false);
       onClose();
@@ -91,7 +98,6 @@ const DetalleTrabajador = ({ trabajador, onClose, visible, onSave, profesiones, 
       alert(`Error al guardar los cambios: ${error.message}`);
     }
   };
-  
 
   return (
     <Modal
@@ -131,7 +137,7 @@ const DetalleTrabajador = ({ trabajador, onClose, visible, onSave, profesiones, 
             <Descriptions.Item label="DNI">
               {isEditing ? (
                 <Form.Item name="dni" initialValue={trabajador.dni}>
-                  <Input />
+                  <Input disabled />
                 </Form.Item>
               ) : (
                 trabajador.dni || "No especificado"
@@ -177,10 +183,11 @@ const DetalleTrabajador = ({ trabajador, onClose, visible, onSave, profesiones, 
                 trabajador.talle || "No especificado"
               )}
             </Descriptions.Item>
+
             <Descriptions.Item label="Estado contrato" span={2}>
               {isEditing ? (
                 <Form.Item name="estado" label="Estado" initialValue={trabajador.estadocontrato}>
-                  <Select onChange={(value) => form.setFieldsValue({ estado: value })}>
+                  <Select>
                     <Select.Option value="pendiente">Pendiente</Select.Option>
                     <Select.Option value="aceptado">Aceptado</Select.Option>
                     <Select.Option value="rechazado">Rechazado</Select.Option>
@@ -194,7 +201,7 @@ const DetalleTrabajador = ({ trabajador, onClose, visible, onSave, profesiones, 
             <Descriptions.Item label="Profesión" span={2}>
               {isEditing ? (
                 <Form.Item name="idprofesion" initialValue={trabajador.idprofesion?.idprofesion}>
-                  <ProfessionSelect onChange={(value) => form.setFieldsValue({ idprofesion: value })} />
+                  <ProfessionSelect value={trabajador.idprofesion?.idprofesion} onChange={(value) => form.setFieldsValue({ idprofesion: value })} />
                 </Form.Item>
               ) : (
                 trabajador.profesion || "No especificado"
@@ -204,7 +211,7 @@ const DetalleTrabajador = ({ trabajador, onClose, visible, onSave, profesiones, 
             <Descriptions.Item label="Localidad" span={2}>
               {isEditing ? (
                 <Form.Item name="idlocalidad" initialValue={trabajador.idlocalidad?.idlocalidad}>
-                  <LocalidadLista onChange={(value) => form.setFieldsValue({ idlocalidad: value })} />
+                  <LocalidadLista value={trabajador.idlocalidad?.idlocalidad} onChange={(value) => form.setFieldsValue({ idlocalidad: value })} />
                 </Form.Item>
               ) : (
                 trabajador.localidad || "No especificado"
@@ -265,9 +272,9 @@ DetalleTrabajador.propTypes = {
   }),
   onClose: PropTypes.func.isRequired,
   visible: PropTypes.bool.isRequired,
-  onSave: PropTypes.func.isRequired,  // Función para guardar los cambios
-  profesiones: PropTypes.array.isRequired,  // Lista de profesiones para el Select
-  localidades: PropTypes.array.isRequired,  // Lista de localidades para el Select
+  onSave: PropTypes.func.isRequired,
+  profesiones: PropTypes.array.isRequired,
+  localidades: PropTypes.array.isRequired,
 };
 
 export default DetalleTrabajador;

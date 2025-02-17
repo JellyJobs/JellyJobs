@@ -3,7 +3,7 @@ import { Select, Spin } from "antd";
 
 const { Option } = Select;
 
-export const LocalidadLista = ({ onChange }) => {
+export const LocalidadLista = ({ onChange,value}) => {
     const [localidades, setLocalidad] = useState([]);
     const [loading, setLoading] = useState(true);
 
@@ -31,7 +31,7 @@ export const LocalidadLista = ({ onChange }) => {
     }
 
     return (
-        <Select placeholder="Selecciona una localidad" onChange={onChange}>
+        <Select placeholder="Selecciona una localidad" onChange={onChange} value={value}>
             {localidades.map((localidad) => (
                 <Option key={localidad.idlocalidad} value={localidad.idlocalidad}>
                     {localidad.nombre}
