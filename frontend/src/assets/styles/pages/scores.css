@@ -1,0 +1,221 @@
+:root {
+    --background-color: #1A4E8D;
+    --main-color: #00064a;
+}
+
+#root {
+    width: 100%;
+    height: 100vh;
+}
+
+/* Barra de búsqueda */
+.search-bar {
+    position: absolute;
+    top: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 400px;
+    display: flex;
+    align-items: center;
+    z-index: 1000;
+    background-color: var(--background-color);
+    padding: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    color: black !important;
+}
+
+.search-bar .ant-input {
+    width: 300px;
+    padding: 8px;
+    color: black !important;
+}
+
+.search-bar .ant-select {
+    margin-left: 10px;
+    color: black !important;
+}
+
+/* Página principal */
+.home-page {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    background-color: var(--main-color);
+}
+
+/* Contenedor del menú */
+.menu-container {
+    position: fixed;
+    top: 55px;
+    left: 0;
+    width: 200px;
+    height: calc(100% - 55px);
+    background-color: var(--background-color);
+    box-shadow: -5px 0 15px var(--main-color);
+    transition: all 0.2s ease;
+}
+
+.menu-functions {
+    background-color: var(--background-color);
+    height: 100%;
+    padding-top: 20px;
+    border-right: none;
+}
+
+.menu-functions .ant-menu-item {
+    color: white;
+    font-size: 16px;
+    transition: all 0.2s ease;
+}
+
+.menu-functions .ant-menu-item:hover {
+    background-color: rgba(26, 78, 141, 0.5);
+    color: white;
+}
+
+.menu-functions .ant-menu-item-selected {
+    background-color: var(--main-color);
+    color: white !important;
+}
+
+.menu-functions .ant-menu-item-icon {
+    font-size: 20px;
+    color: white;
+}
+
+.menu-functions .ant-menu-item:hover .ant-menu-item-icon {
+    transform: scale(1.4);
+}
+
+.menu-functions .ant-menu-item-selected .ant-menu-item-icon {
+    color: white !important;
+}
+
+/* Responsividad para dispositivos móviles */
+@media (max-width: 768px) {
+    .menu-container {
+        width: 100%;
+        height: auto;
+        position: relative;
+        top: 0;
+        box-shadow: none;
+    }
+
+    .menu-functions .ant-menu-item {
+        font-size: 14px;
+    }
+
+    .menu-functions .ant-menu-item-icon {
+        font-size: 18px;
+    }
+
+    .menu-functions .ant-menu-item:hover .ant-menu-item-icon {
+        transform: scale(1.2);
+    }
+}
+
+/* Contenedor de trabajadores */
+.trabajadores-container {
+    margin-left: 8%;
+    margin-top: 2.2%;
+    width: 80%;
+    height: 80%;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+    justify-content: center;
+    align-items: flex-start;
+    padding: 30px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    overflow-y: auto;
+    overflow-x: hidden;
+    background-color: #00064a;
+}
+
+/* Tarjetas de trabajadores */
+.trabajador-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    width: 290px;
+    padding: 15px;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    margin: 10px;
+    text-align: center;
+    position: relative;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.trabajador-card:hover {
+    transform: scale(1.1);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+}
+
+.trabajador-img-container {
+    width: 80px;
+    height: 80px;
+    margin-bottom: 10px;
+    overflow: hidden;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    z-index: 1;
+}
+
+.trabajador-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 50%;
+}
+
+.trabajador-nombre {
+    font-size: 18px;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 10px;
+}
+
+.ant-divider {
+    width: 100%;
+    margin: 10px 0;
+    border-color: #ccc;
+}
+
+.trabajador-card p {
+    font-size: 14px;
+    color: #555;
+    margin: 5px 0;
+}
+
+.trabajador-select {
+    width: 100%;
+    margin-top: 10px;
+    font-size: 14px;
+}
+
+.trabajador-card.disponible {
+    border: 3px solid rgb(0, 255, 0);
+}
+
+.trabajador-card.ocupado {
+    border: 3px solid rgb(255, 255, 0);
+}
+
+.trabajador-card.inactivo {
+    border: 3px solid rgb(255, 0, 0);
+}

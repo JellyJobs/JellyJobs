@@ -3,40 +3,98 @@
     --main-color: #00064a;
 }
 
-
-#root{
+#root {
     width: 100%;
     height: 100vh;
 }
+
+/* 🔹 Contenedor de la barra de búsqueda */
 .search-bar {
-    position: absolute;
-    top: 10px; /* Ajusta según la posición deseada */
-    left: 50%;
-    transform: translateX(-50%); /* Centra la barra horizontalmente */
-    width: 400px; /* Ajusta el ancho de la barra de búsqueda */
     display: flex;
+    justify-content: center;
     align-items: center;
-    z-index: 1000; /* Para que quede encima del contenido del header */
-    background-color: var(--background-color); /* Puedes ajustar el fondo del contenedor */
-    padding: 10px;
-    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    width: 100%;
+    max-width: 600px;
+    gap: 10px;
     border-radius: 8px;
-    color: black !important;
+    background: none !important;  /* 🔺 Removemos cualquier fondo */
+    border: none !important;      /* 🔺 Eliminamos cualquier borde */
+    box-shadow: none !important;  /* 🔺 Eliminamos sombra */
 }
 
-/* Ajusta el estilo del input dentro de la barra de búsqueda */
-.search-bar .ant-input {
-    width: 300px;
-    padding: 8px;
-    color: black !important;
+/* 🔹 Input de búsqueda */
+.search-bar input {
+    width: 100%;
+    border: none;
+    outline: none;
+    background: transparent;
+    color: white;
+    font-size: 16px;
 }
 
-/* Ajusta el estilo del select en la barra de búsqueda */
+/* 🔹 Placeholder del input */
+.search-bar input::placeholder {
+    color: rgba(255, 255, 255, 0.7);
+}
+
+/* 🔹 Estilo general de los Select */
 .search-bar .ant-select {
-    margin-left: 10px;
-    color: black !important;
+    background: white !important; /* Fondo claro */
+    border: 2px solid #1A4E8D !important; /* Borde azul más visible */
+    border-radius: 5px;
+    color: #000 !important; /* Texto oscuro */
+    font-size: 16px !important; /* Tamaño de fuente */
+    font-weight: bold;
+    min-width: 200px; /* Ancho mínimo */
+    height: 40px; /* Altura consistente */
+    display: flex;
+    align-items: center; /* Centra el contenido verticalmente */
 }
 
+/* 🔹 Estilo del Selector (el contenedor interno del Select) */
+.search-bar .ant-select-selector {
+    background: white !important;
+    border: none !important;
+    color: #000 !important;
+    padding: 10px 15px !important; /* Más espacio interno */
+    height: 40px !important; /* Altura adecuada */
+    display: flex;
+    align-items: center; /* Centra el contenido verticalmente */
+    font-size: 16px !important; /* Tamaño de fuente */
+}
+
+/* 🔹 Opciones dentro del menú desplegable */
+.search-bar .ant-select-dropdown {
+    background: white !important;
+    border-radius: 5px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+/* 🔹 Estilo de las opciones individuales */
+.search-bar .ant-select-item {
+    color: #000 !important; /* Texto oscuro */
+    font-size: 16px !important; /* Tamaño de fuente */
+    padding: 10px 15px !important; /* Más espacio para mejor visibilidad */
+}
+
+/* 🔹 Cambio de color al pasar el mouse */
+.search-bar .ant-select-item:hover {
+    background: #1A4E8D !important; /* Azul de la marca */
+    color: white !important; /* Texto blanco para contraste */
+}
+
+/* 🔹 Cambio de color cuando una opción está seleccionada */
+.search-bar .ant-select-item-option-selected {
+    background: #1457a3 !important; /* Un azul más fuerte */
+    color: white !important;
+}
+
+/* 🔹 Responsive */
+@media (max-width: 768px) {
+    .search-bar {
+        width: 90%;
+    }
+}
 
 .home-page {
     width: 100%;
@@ -140,43 +198,86 @@
 }
 
 .trabajador-card {
-    background: #fff;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    width: 250px;                    /* Ancho fijo para las tarjetas */
-    padding: 16px;
-    text-align: center;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     display: flex;
     flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;  /* Asegura que todo esté alineado hacia el principio */
+    width: 290px;
+    padding: 15px;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    margin: 10px;
+    text-align: center;
+    position: relative;         /* Incluye padding y border en el tamaño */
+    transition: transform 0.3s ease, box-shadow 0.3s ease; /* Añade transiciones suaves para el tamaño y sombra */
+}
+
+.trabajador-card:hover {
+    transform: scale(1.1); /* Aumenta el tamaño de la tarjeta */
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2); /* Agrega una sombra más pronunciada */
+}
+
+/* Estilo del contenedor de la imagen */
+.trabajador-img-container {
+    width: 80px;
+    height: 80px;
+    margin-bottom: 10px; /* Reduce el espacio debajo de la imagen */
+    overflow: hidden;
+    border-radius: 50%;
+    display: flex;
     justify-content: center;
     align-items: center;
-    height: auto;                    /* Altura ajustable según el contenido */
-    min-height: 200px;               /* Altura mínima */
-    margin: 15px;                    /* Espaciado entre las tarjetas */
-    box-sizing: border-box;          /* Incluye padding y border en el tamaño */
+    position: relative;
+    z-index: 1; /* Asegura que la imagen esté por encima de otros elementos */
 }
 
-.trabajador-card h3 {
-    font-size: 1.2em;
+/* Estilo de la imagen */
+.trabajador-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 50%;
+}
+
+/* Estilo del nombre y apellido */
+.trabajador-nombre {
+    font-size: 18px;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 10px;
+}
+
+/* Línea separadora */
+.ant-divider {
+    width: 100%;
     margin: 10px 0;
+    border-color: #ccc;
 }
 
+/* Estilo de la información adicional */
 .trabajador-card p {
-    font-size: 1em;
+    font-size: 14px;
+    color: #555;
+    margin: 5px 0;
 }
 
+/* Estilo del desplegable de estado */
+.trabajador-select {
+    width: 100%;
+    margin-top: 10px;
+    font-size: 14px;
+}
+
+/* Estilo por estado del trabajador */
 .trabajador-card.disponible {
-    background-color: #28a745; /* Verde */
-    color: white;
+    border: 3px solid rgb(0, 255, 0);
 }
 
 .trabajador-card.ocupado {
-    background-color: #ffc107; /* Amarillo */
-    color: black !important;
+    border: 3px solid rgb(255, 255, 0);
 }
 
 .trabajador-card.inactivo {
-    background-color: #dc3545; /* Rojo */
-    color: white;
+    border: 3px solid rgb(255, 0, 0);
 }

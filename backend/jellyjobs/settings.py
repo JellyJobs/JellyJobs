@@ -1,18 +1,19 @@
 from pathlib import Path
+from datetime import timedelta
 import os
 
-# Build paths inside the project like this: BASE_DIR / 'subdir'.
+EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
+EMAIL_HOST = "smtp.gmail.com"
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = "valenxity@gmail.com"  # Tu correo de Gmail
+EMAIL_HOST_PASSWORD = "gtid gsck exqq jpfc"  # La contraseña de aplicación que Google te dio
+DEFAULT_FROM_EMAIL = EMAIL_HOST_USER  # Dirección predeterminada de "from"
+
+
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-
-
-# Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
-
-# SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 'django-insecure-g_5as3h&^(qq58yo7c!1(yjg$&nwhf4)vf8bfk=^nh$e2odohe'
-
-# SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
 ALLOWED_HOSTS = []
@@ -20,8 +21,8 @@ ALLOWED_HOSTS = []
 CORS_ALLOWED_ORIGINS = [
     'http://localhost:3000',  # o el puerto en el que corre tu frontend
 ]
+CORS_ALLOW_CREDENTIALS = True  # Permitir cookies con credenciales
 
-# Application definition
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -32,18 +33,20 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'corsheaders',
     'rest_framework',
+    'rest_framework_simplejwt',
     'jellyjobs',
     'app',
 ]
 
 MIDDLEWARE = [
-    'django.middleware.security.SecurityMiddleware',
-    'django.contrib.sessions.middleware.SessionMiddleware',
-    'django.middleware.common.CommonMiddleware',
-    'django.contrib.auth.middleware.AuthenticationMiddleware',
-    'django.contrib.messages.middleware.MessageMiddleware',
-    'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'corsheaders.middleware.CorsMiddleware',
+    "corsheaders.middleware.CorsMiddleware",
+    "django.middleware.security.SecurityMiddleware",
+    "django.contrib.sessions.middleware.SessionMiddleware",
+    "django.middleware.common.CommonMiddleware",
+    "django.middleware.csrf.CsrfViewMiddleware",
+    "django.contrib.auth.middleware.AuthenticationMiddleware",
+    "django.contrib.messages.middleware.MessageMiddleware",
+    "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
 
 ROOT_URLCONF = 'jellyjobs.urls'
@@ -63,43 +66,52 @@ TEMPLATES = [
         },
     },
 ]
+
 WSGI_APPLICATION = 'jellyjobs.wsgi.application'
 
-# Database
-# https://docs.djangoproject.com/en/4.2/ref/settings/#databases
+SESSION_COOKIE_SAMESITE = "None"  # Permite compartir entre sitios
+SESSION_COOKIE_SECURE = False  # ❌ No requiere HTTPS en desarrollo
+CSRF_COOKIE_SAMESITE = "None"  # Para CSRF en cookies
+CSRF_COOKIE_SECURE = False  # ❌ No requiere HTTPS en desarrollo
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',  # Para SQLite
-        'NAME': f"{BASE_DIR}/JellyJobs.db",  # Ruta a tu base de datos
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': f"{BASE_DIR}/JellyJobs.db",
     }
 }
 
-
-
-# Password validation
-# https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators
-
 AUTH_PASSWORD_VALIDATORS = [
-    {
-        'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
-    },
+    {'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator'},
+    {'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator'},
+    {'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator'},
+    {'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator'},
 ]
 
 REST_FRAMEWORK = {
-    'DEFAULT_AUTHENTICATION_CLASSES': [
+    'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework_simplejwt.authentication.JWTAuthentication',
-    ],
+    ),
 }
+
+SIMPLE_JWT = {
+    'USER_ID_FIELD': 'idadmin',
+    "ACCESS_TOKEN_LIFETIME": timedelta(minutes=5),
+    "REFRESH_TOKEN_LIFETIME": timedelta(days=1),
+    'AUTH_COOKIE': 'access_token',  # Nombre de la cookie para el JWT
+    'REFRESH_TOKEN_COOKIE': 'refresh_token',
+    'AUTH_COOKIE_SECURE': False,  # ❌ No requiere HTTPS en desarrollo
+    'AUTH_COOKIE_PATH': '/',  # 🔄 Disponible en toda la aplicación
+    'AUTH_COOKIE_SAMESITE': 'None',  # ⚠️ Permite compartir entre sitios
+    'REFRESH_TOKEN_COOKIE_PATH': '/',  # 🔄 Disponible en toda la aplicación para el refresh token
+    'REFRESH_TOKEN_COOKIE_SAMESITE': 'None',
+}
+
+AUTHENTICATION_BACKENDS = [
+    'django.contrib.auth.backends.ModelBackend',
+    'app.authentication_backend.AdminEmailBackend',
+]
+
 
 # Internationalization
 # https://docs.djangoproject.com/en/4.2/topics/i18n/

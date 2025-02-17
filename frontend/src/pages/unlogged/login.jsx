@@ -1,49 +1,47 @@
-import { Form, Input, Button, message } from 'antd';
+import { Form, Input, Button, message,notification } from 'antd';
+import {jwtDecode} from 'jwt-decode';
+import { useState } from "react";
 import { LeftCircleFilled } from '@ant-design/icons';
 import { Link, useNavigate } from "react-router-dom";
 import '../../assets/styles/pages/login.css';
-import React from 'react';
+import React from 'react'; 
 import videoFondo from '../../assets/images/medumedusin.mp4';
+import Cookies from "js-cookie";
 
 const Login = () => {
   const [form] = Form.useForm();
   const navigate = useNavigate();
+  const [error, setError] = useState("");
 
   const onFinish = async (values) => {
     try {
-      const response = await fetch('http://127.0.0.1:8000/app/login/', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
+      const response = await fetch("http://localhost:8000/app/login/", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify(values),
+        credentials: "include", // Para permitir cookies en la respuesta
       });
-      
-      if (response.ok) {
-        message.success("Inicio de sesión exitoso");
-        navigate('/home');
-      } else {
-        const data = await response.json();
-        message.error(data.message || "Error en el inicio de sesión");
+
+      if (!response.ok) {
+        notification.error({
+          message: "Error",
+          description: "Hubo un problema al enviar los datos.",
+        });
+        throw new Error("Credenciales incorrectas");
+        
       }
+      notification.success({
+        message: "Éxito",
+        description: "Bienvenido...",
+      });
+      const data = await response.json();
+      Cookies.set("access_token", data.access); // Almacena el JWT en cookies
+      navigate("/home"); // Redirige al home
     } catch (error) {
-      message.error("Error al conectar con el servidor");
+      setError(error.message);
     }
   };
 
-  const passwordField = document.querySelector('.ant-input-password');
-
-  if (passwordField) {
-    passwordField.addEventListener('input', function() {
-      if (passwordField.value === '') {
-        passwordField.style.backgroundColor = 'transparent';
-      } else {
-        passwordField.style.backgroundColor = 'white';
-      }
-    });
-  } else {
-    console.error('El campo de contraseña no se encontró en el DOM.');
-  }  
 
   return (
     <div className='contein-login-page'>
@@ -70,7 +68,7 @@ const Login = () => {
             name="email"
             rules={[
               { type: 'email', message: 'Por favor, ingresa un email válido.' },
-              { required: true, message: 'Por favor, ingresa tu email.' },
+              { required: true, message: 'Por favor, ingresa tu email.' }
             ]}
           >
             <Input placeholder='Email' />
@@ -78,8 +76,10 @@ const Login = () => {
 
           <Form.Item
             className='form-items'
-            name="password"
-            rules={[{ required: true, message: 'Por favor, ingresa tu contraseña.' }]}
+            name="contrasena" // <-- Asegura que el frontend envía "contrasena"
+            rules={[
+              { required: true, message: 'Por favor, ingresa tu contraseña.' }
+            ]}
           >
             <Input.Password placeholder='Contraseña' />
           </Form.Item>
@@ -102,3 +102,4 @@ const Login = () => {
 };
 
 export default Login;
+
