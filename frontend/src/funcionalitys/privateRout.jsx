@@ -14,7 +14,7 @@ const PrivateRoute = () => {
       }
 
       try {
-        const response = await fetch("http://localhost:8000/app/validate-token/", {
+        const response = await fetch("http://localhost:9001/app/validate-token/", {
           method: "GET",
           credentials: "include", // Importante para enviar cookies al backend
           headers: {

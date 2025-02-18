@@ -3,7 +3,7 @@ const [loading, setLoading] = useState(false);
   const submitData = async (values) => {
     setLoading(true);
     try {
-      const response = await fetch("http://127.0.0.1:8000/api/professions/", {
+      const response = await fetch("http://127.0.0.1:9001/api/professions/", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

@@ -29,7 +29,7 @@ const Solicitudes = () => {
             const decoded = jwtDecode(token);
             setUserEmail(decoded.email);
         }
-        fetch("http://127.0.0.1:8000/app/solicitudes/")
+        fetch("http://127.0.0.1:9001/app/solicitudes/")
             .then(response => response.json())
             .then(data => {
                 const solicitudesData = Array.isArray(data) ? data : data.solicitudes;
@@ -42,7 +42,7 @@ const Solicitudes = () => {
     }, []);
 
     const handleDelete = (id) => {
-        fetch(`http://127.0.0.1:8000/app/solicitudes/${id}/`, {
+        fetch(`http://127.0.0.1:9001/app/solicitudes/${id}/`, {
             method: "DELETE",
         })
         .then(response => {

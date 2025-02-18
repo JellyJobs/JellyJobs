@@ -6,7 +6,7 @@ const NotificationPopup = ({ isOpen, onClose }) => {
 
   useEffect(() => {
     if (isOpen) {
-      fetch("http://localhost:8000/app/notificaciones/") // Cambia esto si el endpoint tiene otra URL
+      fetch("http://localhost:9001/app/notificaciones/") // Cambia esto si el endpoint tiene otra URL
         .then((res) => res.json())
         .then((data) => setNotifications(data))
         .catch((error) => console.error("Error al obtener notificaciones", error));
