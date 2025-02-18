@@ -1,4 +1,4 @@
-/* Estilos generales del pop-up */
+/* 🔹 Estilos generales del pop-up */
 .popup-overlay {
     position: fixed;
     top: 0;
@@ -12,7 +12,7 @@
     opacity: 0;
     visibility: hidden;
     transition: opacity 0.3s ease, visibility 0.3s ease;
-    backdrop-filter: blur(5px); /* Difuminado elegante */
+    backdrop-filter: blur(5px);
 }
 
 .popup-overlay.show {
@@ -36,7 +36,7 @@
     opacity: 1;
 }
 
-/* Título y botón de cierre */
+/* 🔹 Título y botón de cierre */
 h3 {
     margin: 0;
     font-size: 20px;
@@ -61,7 +61,7 @@ h3 {
     color: #000;
 }
 
-/* Lista de notificaciones */
+/* 🔹 Lista de notificaciones */
 .notification-list {
     margin-top: 15px;
     max-height: 280px;
@@ -69,7 +69,7 @@ h3 {
     padding-right: 5px;
 }
 
-/* Estilos para la barra de desplazamiento */
+/* 🔹 Estilos para la barra de desplazamiento */
 .notification-list::-webkit-scrollbar {
     width: 6px;
 }
@@ -83,7 +83,7 @@ h3 {
     background: #888;
 }
 
-/* Notificaciones */
+/* 🔹 Notificaciones */
 .notification-item {
     padding: 12px;
     margin-bottom: 10px;
@@ -95,7 +95,7 @@ h3 {
     transition: transform 0.2s ease-in-out, opacity 0.2s ease-in-out;
 }
 
-/* Diferentes colores según el tipo */
+/* 🔹 Diferentes colores según el tipo */
 .notification-item.trabajador {
     background: #4A90E2; /* Azul */
 }
@@ -104,16 +104,78 @@ h3 {
     background: #4CAF50; /* Verde */
 }
 
-/* Efecto hover */
+/* 🔹 Efecto hover */
 .notification-item:hover {
     transform: scale(1.03);
     opacity: 0.9;
 }
 
-/* Mensaje cuando no hay notificaciones */
+/* 🔹 Mensaje cuando no hay notificaciones */
 .no-notifications {
     text-align: center;
     color: #777;
     font-size: 14px;
     padding: 10px;
+}
+
+/* 🔹 Responsividad */
+
+/* 📱 Para móviles (menos de 768px) */
+@media (max-width: 768px) {
+    .popup-content {
+        width: 90%; /* Ocupar más espacio en pantallas pequeñas */
+        padding: 15px;
+    }
+
+    h3 {
+        font-size: 18px;
+    }
+
+    .close-btn {
+        font-size: 18px;
+        top: 10px;
+        right: 10px;
+    }
+
+    .notification-item {
+        font-size: 14px;
+        padding: 10px;
+    }
+
+    .notification-list {
+        max-height: 220px; /* Reducir altura para móviles */
+    }
+}
+
+/* 📱 Para móviles pequeños (menos de 480px) */
+@media (max-width: 480px) {
+    .popup-content {
+        width: 95%;
+        padding: 12px;
+        border-radius: 8px;
+    }
+
+    h3 {
+        font-size: 16px;
+    }
+
+    .close-btn {
+        font-size: 16px;
+    }
+
+    .notification-item {
+        font-size: 13px;
+        padding: 8px;
+    }
+
+    .notification-list {
+        max-height: 200px;
+    }
+}
+
+/* 💻 Para pantallas grandes (más de 1024px) */
+@media (min-width: 1024px) {
+    .popup-content {
+        width: 400px;
+    }
 }

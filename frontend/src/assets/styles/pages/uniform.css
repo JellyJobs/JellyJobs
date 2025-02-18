@@ -20,6 +20,7 @@
     background: none;
     border: none;
     box-shadow: none;
+    margin: 0 auto;
 }
 
 .search-bar input {
@@ -81,9 +82,23 @@
     color: white;
 }
 
+/* Responsive para la barra de búsqueda en dispositivos pequeños */
 @media (max-width: 768px) {
     .search-bar {
         width: 90%;
+    }
+
+    .search-bar .ant-select {
+        min-width: 150px;
+    }
+
+    .search-bar .ant-select-selector {
+        padding: 8px 12px;
+        font-size: 14px;
+    }
+
+    .search-bar input {
+        font-size: 14px;
     }
 }
 
@@ -94,6 +109,7 @@
     background-color: var(--main-color);
 }
 
+/* Menú lateral */
 .menu-container {
     position: fixed;
     top: 55px;
@@ -141,6 +157,7 @@
     color: white;
 }
 
+/* Responsive para dispositivos pequeños */
 @media (max-width: 768px) {
     .menu-container {
         width: 100%;
@@ -163,6 +180,7 @@
     }
 }
 
+/* Contenedor de trabajadores */
 .trabajadores-container {
     margin-left: 8%;
     margin-top: 2.2%;
@@ -184,6 +202,7 @@
     overflow-x: hidden;
 }
 
+/* Tarjetas de trabajadores */
 .trabajador-card {
     display: flex;
     flex-direction: column;

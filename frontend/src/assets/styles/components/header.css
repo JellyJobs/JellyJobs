@@ -3,49 +3,115 @@
     --hover-color: #00064a;
 }
 
+/* 🔹 Header principal */
 .header {
     position: fixed;
-    display: flex;                
-    justify-content: space-between; 
+    display: flex;
+    justify-content: space-between;
     align-items: center;
     top: 0;
     left: 0;
     width: 100%;
     height: 75px;
-    padding: 10px;
+    padding: 10px 20px;
     z-index: 10 !important;
     transition: background 0.3s ease;
-    background: linear-gradient(90deg, rgba(0, 6, 74, 1), rgba(26, 78, 141, 0.9)); /* Gradiente de izquierda a derecha */
+    background: linear-gradient(90deg, rgba(0, 6, 74, 1), rgba(26, 78, 141, 0.9));
 }
 
+/* 🔹 Efecto hover */
 .header:hover {
-    
-    background: linear-gradient(90deg, var(--hover-color), var(--backround-color)) !important; /* Gradiente oscuro al hacer hover */
+    background: linear-gradient(90deg, var(--hover-color), var(--background-color)) !important;
 }
 
+/* 🔹 Botón en el header */
 .header-button {
-    padding: 5px 20px; 
+    padding: 5px 20px;
     height: 35px;
     font-size: 15px;
     border: none;
     border-radius: 50px;
     background-color: white;
-    color: #00064a;
+    color: var(--hover-color);
     transition: background 0.3s ease, color 0.3s ease;
 }
 
 .header-button:hover {
-    background-color: #00064a !important;
+    background-color: var(--hover-color) !important;
     color: white !important;
 }
 
+/* 🔹 Logo */
 .logo-JellyJobs img {
     width: 200px;
-    height: auto; 
+    height: auto;
 }
 
+/* 🔹 Contenedor de botones */
 .buttons-log {
     display: flex;
     align-items: center;
-    gap: 10px; 
+    gap: 10px;
+}
+
+/* 🔹 Responsividad */
+
+/* 📱 Para móviles (pantallas menores a 768px) */
+@media (max-width: 768px) {
+    .header {
+        height: 65px;
+        padding: 8px 15px;
+    }
+
+    .logo-JellyJobs img {
+        width: 150px;
+    }
+
+    .buttons-log {
+        gap: 5px;
+    }
+
+    .header-button {
+        padding: 5px 15px;
+        font-size: 14px;
+        height: 32px;
+    }
+}
+
+/* 📱 Para móviles pequeños (menos de 480px) */
+@media (max-width: 480px) {
+    .header {
+        flex-direction: row;
+        justify-content: space-between;
+        padding: 6px 10px;
+    }
+
+    .logo-JellyJobs img {
+        width: 130px;
+    }
+
+    .buttons-log {
+        gap: 3px;
+    }
+
+    .header-button {
+        padding: 4px 12px;
+        font-size: 13px;
+        height: 30px;
+    }
+}
+
+/* 💻 Para pantallas grandes (más de 1024px) */
+@media (min-width: 1024px) {
+    .header {
+        height: 75px;
+    }
+
+    .logo-JellyJobs img {
+        width: 200px;
+    }
+
+    .header-button {
+        font-size: 15px;
+    }
 }

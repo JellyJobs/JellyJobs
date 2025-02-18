@@ -113,24 +113,33 @@
     .menu-functions .ant-menu-item:hover .ant-menu-item-icon {
         transform: scale(1.2);
     }
+
+    /* Barra de búsqueda */
+    .search-bar {
+        width: 90%; /* Reduce el tamaño de la barra de búsqueda */
+        left: 50%;
+        transform: translateX(-50%);
+        padding: 8px;
+    }
+
+    .search-bar .ant-input {
+        width: 100%;
+    }
 }
 
 /* Contenedor de trabajadores */
 .trabajadores-container {
-    margin-left: 8%;
+    margin-left: 10%;
     margin-top: 2.2%;
     width: 80%;
-    height: 80%;
+    height: auto;
     display: flex;
     flex-wrap: wrap;
     gap: 16px;
     justify-content: center;
     align-items: flex-start;
     padding: 30px;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
+    position: relative;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     border-radius: 8px;
     background-size: cover;
@@ -218,4 +227,32 @@
 
 .trabajador-card.inactivo {
     border: 3px solid rgb(255, 0, 0);
+}
+
+/* Responsividad para el contenedor de trabajadores */
+@media (max-width: 768px) {
+    .trabajadores-container {
+        width: 90%; /* Reduce el tamaño del contenedor de trabajadores */
+        margin-left: 5%;
+        margin-top: 5%;
+        padding: 15px;
+    }
+
+    .trabajador-card {
+        width: 100%; /* Las tarjetas de trabajadores ocupan el 100% del ancho */
+        padding: 10px;
+    }
+
+    .trabajador-img-container {
+        width: 60px;
+        height: 60px;
+    }
+
+    .trabajador-nombre {
+        font-size: 16px;
+    }
+
+    .trabajador-card p {
+        font-size: 12px;
+    }
 }
