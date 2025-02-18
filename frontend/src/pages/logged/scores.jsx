@@ -99,7 +99,7 @@ export default function Scores() {
     };
 
     // Función para manejar la publicación
-    const handlePublish = () => {
+    /*const handlePublish = () => {
         const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzM5ODg3OTI1LCJpYXQiOjE3Mzk4NTE5MjUsImp0aSI6IjVmYjEyN2E2YmVhNTRjZjk5MDZjMGJiMGJjZjc4MzEyIiwidXNlcl9pZCI6OH0.dTLmHiM1z3w6VmdOLQbXNoXCpWEN9Mldx9Qc23bcmkA';  // Token JWT
 
         if (selectedTrabajadores.length > 0) {
@@ -131,7 +131,7 @@ export default function Scores() {
                 }
             });
         }
-    };
+    };*/
 
     return (
         <div className="home-page">
@@ -193,7 +193,7 @@ export default function Scores() {
                 </Button>
                 <Button
                     type="primary"
-                    onClick={handlePublish}
+                    /*onClick={handlePublish}*/
                     disabled={selectedTrabajadores.length === 0}
                     style={{ marginRight: '10px' }}
                 >
