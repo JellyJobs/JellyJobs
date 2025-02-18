@@ -465,8 +465,8 @@ class UpdatePostIDAPIView(APIView):
         
         if post_id is not None:
             # Asignar el postID al trabajador
-            trabajador.postID = post_id
+            trabajador.postId = post_id
             trabajador.save()
-            return Response(TrabajadorSerializer(trabajador).data, status=status.HTTP_200_OK)
+            return Response(TrabajadorPostSerializer(trabajador).data, status=status.HTTP_200_OK)
         else:
             return Response({'error': 'postID no proporcionado'}, status=status.HTTP_400_BAD_REQUEST)

@@ -163,7 +163,7 @@ class TrabajadorCardSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Trabajador
-        fields = ['idtrabajador', 'nombre', 'apellido','dni','edad', 'estadotrabajo', 'profesion','imagenlink',]
+        fields = ['idtrabajador', 'nombre', 'apellido','dni','edad', 'estadotrabajo', 'profesion','imagenlink','postId']
 
 class LocalidadListSerializer(serializers.ModelSerializer):
     class Meta:
@@ -214,4 +214,4 @@ class TrabajadorSinUniformeSerializer(serializers.ModelSerializer):
 class TrabajadorPostSerializer(serializers.ModelSerializer):
     class Meta:
         model = Trabajador
-        fields = ['idtrabajador', 'nombre', 'apellido', 'postID'] 
+        fields = ['idtrabajador', 'nombre', 'apellido', 'postId'] 
