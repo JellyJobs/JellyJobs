@@ -2,7 +2,7 @@ from rest_framework import serializers
 from django.contrib.auth import authenticate
 from .models import Trabajador,Profesion,Localidad,Provincia, Solicitud
 from django.core.exceptions import ObjectDoesNotExist
-from .models import Admins
+from .models import Admins,Pedido
 from django.contrib.auth.hashers import make_password
 
 class AdminEmailSerializer(serializers.ModelSerializer):
@@ -195,6 +195,11 @@ class TrabajadoresSerializer(serializers.ModelSerializer):
             'estadotrabajo','estadocontrato', 'imagenlink', 'cvlink'
         ]
 
-    
+
+
+class PedidoSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Pedido
+        fields = ['id', 'manga', 'talle']
 
     

@@ -1,5 +1,5 @@
 from django.urls import path
-from app.views import AdminLoginView, CrearTrabajadorPendienteAPIView, ActualizarEstadoContratoView,ProfesionAPIView,TrabajadorDetailView,TrabajadorCardView,OptionView,LocalidadListView, SolicitudAPIView, InteraccionAPIView, eliminar_solicitud,VerifyTokenView,RecuperarContrasenaView,CambiarEmailView,CambiarContrasenaView,CountPendingWorkers,CountValidSolicitudes,ModificarTrabajadorView, NotificacionesView
+from app.views import AdminLoginView, CrearTrabajadorPendienteAPIView, ActualizarEstadoContratoView,ProfesionAPIView,TrabajadorDetailView,TrabajadorCardView,OptionView,LocalidadListView, SolicitudAPIView, InteraccionAPIView, eliminar_solicitud,VerifyTokenView,RecuperarContrasenaView,CambiarEmailView,CambiarContrasenaView,CountPendingWorkers,CountValidSolicitudes,ModificarTrabajadorView, NotificacionesView,PedidoCreateAPIView
 from django.conf import settings
 from .utils import validar_token_view
 from django.conf.urls.static import static
@@ -26,5 +26,6 @@ urlpatterns = [
     path("solicitudes-pendientes-num/",CountValidSolicitudes.as_view(),name="solicitudes-pendientes-num"),
     path("trabajadores/<int:dni>/", ModificarTrabajadorView.as_view(), name="modificar_trabajador"),
     path('notificaciones/', NotificacionesView.as_view(), name='notificaciones'),
+    path('pedidos/', PedidoCreateAPIView.as_view(), name='create-pedido'),
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

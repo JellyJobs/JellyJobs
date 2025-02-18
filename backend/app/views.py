@@ -2,7 +2,7 @@ from rest_framework.decorators import APIView
 from rest_framework.response import Response
 from rest_framework import  status
 from .models import Trabajador, Profesion,Localidad, Solicitud,Admins
-from .serializers import TrabajadorSerializer,ProfesionSerializer,TrabajadorCardSerializer,LocalidadListSerializer, SolicitudSerializer,TrabajadorDetallesSerializer,AdminSerializer,AdminEmailSerializer,TrabajadoresSerializer
+from .serializers import TrabajadorSerializer,ProfesionSerializer,TrabajadorCardSerializer,LocalidadListSerializer, SolicitudSerializer,TrabajadorDetallesSerializer,AdminSerializer,AdminEmailSerializer,TrabajadoresSerializer,PedidoSerializer
 from django.views.decorators.csrf import csrf_exempt
 from django.utils.decorators import method_decorator
 from .serializers import SolicitudSerializer, TrabajadorSerializer
@@ -416,3 +416,14 @@ class NotificacionesView(APIView):
         ]
 
         return Response(notificaciones)
+    
+
+class PedidoCreateAPIView(APIView):
+    def post(self, request, *args, **kwargs):
+        serializer = PedidoSerializer(data=request.data)
+        
+        if serializer.is_valid():
+            # Crear el pedido en la base de datos
+            pedido = serializer.save()
+            return Response(PedidoSerializer(pedido).data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)

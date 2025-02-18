@@ -111,8 +111,6 @@ export default function Uniform() {
             </div>
 
             <div className="search-bar">
-                <h2>Solicitar Uniformes</h2>
-                <p>Seleccione un trabajador y configure su uniforme:</p>
 
                 <Select
                     className="uniforme-select"
@@ -132,6 +130,7 @@ export default function Uniform() {
                     value={talle}
                     onChange={setTalle}
                     options={[
+                        { value: 'S', label: 'S' },
                         { value: 'M', label: 'M' },
                         { value: 'L', label: 'L' },
                         { value: 'XL', label: 'XL' },
@@ -151,7 +150,7 @@ export default function Uniform() {
                         >
                             <div className="trabajador-img-container">
                                 <img
-                                    src={`http://localhost:8000${trabajador.imagenlink}`}
+                                    src={`http://localhost:9001${trabajador.imagenlink}`}
                                     alt={`${trabajador.nombre} ${trabajador.apellido}`}
                                     className="trabajador-img"
                                 />
