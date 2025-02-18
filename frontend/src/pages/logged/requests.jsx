@@ -29,7 +29,7 @@ const Solicitudes = () => {
             const decoded = jwtDecode(token);
             setUserEmail(decoded.email);
         }
-        fetch("http://127.0.0.1:8000/app/solicitudes/")
+        fetch("http://127.0.0.1:9001/app/solicitudes/")
             .then(response => response.json())
             .then(data => {
                 const solicitudesData = Array.isArray(data) ? data : data.solicitudes;
@@ -42,7 +42,7 @@ const Solicitudes = () => {
     }, []);
 
     const handleDelete = (id) => {
-        fetch(`http://127.0.0.1:8000/app/solicitudes/${id}/`, {
+        fetch(`http://127.0.0.1:9001/app/solicitudes/${id}/`, {
             method: "DELETE",
         })
         .then(response => {
@@ -66,13 +66,16 @@ const Solicitudes = () => {
         { title: "Fecha Fin", dataIndex: "fecha_fin", key: "fecha_fin" },
         {
             title: "Trabajadores",
-            dataIndex: "idtrabajadores",
-            key: "idtrabajadores",
-            render: (idtrabajadores) => (
-                idtrabajadores && idtrabajadores.length > 0 ? (
+            dataIndex: "trabajadores_detalle",
+            key: "trabajadores_detalle",
+            render: (trabajadores) => (
+                trabajadores && trabajadores.length > 0 ? (
                     <ul>
-                        {idtrabajadores.map(trabajador => (
-                            <li key={trabajador.idtrabajador}>{trabajador.nombre} {trabajador.apellido}</li>
+                        {trabajadores.map(trabajador => (
+                            <li key={trabajador.idtrabajador}>
+                                <strong>{trabajador.nombre} {trabajador.apellido}</strong> <br />
+                                <small>Email: {trabajador.email}</small>
+                            </li>
                         ))}
                     </ul>
                 ) : "Sin trabajadores"
@@ -93,6 +96,7 @@ const Solicitudes = () => {
             )
         }
     ];
+    
 
     const menuItems = [
         { key: "/create", label: "Crear", icon: <PlusSquareOutlined /> },

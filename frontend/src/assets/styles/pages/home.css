@@ -89,10 +89,20 @@
     color: white !important;
 }
 
-/* 🔹 Responsive */
-@media (max-width: 768px) {
+/* 🔹 Ajustes responsivos SOLO en teléfonos (menos de 480px de ancho) */
+@media (max-width: 480px) {
     .search-bar {
+        flex-direction: column;
+        align-items: stretch;
         width: 90%;
+    }
+
+    .search-bar input {
+        text-align: center;
+    }
+
+    .search-bar .ant-select {
+        min-width: 100%; /* Ocupa todo el ancho en pantallas pequeñas */
     }
 }
 
@@ -112,6 +122,28 @@
     background-color: var(--background-color);
     box-shadow: -5px 0 15px var(--main-color);
     transition: all 0.2s ease; 
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .menu-container {
+        width: 100%;
+        height: auto;
+        position: relative;
+        top: 0;
+        box-shadow: none;
+    }
+
+    .menu-functions {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-around;
+        padding: 10px 0;
+    }
+
+    .menu-functions .ant-menu-item {
+        font-size: 14px;
+    }
 }
 
 .menu-functions {
@@ -280,4 +312,24 @@
 
 .trabajador-card.inactivo {
     border: 3px solid rgb(255, 0, 0);
+}
+
+/* Responsive */
+@media (max-width: 1024px) {
+    .trabajadores-container {
+        width: 90%;
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+
+    .trabajador-card {
+        width: 45%; /* Dos tarjetas por fila en tablets */
+    }
+}
+
+@media (max-width: 768px) {
+    .trabajador-card {
+        width: 90%; /* Una tarjeta por fila en móviles */
+    }
 }

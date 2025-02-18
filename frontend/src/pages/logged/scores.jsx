@@ -1,19 +1,19 @@
 import '../../assets/styles/pages/scores.css';
 import React, { useEffect, useState } from 'react';
 import { Menu, Input, Card, Divider, Button, Modal, Checkbox } from 'antd';
-import {
-    BellOutlined,
-    PlusSquareOutlined,
-    FileTextOutlined,
-    StarOutlined,
-    SearchOutlined,
-    LeftOutlined,
-    RightOutlined,
-    SkinOutlined
+import { 
+    BellOutlined, 
+    PlusSquareOutlined, 
+    FileTextOutlined, 
+    StarOutlined, 
+    SearchOutlined, 
+    LeftOutlined, 
+    RightOutlined, 
+    SkinOutlined 
 } from '@ant-design/icons';
 import { useNavigate } from "react-router-dom";
 import HeaderLog from '../../components/common/header-log.jsx';
-import NotificationPopup from "../../components/common/notifyPopUp.jsx"; // Importación correcta
+import NotificationPopup from "../../components/common/notifyPopUp.jsx"; 
 import { jwtDecode } from 'jwt-decode';
 import Cookies from 'js-cookie';
 
@@ -23,10 +23,10 @@ export default function Scores() {
     const [trabajadores, setTrabajadores] = useState([]);
     const [opiniones, setOpiniones] = useState({});
     const [searchValue, setSearchValue] = useState('');
-    const [selectedTrabajadores, setSelectedTrabajadores] = useState([]);
+    const [selectedTrabajadores, setSelectedTrabajadores] = useState([]); // Mantén solo un trabajador seleccionado
     const [modalVisible, setModalVisible] = useState(false);
     const [currentIndex, setCurrentIndex] = useState(0);
-    const [isNotificationOpen, setIsNotificationOpen] = useState(false); // Estado para manejar el popup
+    const [isNotificationOpen, setIsNotificationOpen] = useState(false); 
 
     useEffect(() => {
         const token = Cookies.get("access_token");
@@ -34,14 +34,14 @@ export default function Scores() {
             const decoded = jwtDecode(token);
             setUserEmail(decoded.email);
         }
-        fetch('http://127.0.0.1:8000/app/trabajador-card/')
+        fetch('http://127.0.0.1:9001/app/trabajador-card/')
             .then(response => response.ok ? response.json() : Promise.reject('Error al obtener los trabajadores'))
             .then(data => setTrabajadores(data.filter(trabajador => trabajador.estadotrabajo === 'Disponible')))
             .catch(error => console.error('Error al cargar los trabajadores:', error));
     }, []);
 
     useEffect(() => {
-        fetch('https://api.opiniones-externas.com/opiniones/')
+        fetch('http://127.0.0.1:8000/posts/')
             .then(response => response.ok ? response.json() : Promise.reject('Error al obtener las opiniones'))
             .then(data => {
                 const opinionesMap = {};
@@ -62,12 +62,10 @@ export default function Scores() {
     });
 
     const handleCheckboxChange = id => {
-        setSelectedTrabajadores(prevSelected =>
-            prevSelected.includes(id) ? prevSelected.filter(tid => tid !== id) : [...prevSelected, id]
-        );
+        setSelectedTrabajadores([id]); // Solo permitir un trabajador seleccionado
     };
 
-    const currentTrabajador = trabajadores.find(t => t.idtrabajador === selectedTrabajadores[currentIndex]);
+    const currentTrabajador = trabajadores.find(t => t.idtrabajador === selectedTrabajadores[0]);
 
     const openModal = () => {
         if (selectedTrabajadores.length > 0) {
@@ -85,11 +83,7 @@ export default function Scores() {
         { 
             key: "notificaciones", 
             label: "Notificaciones", 
-            icon: (
-             
-                    <BellOutlined />
-                
-            )
+            icon: <BellOutlined />
         },
         { key: "/requests", label: "Solicitudes", icon: <FileTextOutlined /> },
         { key: "/scores", label: "Puntuación", icon: <StarOutlined /> },
@@ -104,6 +98,41 @@ export default function Scores() {
         }
     };
 
+    // Función para manejar la publicación
+    /*const handlePublish = () => {
+        const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzM5ODg3OTI1LCJpYXQiOjE3Mzk4NTE5MjUsImp0aSI6IjVmYjEyN2E2YmVhNTRjZjk5MDZjMGJiMGJjZjc4MzEyIiwidXNlcl9pZCI6OH0.dTLmHiM1z3w6VmdOLQbXNoXCpWEN9Mldx9Qc23bcmkA';  // Token JWT
+
+        if (selectedTrabajadores.length > 0) {
+            selectedTrabajadores.forEach(idtrabajador => {
+                const trabajador = trabajadores.find(t => t.idtrabajador === idtrabajador);
+                if (trabajador) {
+                    const title = `${trabajador.nombre} ${trabajador.apellido}`;
+                    const description = "Trabajador de JellyJobs"; 
+                    const categoria= []
+                    fetch('http://127.0.0.1:8000/posts/', {
+                        method: 'POST',
+                        headers: {
+                            Authorization: `Bearer ${token}`, 
+                            "Content-Type": "application/json",
+                        },
+                        body: JSON.stringify({
+                            title: title,
+                            content: description,
+                            categories:categoria
+                        })
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        console.log('Publicación creada con éxito:', data);
+                    })
+                    .catch(error => {
+                        console.error('Error al crear la publicación:', error);
+                    });
+                }
+            });
+        }
+    };*/
+
     return (
         <div className="home-page">
             <HeaderLog userEmail={userEmail} />
@@ -113,7 +142,7 @@ export default function Scores() {
                 <Menu
                     className="menu-functions"
                     mode="inline"
-                    onClick={handleMenuClick} // Maneja la navegación y notificaciones
+                    onClick={handleMenuClick}
                     items={menuItems}
                 />
             </div>
@@ -138,7 +167,7 @@ export default function Scores() {
                         />
                         <div className="trabajador-img-container">
                             <img
-                                src={`http://localhost:8000${trabajador.imagenlink}`}
+                                src={`http://localhost:9001${trabajador.imagenlink}`}
                                 alt={`${trabajador.nombre} ${trabajador.apellido}`}
                                 className="trabajador-img"
                             />
@@ -152,15 +181,23 @@ export default function Scores() {
                 ))}
             </div>
 
-            {/* BOTÓN PARA VER OPINIONES */}
-            <div className="opiniones-boton-container">
+            {/* Botones adicionales */}
+            <div className="botones-inferiores" style={{ position: 'fixed', bottom: '10px', right: '35px' }}>
                 <Button
                     type="primary"
                     onClick={openModal}
                     disabled={selectedTrabajadores.length === 0}
-                    style={{ position: 'fixed', bottom: '10px', right: '35px' }}
+                    style={{ marginRight: '10px' }}
                 >
                     Ver Opiniones
+                </Button>
+                <Button
+                    type="primary"
+                    /*onClick={handlePublish}*/
+                    disabled={selectedTrabajadores.length === 0}
+                    style={{ marginRight: '10px' }}
+                >
+                    Publicar Trabajador
                 </Button>
             </div>
 

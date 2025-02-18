@@ -2,7 +2,7 @@ from rest_framework import serializers
 from django.contrib.auth import authenticate
 from .models import Trabajador,Profesion,Localidad,Provincia, Solicitud
 from django.core.exceptions import ObjectDoesNotExist
-from .models import Admins
+from .models import Admins,Pedido
 from django.contrib.auth.hashers import make_password
 
 class AdminEmailSerializer(serializers.ModelSerializer):
@@ -173,14 +173,18 @@ class LocalidadListSerializer(serializers.ModelSerializer):
 class TrabajadorSerializer(serializers.ModelSerializer):
     class Meta:
         model = Trabajador
-        fields = ['idtrabajador', 'nombre', 'apellido', 'dni', 'email', 'numtel', 'edad', 'idlocalidad', 'idprofesion', 'descripcion', 'cvlink', 'imagenlink']  # Incluye los datos que necesitas
+        fields = ['idtrabajador', 'nombre', 'apellido', 'dni', 'email', 'numtel', 'edad', 'idlocalidad', 'idprofesion', 'descripcion', 'cvlink', 'imagenlink','talle']  # Incluye los datos que necesitas
 
 class SolicitudSerializer(serializers.ModelSerializer):
-    idtrabajadores = TrabajadorSerializer(many=True, read_only=True)  # Serializador anidado
+    idtrabajadores = serializers.PrimaryKeyRelatedField(
+        queryset=Trabajador.objects.all(), many=True, write_only=True  # Para aceptar IDs en la solicitud
+    )
+    trabajadores_detalle = TrabajadorSerializer(source='idtrabajadores', many=True, read_only=True)  # Para devolver datos completos
 
     class Meta:
         model = Solicitud
-        fields = ['idsolicitud', 'empresa', 'fecha_inicio', 'fecha_fin', 'idtrabajadores']
+        fields = ['idsolicitud', 'empresa', 'fecha_inicio', 'fecha_fin', 'idtrabajadores', 'trabajadores_detalle']
+
 
 class TrabajadoresSerializer(serializers.ModelSerializer):
     class Meta:
@@ -191,6 +195,17 @@ class TrabajadoresSerializer(serializers.ModelSerializer):
             'estadotrabajo','estadocontrato', 'imagenlink', 'cvlink'
         ]
 
-    
 
-    
+
+class PedidoSerializer(serializers.ModelSerializer):
+    talle = serializers.CharField(max_length=10)
+    manga = serializers.CharField(max_length=10)
+    class Meta:
+        model = Pedido
+        fields = ['manga', 'talle']
+
+class TrabajadorSinUniformeSerializer(serializers.ModelSerializer):
+    profesion = serializers.CharField(source='idprofesion.nombre', read_only=True)
+    class Meta:
+        model = Trabajador
+        fields = ['idtrabajador', 'nombre', 'apellido', 'edad', 'dni', 'profesion', 'imagenlink', 'uniforme','talle']

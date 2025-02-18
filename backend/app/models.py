@@ -210,3 +210,22 @@ class DjangoSession(models.Model):
     class Meta:
         managed = False
         db_table = 'django_session'
+
+class Pedido(models.Model):
+    MANGA_CHOICES = [
+        ('Largo','largo'),
+        ('Corto','corto'),
+    ]
+    TALLE_CHOICES = [
+        ('S', 'Small'),
+        ('M', 'Medium'),
+        ('L', 'Large'),
+        ('XL','Extra-Large'),
+        ('XXL','Extra-extra-large')
+    ]
+    
+    manga = models.TextField(choices=MANGA_CHOICES)
+    talle = models.TextField(choices=TALLE_CHOICES)
+    class Meta:
+        db_table = 'Pedido'
+

@@ -2,7 +2,7 @@ from rest_framework.decorators import APIView
 from rest_framework.response import Response
 from rest_framework import  status
 from .models import Trabajador, Profesion,Localidad, Solicitud,Admins
-from .serializers import TrabajadorSerializer,ProfesionSerializer,TrabajadorCardSerializer,LocalidadListSerializer, SolicitudSerializer,TrabajadorDetallesSerializer,AdminSerializer,AdminEmailSerializer,TrabajadoresSerializer
+from .serializers import TrabajadorSerializer,ProfesionSerializer,TrabajadorCardSerializer,LocalidadListSerializer, SolicitudSerializer,TrabajadorDetallesSerializer,AdminSerializer,AdminEmailSerializer,TrabajadoresSerializer,PedidoSerializer,TrabajadorSinUniformeSerializer
 from django.views.decorators.csrf import csrf_exempt
 from django.utils.decorators import method_decorator
 from .serializers import SolicitudSerializer, TrabajadorSerializer
@@ -22,11 +22,13 @@ from django.core.mail import send_mail
 from django.contrib.auth.hashers import make_password
 from django.utils.timezone import now, timedelta
 
+# 🔹 Cuenta la cantidad de solicitudes de trabajo creadas hoy
 class CountValidSolicitudes(APIView):
     def get(self, request):
         count = Solicitud.objects.filter(fecha_inicio=now().date()).count()
         return Response({"count": count}, status=200)
-
+    
+# 🔹 Cuenta la cantidad de trabajadores con contrato pendiente
 class CountPendingWorkers(APIView):
     def get(self, request):
         count = Trabajador.objects.filter(estadocontrato='pendiente').count()
@@ -323,11 +325,10 @@ class SolicitudAPIView(APIView):
         return Response(serializer.data, status=status.HTTP_200_OK)
 
 
-# 🔹 Vista para INTERACCIÓN EXTERNA (obtener trabajadores disponibles y crear solicitudes)
 class InteraccionAPIView(APIView):
     def get(self, request):
         """Lista los trabajadores disponibles para una nueva solicitud."""
-        trabajadores = Trabajador.objects.filter(estadotrabajo="disponible")
+        trabajadores = Trabajador.objects.filter(estadotrabajo="Disponible")
         serializer = TrabajadorSerializer(trabajadores, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
@@ -335,8 +336,10 @@ class InteraccionAPIView(APIView):
         """Crea una nueva solicitud verificando que los trabajadores estén disponibles."""
         trabajadores_ids = request.data.get("idtrabajadores", [])
 
-        # Verificar si los trabajadores seleccionados están disponibles
-        trabajadores_disponibles = Trabajador.objects.filter(idtrabajador__in=trabajadores_ids, estadotrabajo="disponible")
+        # Verificar si los IDs de trabajadores existen y están disponibles
+        trabajadores_disponibles = Trabajador.objects.filter(
+            idtrabajador__in=trabajadores_ids, estadotrabajo="Disponible"
+        )
 
         if trabajadores_disponibles.count() != len(trabajadores_ids):
             return Response(
@@ -345,10 +348,13 @@ class InteraccionAPIView(APIView):
             )
 
         serializer = SolicitudSerializer(data=request.data)
-        
+
         if serializer.is_valid():
-            solicitud = serializer.save()
+            solicitud = serializer.save()  # Guarda la solicitud
             
+            # Asigna los trabajadores seleccionados a la solicitud
+            solicitud.idtrabajadores.set(trabajadores_disponibles)
+
             # Marcar trabajadores como "ocupados"
             trabajadores_disponibles.update(estadotrabajo="ocupado")
 
@@ -358,7 +364,6 @@ class InteraccionAPIView(APIView):
             }, status=status.HTTP_201_CREATED)
         
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
 
 
 @api_view(["DELETE"])
@@ -413,3 +418,35 @@ class NotificacionesView(APIView):
         ]
 
         return Response(notificaciones)
+    
+class PedidoCreateAPIView(APIView):
+    def post(self, request):
+        serializer = PedidoSerializer(data=request.data)
+        talle = request.data.get("talle")
+        if serializer.is_valid():
+            # Suponiendo que el ID del trabajador es parte del payload
+            idtrabajador = request.data.get("idtrabajador")
+
+            # Aquí buscas al trabajador por su ID
+            try:
+                trabajador = Trabajador.objects.get(idtrabajador=idtrabajador)
+
+                # Actualizas el campo uniforme a True
+                trabajador.talle=talle
+                trabajador.uniforme = True
+                trabajador.save()
+                serializer.save()
+
+                return Response({"message": "Pedido creado y uniforme actualizado"}, status=status.HTTP_200_OK)
+            except Trabajador.DoesNotExist:
+                return Response({"message": "Trabajador no encontrado"}, status=status.HTTP_404_NOT_FOUND)
+
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    
+
+class TrabajadorSinUniformeAPIView(APIView):
+
+    def get(self, request, *args, **kwargs):
+        trabajadores = Trabajador.objects.filter(uniforme=False)  # Filtra los trabajadores sin uniforme
+        serializer = TrabajadorSinUniformeSerializer(trabajadores, many=True)  # Serializa los trabajadores
+        return Response(serializer.data)  # Devuelve los datos serializados en la respuesta

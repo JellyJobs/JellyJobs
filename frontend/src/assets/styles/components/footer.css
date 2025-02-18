@@ -1,10 +1,10 @@
 :root {
-  --backround-color: #1A4E8D;
+  --background-color: #1A4E8D;
   --hover-color: #00064a;
 }
 
 .footer {
-  background-color: #1A4E8D  ;
+  background-color: var(--background-color);
   padding: 20px;
   text-align: center;
   color: white;
@@ -13,37 +13,89 @@
 .icons-container {
   display: flex;
   justify-content: center;
-  gap: 30px; 
+  gap: 30px;
 }
 
 .footer-icon {
-  font-size: 24px; 
-  color: white; 
-  transition: color 0.3s; 
+  font-size: 24px;
+  color: white;
+  transition: color 0.3s;
 }
 
 .footer-icon:hover {
-  color: #00064a; 
+  color: var(--hover-color);
 }
 
 .divider {
   margin: 20px 0;
-  border: 1px solid white; 
+  border: 1px solid white;
 }
 
 .footer-links {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 10px; 
+  gap: 10px;
 }
 
 .footer-links a {
   color: white;
   text-decoration: none;
-  transition: color 0.3s; 
+  transition: color 0.3s;
 }
 
 .footer-links a:hover {
-  color: #00064a; 
+  color: var(--hover-color);
+}
+
+/* Responsive Styles */
+
+/* Para dispositivos pequeños como teléfonos móviles */
+@media (max-width: 480px) {
+  .footer {
+    padding: 15px;
+  }
+
+  .icons-container {
+    flex-direction: column;
+    gap: 15px;
+  }
+
+  .footer-icon {
+    font-size: 20px;
+  }
+
+  .footer-links {
+    gap: 8px;
+  }
+}
+
+/* Para dispositivos medianos como tabletas */
+@media (max-width: 768px) {
+  .footer {
+    padding: 20px;
+  }
+
+  .footer-icon {
+    font-size: 22px;
+  }
+
+  .footer-links {
+    gap: 10px;
+  }
+}
+
+/* Para dispositivos grandes */
+@media (min-width: 1024px) {
+  .footer {
+    padding: 20px;
+  }
+
+  .icons-container {
+    gap: 30px;
+  }
+
+  .footer-icon {
+    font-size: 24px;
+  }
 }

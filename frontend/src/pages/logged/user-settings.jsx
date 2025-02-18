@@ -29,7 +29,7 @@ export default function ProfilePage() {
             return;
         }
 
-        fetch("http://127.0.0.1:8000/app/cambiar-contrasena/", {
+        fetch("http://127.0.0.1:9001/app/cambiar-contrasena/", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
@@ -84,7 +84,7 @@ export default function ProfilePage() {
     const handleEmailChange = () => {
         alert(`Email actual: ${userEmail}\nNuevo email: ${nuevoEmail}`);
         // Llama al endpoint para cambiar el email
-        fetch("http://127.0.0.1:8000/app/cambiar-email/", {
+        fetch("http://127.0.0.1:9001/app/cambiar-email/", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",

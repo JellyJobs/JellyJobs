@@ -1,30 +1,30 @@
 :root {
-  --backround-color: #1A4E8D;
+  --background-color: #1A4E8D;
   --hover-color: #00064a;
 }
 
+/* 🔹 Contenedor del carrusel */
 .carousel {
   position: relative;
   width: 100%;
-  height: 100vh; 
+  height: 100vh;
   overflow: hidden;
   margin-top: 75px;
-  margin-left: 0;
-  margin-right: 0;
 }
-  
+
+/* 🔹 Sección de las imágenes en el carrusel */
 .carousel-carouseles {
-  display: flex; 
-  width: 300%; 
+  display: flex;
+  width: 300%;
   height: 100%;
-  transition: transform 2s ease; 
+  transition: transform 2s ease;
 }
-  
+
 .slider-section {
-  flex: 0 0 calc(100% / 3); 
+  flex: 0 0 calc(100% / 3);
   height: 100%;
 }
-  
+
 .slider-section img {
   width: 100%;
   height: 100%;
@@ -32,11 +32,12 @@
   object-position: center;
 }
 
+/* 🔹 Botón derecho para cambiar de imagen */
 .carousel-rightBtn {
   position: absolute;
   top: 50%;
-  color: white;
   right: 10px;
+  color: white;
   font-size: 1.5rem;
   border-radius: 50%;
   padding: 10px;
@@ -44,11 +45,12 @@
   transform: translateY(-50%);
   z-index: 3;
 }
-  
+
 .carousel-rightBtn:hover {
   background-color: var(--hover-color);
 }
-  
+
+/* 🔹 Capa de oscurecimiento */
 .dark {
   position: absolute;
   top: 0;
@@ -58,27 +60,29 @@
   background-color: rgba(0, 6, 74, 0.3);
   z-index: 1;
 }
-  
 
+/* 🔹 Contenedor de la presentación */
 .carousel-presentation {
   position: absolute;
   top: 20%;
   left: 10%;
   z-index: 2;
   color: white;
+  max-width: 600px;
 }
-  
+
 .carousel-presentation h1 {
   font-size: 2.5rem;
   color: white;
 }
-  
+
 .carousel-presentation p {
   font-size: 1.2rem;
   color: white;
   margin-top: 10px;
 }
 
+/* 🔹 Botón dentro del carrusel */
 .slider-button {
   display: inline-block;
   padding: 15px 30px;
@@ -89,7 +93,7 @@
   text-decoration: none;
   transition: all 0.3s ease;
   background: linear-gradient(90deg, purple, blue);
-  background-size: 200% 200%; 
+  background-size: 200% 200%;
   animation: gradient-animation 5s ease infinite;
 }
 
@@ -98,10 +102,10 @@
     background-position: 0% 100%;
   }
   50% {
-    background-position: 100% 25%; 
+    background-position: 100% 25%;
   }
   100% {
-    background-position: 0% 100%; 
+    background-position: 0% 100%;
   }
 }
 
@@ -111,4 +115,92 @@
   background-color: rgba(255, 255, 255, 0.3);
   cursor: pointer;
   box-shadow: 0 10px 25px rgba(0, 6, 74, 0.5);
-}  
+}
+
+/* 🔹 Responsividad */
+
+/* 📱 Para tablets (menos de 1024px) */
+@media (max-width: 1024px) {
+  .carousel-presentation {
+    top: 15%;
+    left: 8%;
+    max-width: 500px;
+  }
+
+  .carousel-presentation h1 {
+    font-size: 2rem;
+  }
+
+  .carousel-presentation p {
+    font-size: 1rem;
+  }
+
+  .slider-button {
+    font-size: 22px;
+    padding: 12px 25px;
+  }
+}
+
+/* 📱 Para móviles (menos de 768px) */
+@media (max-width: 768px) {
+  .carousel {
+    height: 80vh;
+    margin-top: 50px;
+  }
+
+  .carousel-presentation {
+    top: 10%;
+    left: 5%;
+    max-width: 400px;
+  }
+
+  .carousel-presentation h1 {
+    font-size: 1.8rem;
+  }
+
+  .carousel-presentation p {
+    font-size: 0.9rem;
+  }
+
+  .slider-button {
+    font-size: 18px;
+    padding: 10px 20px;
+  }
+
+  .carousel-rightBtn {
+    font-size: 1.2rem;
+    right: 5px;
+    padding: 8px;
+  }
+}
+
+/* 📱 Para móviles pequeños (menos de 480px) */
+@media (max-width: 480px) {
+  .carousel {
+    height: 70vh;
+  }
+
+  .carousel-presentation {
+    top: 8%;
+    left: 3%;
+    max-width: 90%;
+  }
+
+  .carousel-presentation h1 {
+    font-size: 1.5rem;
+  }
+
+  .carousel-presentation p {
+    font-size: 0.8rem;
+  }
+
+  .slider-button {
+    font-size: 16px;
+    padding: 8px 18px;
+  }
+
+  .carousel-rightBtn {
+    font-size: 1rem;
+    padding: 6px;
+  }
+}

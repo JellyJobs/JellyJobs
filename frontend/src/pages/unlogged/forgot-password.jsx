@@ -9,7 +9,7 @@ const ForgotPassword = () => {
   
   const onFinish = (values) => {
     const email = values.email;
-    fetch("http://127.0.0.1:8000/app/recuperar-contrasena/", {
+    fetch("http://127.0.0.1:9001/app/recuperar-contrasena/", {
         method: "POST",
         headers: {
             "Content-Type": "application/json"

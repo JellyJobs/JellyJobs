@@ -36,7 +36,7 @@ export default function Home() {
 
     const fetchWorkersCount = async () => {
         try {
-            const response = await fetch("http://127.0.0.1:8000/app/trabajadores-pendientes-num/");
+            const response = await fetch("http://127.0.0.1:9001/app/trabajadores-pendientes-num/");
             const data = await response.json();
             setWorkersCount(data.count);
         } catch (error) {
@@ -46,7 +46,7 @@ export default function Home() {
 
     const fetchSolicitudesCount = async () => {
         try {
-            const response = await fetch("http://127.0.0.1:8000/app/solicitudes-pendientes-num/");
+            const response = await fetch("http://127.0.0.1:9001/app/solicitudes-pendientes-num/");
             const data = await response.json();
             setSolicitudesCount(data.count);
         } catch (error) {
@@ -109,13 +109,13 @@ export default function Home() {
     
 
     useEffect(() => {
-        fetch('http://127.0.0.1:8000/app/profesionlista/')
+        fetch('http://127.0.0.1:9001/app/profesionlista/')
             .then((response) => response.json())
             .then((data) => setProfessions(data))
             .catch(console.error);
     }, []);
     useEffect(() => {
-        fetch('http://127.0.0.1:8000/app/localidad/')
+        fetch('http://127.0.0.1:9001/app/localidad/')
             .then((response) => response.json())
             .then((data) => setLocalidades(data))
             .catch(console.error);
@@ -129,7 +129,7 @@ export default function Home() {
     }, [profesionFilter, professions]);
 
     const handleTrabajadorClick = (idtrabajador) => {
-        fetch(`http://127.0.0.1:8000/app/trabajador/${idtrabajador}/`)
+        fetch(`http://127.0.0.1:9001/app/trabajador/${idtrabajador}/`)
             .then((response) => response.json())
             .then((data) => setSelectedTrabajador(data))
             .catch(console.error);
@@ -141,7 +141,7 @@ export default function Home() {
                 ? { ...trabajador, estadotrabajo: newEstado }
                 : trabajador
         ));
-        fetch(`http://127.0.0.1:8000/app/update-trabajador/${idtrabajador}/`, {
+        fetch(`http://127.0.0.1:9001/app/update-trabajador/${idtrabajador}/`, {
             method: 'PATCH',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ estadotrabajo: newEstado }),
@@ -154,7 +154,7 @@ export default function Home() {
             const decoded = jwtDecode(token);
             setUserEmail(decoded.email);
         }
-        fetch('http://127.0.0.1:8000/app/trabajador-card/')
+        fetch('http://127.0.0.1:9001/app/trabajador-card/')
             .then((response) => response.json())
             .then((data) => setTrabajadores(data))
             .catch(console.error);
@@ -226,7 +226,7 @@ export default function Home() {
                     >
                         <div className="trabajador-img-container">
                             <img
-                                src={`http://localhost:8000${trabajador.imagenlink}`}
+                                src={`http://localhost:9001${trabajador.imagenlink}`}
                                 alt={`${trabajador.nombre} ${trabajador.apellido}`}
                                 className="trabajador-img"
                             />

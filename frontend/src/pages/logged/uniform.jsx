@@ -28,10 +28,11 @@ export default function Uniform() {
             const decoded = jwtDecode(token);
             setUserEmail(decoded.email);
         }
-        fetch('http://127.0.0.1:8000/app/trabajador-card/')
+        fetch('http://127.0.0.1:9001/app/trabajadores-sin-uniforme/')
             .then((response) => response.json())
             .then((data) => {
-                const trabajadoresSinUniforme = data.filter(t => !t.uniforme);
+                // Filtra solo aquellos trabajadores cuya propiedad uniforme sea false o no esté presente
+                const trabajadoresSinUniforme = data
                 setTrabajadores(trabajadoresSinUniforme);
             })
             .catch(console.error);
@@ -41,34 +42,30 @@ export default function Uniform() {
         const payload = {
             talle: talle,
             manga: manga,
-            nombreEmpresa: "JellyJobs",
-            usuarioID: 14,
-            domicilio: {
-                calle: "39",
-                numero: 515,
-                piso: 0,
-                depto: "",
-                descripcion: "",
-                usuarioID: 14,
-                localidadID: 2
-            }
+            idtrabajador:idtrabajador
         };
 
+        // Realizamos la solicitud POST al backend para crear el pedido
         try {
-            const response = await fetch(`http://127.0.0.1:8000/app/solicitar-uniforme/${idtrabajador}/`, {
+            const response = await fetch(`http://localhost:9001/app/pedidos/`, {
                 method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
+                headers: {
+                    'Content-Type': 'application/json',
+                },
                 body: JSON.stringify(payload),
             });
+
+            const responseData = await response.json(); // Intenta leer la respuesta como JSON
 
             if (response.ok) {
                 message.success(`PEDIDO CREADO, EL TRABAJADOR ${idtrabajador} HA OBTENIDO UNIFORMES`);
                 setTrabajadores(trabajadores.filter(t => t.idtrabajador !== idtrabajador));
             } else {
-                message.error("Error al solicitar el uniforme.");
+                console.error("Respuesta del servidor:", responseData);
+                message.error(`Error al solicitar el uniforme: ${responseData.message || response.statusText}`);
             }
         } catch (error) {
-            console.error("Error al solicitar uniforme:", error);
+            console.error("Error en la solicitud:", error);
             message.error("No se pudo completar la solicitud.");
         }
     };
@@ -94,7 +91,7 @@ export default function Uniform() {
 
     return (
         <div className="home-page">
-            <HeaderLog userEmail={userEmail}/>
+            <HeaderLog userEmail={userEmail} />
             <div className="menu-container">
                 <Menu
                     className="menu-functions"
@@ -105,8 +102,6 @@ export default function Uniform() {
             </div>
 
             <div className="search-bar">
-                <h2>Solicitar Uniformes</h2>
-                <p>Seleccione un trabajador y configure su uniforme:</p>
 
                 <Select
                     className="uniforme-select"
@@ -114,8 +109,8 @@ export default function Uniform() {
                     value={manga}
                     onChange={setManga}
                     options={[
-                        { value: 'Corta', label: 'Manga Corta' },
-                        { value: 'Larga', label: 'Manga Larga' },
+                        { value: 'largo', label: 'Manga Corta' },
+                        { value: 'corto', label: 'Manga Larga' },
                     ]}
                     style={{ marginRight: '10px' }}
                 />
@@ -126,6 +121,7 @@ export default function Uniform() {
                     value={talle}
                     onChange={setTalle}
                     options={[
+                        { value: 'S', label: 'S' },
                         { value: 'M', label: 'M' },
                         { value: 'L', label: 'L' },
                         { value: 'XL', label: 'XL' },
@@ -145,14 +141,14 @@ export default function Uniform() {
                         >
                             <div className="trabajador-img-container">
                                 <img
-                                    src={`http://localhost:8000${trabajador.imagenlink}`}
+                                    src={`http://localhost:9001${trabajador.imagenlink}`}
                                     alt={`${trabajador.nombre} ${trabajador.apellido}`}
                                     className="trabajador-img"
                                 />
                             </div>
                             <h3 className="trabajador-nombre">{`${trabajador.nombre} ${trabajador.apellido}`}</h3>
                             <Divider />
-                            <p><strong>Edad:</strong> {trabajador.edad}</p>
+                            <p><strong>Talle:</strong> {trabajador.talle}</p>
                             <p><strong>DNI:</strong> {trabajador.dni}</p>
                             <p><strong>Profesión:</strong> {trabajador.profesion}</p>
 
