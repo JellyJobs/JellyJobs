@@ -152,17 +152,24 @@ export default function Scores() {
                 ))}
             </div>
 
-            {/* BOTÓN PARA VER OPINIONES */}
-            <div className="opiniones-boton-container">
+                 {/* Botones adicionales */}
+            <div className="botones-inferiores" style={{ position: 'fixed', bottom: '10px', right: '35px' }}>
                 <Button
                     type="primary"
                     onClick={openModal}
                     disabled={selectedTrabajadores.length === 0}
-                    style={{ position: 'fixed', bottom: '10px', right: '35px' }}
+                    style={{ marginRight: '10px' }}
                 >
                     Ver Opiniones
                 </Button>
+                <Button
+                    type="default"
+                    onClick={() => navigate('/publicar-trabajador')}
+                >
+                    Publicar Trabajador
+                </Button>
             </div>
+            
 
             {/* MODAL CON OPINIONES */}
             <Modal
