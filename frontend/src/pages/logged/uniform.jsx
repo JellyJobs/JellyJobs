@@ -28,10 +28,11 @@ export default function Uniform() {
             const decoded = jwtDecode(token);
             setUserEmail(decoded.email);
         }
-        fetch('http://127.0.0.1:9001/app/trabajador-card/')
+        fetch('http://127.0.0.1:9001/app/trabajadores-sin-uniforme/')
             .then((response) => response.json())
             .then((data) => {
-                const trabajadoresSinUniforme = data.filter(t => !t.uniforme);
+                // Filtra solo aquellos trabajadores cuya propiedad uniforme sea false o no esté presente
+                const trabajadoresSinUniforme = data
                 setTrabajadores(trabajadoresSinUniforme);
             })
             .catch(console.error);
@@ -41,30 +42,21 @@ export default function Uniform() {
         const payload = {
             talle: talle,
             manga: manga,
-            nombreEmpresa: "JellyJobs",
-            usuarioID: 14,
-            domicilio: {
-                calle: "39",
-                numero: 515,
-                piso: 0,
-                depto: "",
-                descripcion: "",
-                usuarioID: 14,
-                localidadID: 2
-            }
+            idtrabajador:idtrabajador
         };
-    
+
+        // Realizamos la solicitud POST al backend para crear el pedido
         try {
-            const response = await fetch(`http://localhost:5071/api/PedidoPrenda/crearPedidoCliente`, {
+            const response = await fetch(`http://localhost:9001/app/pedidos/`, {
                 method: 'POST',
-                headers: { 
+                headers: {
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify(payload),
             });
-    
+
             const responseData = await response.json(); // Intenta leer la respuesta como JSON
-    
+
             if (response.ok) {
                 message.success(`PEDIDO CREADO, EL TRABAJADOR ${idtrabajador} HA OBTENIDO UNIFORMES`);
                 setTrabajadores(trabajadores.filter(t => t.idtrabajador !== idtrabajador));
@@ -77,7 +69,6 @@ export default function Uniform() {
             message.error("No se pudo completar la solicitud.");
         }
     };
-    
 
     const items = [
         { key: 'crear', label: 'Crear', icon: <PlusSquareOutlined />, path: '/create' },
@@ -100,7 +91,7 @@ export default function Uniform() {
 
     return (
         <div className="home-page">
-            <HeaderLog userEmail={userEmail}/>
+            <HeaderLog userEmail={userEmail} />
             <div className="menu-container">
                 <Menu
                     className="menu-functions"
@@ -118,8 +109,8 @@ export default function Uniform() {
                     value={manga}
                     onChange={setManga}
                     options={[
-                        { value: 'Corta', label: 'Manga Corta' },
-                        { value: 'Larga', label: 'Manga Larga' },
+                        { value: 'largo', label: 'Manga Corta' },
+                        { value: 'corto', label: 'Manga Larga' },
                     ]}
                     style={{ marginRight: '10px' }}
                 />
@@ -157,7 +148,7 @@ export default function Uniform() {
                             </div>
                             <h3 className="trabajador-nombre">{`${trabajador.nombre} ${trabajador.apellido}`}</h3>
                             <Divider />
-                            <p><strong>Edad:</strong> {trabajador.edad}</p>
+                            <p><strong>Talle:</strong> {trabajador.talle}</p>
                             <p><strong>DNI:</strong> {trabajador.dni}</p>
                             <p><strong>Profesión:</strong> {trabajador.profesion}</p>
 

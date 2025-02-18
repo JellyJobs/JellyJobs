@@ -213,8 +213,8 @@ class DjangoSession(models.Model):
 
 class Pedido(models.Model):
     MANGA_CHOICES = [
-        ('largo','Largo'),
-        ('corto','Corto'),
+        ('Largo','largo'),
+        ('Corto','corto'),
     ]
     TALLE_CHOICES = [
         ('S', 'Small'),
