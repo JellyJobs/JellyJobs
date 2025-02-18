@@ -22,11 +22,13 @@ from django.core.mail import send_mail
 from django.contrib.auth.hashers import make_password
 from django.utils.timezone import now, timedelta
 
+# 🔹 Cuenta la cantidad de solicitudes de trabajo creadas hoy
 class CountValidSolicitudes(APIView):
     def get(self, request):
         count = Solicitud.objects.filter(fecha_inicio=now().date()).count()
         return Response({"count": count}, status=200)
-
+    
+# 🔹 Cuenta la cantidad de trabajadores con contrato pendiente
 class CountPendingWorkers(APIView):
     def get(self, request):
         count = Trabajador.objects.filter(estadocontrato='pendiente').count()
