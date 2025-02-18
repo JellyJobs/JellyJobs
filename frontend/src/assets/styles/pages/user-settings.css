@@ -150,3 +150,69 @@
   transform: scale(1.2);
   color: var(--main-color);
 }
+
+@media screen and (max-width: 768px) {
+    .profile-settings-container {
+        width: 90%;
+        max-height: 90%;
+        padding: 15px;
+    }
+
+    .settings-title {
+        font-size: 24px !important;
+    }
+
+    .settings-subtitle {
+        font-size: 14px;
+        text-align: center;
+    }
+
+    .profile-input, .ant-input, .ant-input-password {
+        font-size: 14px;
+        padding: 8px;
+    }
+
+    .profile-btn, .logout-btn {
+        font-size: 14px;
+        padding: 10px;
+    }
+
+    .back-arrow {
+        font-size: 30px;
+        top: 15px;
+        left: 15px;
+    }
+}
+
+@media screen and (max-width: 480px) {
+    .profile-settings-container {
+        width: 95%;
+        max-height: 95%;
+        padding: 10px;
+    }
+
+    .settings-title {
+        font-size: 22px !important;
+    }
+
+    .settings-subtitle {
+        font-size: 13px;
+        text-align: center;
+    }
+
+    .profile-input, .ant-input, .ant-input-password {
+        font-size: 13px;
+        padding: 6px;
+    }
+
+    .profile-btn, .logout-btn {
+        font-size: 13px;
+        padding: 8px;
+    }
+
+    .back-arrow {
+        font-size: 26px;
+        top: 10px;
+        left: 10px;
+    }
+}

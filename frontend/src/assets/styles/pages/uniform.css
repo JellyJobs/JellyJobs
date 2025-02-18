@@ -281,3 +281,84 @@
 .trabajador-card.inactivo {
     border: 3px solid rgb(255, 0, 0);
 }
+
+@media (max-width: 768px) {
+    .search-bar {
+        width: 90%;
+        gap: 8px;
+    }
+
+    .search-bar .ant-select {
+        min-width: 140px;
+    }
+
+    .search-bar input {
+        font-size: 14px;
+    }
+
+    .menu-container {
+        width: 100%;
+        height: auto;
+        position: relative;
+        top: 0;
+        box-shadow: none;
+    }
+
+    .menu-functions {
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        padding: 10px 0;
+    }
+
+    .menu-functions .ant-menu-item {
+        font-size: 14px;
+        padding: 8px;
+    }
+
+    .trabajadores-container {
+        width: 90%;
+        margin-left: 0;
+        top: auto;
+        left: auto;
+        transform: none;
+        position: relative;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+
+    .trabajador-card {
+        width: 220px;
+        padding: 10px;
+    }
+}
+
+@media (max-width: 480px) {
+    .search-bar {
+        flex-direction: column;
+        gap: 5px;
+    }
+
+    .search-bar input {
+        font-size: 13px;
+    }
+
+    .search-bar .ant-select {
+        min-width: 100%;
+    }
+
+    .menu-functions {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .trabajadores-container {
+        width: 100%;
+        padding: 10px;
+    }
+
+    .trabajador-card {
+        width: 100%;
+    }
+}

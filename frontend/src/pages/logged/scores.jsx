@@ -1,6 +1,6 @@
 import '../../assets/styles/pages/scores.css';
 import React, { useEffect, useState } from 'react';
-import { Menu, Input, Card, Divider, Button, Modal, Checkbox } from 'antd';
+import { Menu, Input, Card, Divider, Button, Modal, Checkbox, Rate } from 'antd';
 import { 
     BellOutlined, 
     PlusSquareOutlined, 
@@ -41,17 +41,21 @@ export default function Scores() {
     }, []);
 
     useEffect(() => {
-        fetch('http://127.0.0.1:8000/posts/')
-            .then(response => response.ok ? response.json() : Promise.reject('Error al obtener las opiniones'))
-            .then(data => {
-                const opinionesMap = {};
-                data.forEach(opinion => {
-                    opinionesMap[opinion.idtrabajador] = opinion.opiniones;
-                });
-                setOpiniones(opinionesMap);
-            })
-            .catch(error => console.error('Error al cargar las opiniones:', error));
-    }, []);
+        // Cambié el nombre de trabajador.postId a currentTrabajador.postId
+        const currentTrabajador = trabajadores.find(t => t.idtrabajador === selectedTrabajadores[0]);
+        if (currentTrabajador && currentTrabajador.postId) {
+            fetch(`http://localhost:8000/posts/${currentTrabajador.postId}/reviews/`)
+                .then(response => response.ok ? response.json() : Promise.reject('Error al obtener las opiniones'))
+                .then(data => {
+                    const opinionesMap = {};
+                    data.forEach(opinion => {
+                        opinionesMap[opinion.idtrabajador] = opinion.opiniones;
+                    });
+                    setOpiniones(opinionesMap);
+                })
+                .catch(error => console.error('Error al cargar las opiniones:', error));
+        }
+    }, [selectedTrabajadores, trabajadores]);
 
     const handleSearch = value => setSearchValue(value);
 
@@ -100,7 +104,7 @@ export default function Scores() {
 
     // Función para manejar la publicación
     const handlePublish = () => {
-        const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzM5ODg3OTI1LCJpYXQiOjE3Mzk4NTE5MjUsImp0aSI6IjVmYjEyN2E2YmVhNTRjZjk5MDZjMGJiMGJjZjc4MzEyIiwidXNlcl9pZCI6OH0.dTLmHiM1z3w6VmdOLQbXNoXCpWEN9Mldx9Qc23bcmkA';  // Token JWT
+        const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzM5OTQ5MDE1LCJpYXQiOjE3Mzk5MTMwMTUsImp0aSI6IjdmZjM1YmQ0MTJmMTRhMWJhM2IxMGM3YzJlOTNlMjljIiwidXNlcl9pZCI6Mn0.nYrnV_tYvGps2EWrloNXTHoaQB4MrAWvy_orLAb_HsI';  // Token JWT
         
         if (selectedTrabajadores.length > 0) {
             selectedTrabajadores.forEach(idtrabajador => {
@@ -125,7 +129,7 @@ export default function Scores() {
                     .then(data => {
                         console.log('Publicación creada con éxito:', data);
                         const postID = data.id;
-                        fetch(`http://127.0.0.1:9001/trabajadores/${trabajador.idtrabajador}/update-postid/`, {
+                        fetch(`http://127.0.0.1:9001/app/trabajadores/${trabajador.idtrabajador}/update-postid/`, {
                             method: 'PATCH',
                             headers: {
                                 "Content-Type": "application/json",
@@ -231,7 +235,7 @@ export default function Scores() {
                         <p><strong>Edad:</strong> {currentTrabajador.edad}</p>
                         <p><strong>Profesión:</strong> {currentTrabajador.profesion}</p>
                         <Divider />
-                        <p><strong>Puntuación: </strong></p>
+                        <p><strong>Puntuación: </strong><Rate value={opiniones[currentTrabajador.idtrabajador]?.rating || 0} disabled /></p>
                         <Divider />
                         <p><strong>Opiniones:</strong></p>
                         <p>{opiniones[currentTrabajador.idtrabajador]?.join(', ') || 'No hay opiniones disponibles'}</p>
@@ -252,12 +256,6 @@ export default function Scores() {
                     </div>
                 )}
             </Modal>
-
-            {/* POPUP DE NOTIFICACIONES */}
-            <NotificationPopup
-                isOpen={isNotificationOpen}
-                onClose={() => setIsNotificationOpen(false)}
-            />
         </div>
     );
 }

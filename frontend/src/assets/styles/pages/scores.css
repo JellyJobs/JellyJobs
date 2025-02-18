@@ -229,30 +229,91 @@
     border: 3px solid rgb(255, 0, 0);
 }
 
-/* Responsividad para el contenedor de trabajadores */
 @media (max-width: 768px) {
+    .menu-container {
+        width: 100%;
+        height: auto;
+        position: relative;
+        top: 0;
+        box-shadow: none;
+    }
+
+    .menu-functions {
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        padding: 10px 0;
+    }
+
+    .menu-functions .ant-menu-item {
+        font-size: 14px;
+        padding: 8px;
+    }
+
+    /* Barra de búsqueda */
+    .search-bar {
+        width: 90%;
+        left: 50%;
+        transform: translateX(-50%);
+        padding: 8px;
+    }
+
+    .search-bar .ant-input {
+        width: 100%;
+    }
+
+    .search-bar .ant-select {
+        min-width: 140px;
+    }
+
     .trabajadores-container {
-        width: 90%; /* Reduce el tamaño del contenedor de trabajadores */
-        margin-left: 5%;
-        margin-top: 5%;
-        padding: 15px;
+        width: 90%;
+        margin-left: 0;
+        top: auto;
+        left: auto;
+        transform: none;
+        position: relative;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
     }
 
     .trabajador-card {
-        width: 100%; /* Las tarjetas de trabajadores ocupan el 100% del ancho */
+        width: 220px;
+        padding: 10px;
+    }
+}
+
+@media (max-width: 480px) {
+    .menu-functions {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .menu-functions .ant-menu-item {
+        font-size: 13px;
+    }
+
+    .search-bar {
+        flex-direction: column;
+        gap: 5px;
+        width: 95%;
+    }
+
+    .search-bar .ant-input {
+        font-size: 13px;
+    }
+
+    .search-bar .ant-select {
+        min-width: 100%;
+    }
+
+    .trabajadores-container {
+        width: 100%;
         padding: 10px;
     }
 
-    .trabajador-img-container {
-        width: 60px;
-        height: 60px;
-    }
-
-    .trabajador-nombre {
-        font-size: 16px;
-    }
-
-    .trabajador-card p {
-        font-size: 12px;
+    .trabajador-card {
+        width: 100%;
     }
 }

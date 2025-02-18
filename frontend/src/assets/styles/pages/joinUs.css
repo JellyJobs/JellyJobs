@@ -249,41 +249,56 @@
 }
 
 @media (max-width: 768px) {
-    .JoinUs-page-contein {
-        margin-top: 20px;
-    }
-
     .contain-form {
-        padding: 20px; 
-        margin: 5% 5%;
-        width: auto;
+        max-width: 90%;
+        padding: 20px;
     }
 
     .form-title, 
-    .form-subtitle { 
+    .form-subtitle {
         font-size: 28px;
+    }
+
+    .form-row {
+        flex-direction: column;
+        align-items: center;
     }
 
     .form-items-joinUs {
         min-width: 100%;
-        margin-left: 0; 
-    }
-
-    .date-picker-custom {
-        width: 100%;
-        max-width: none;
-    }
-
-    .contain-form .buttom-item {
-        width: 100%;
+        margin-left: 0;
     }
 
     #joinUsButton {
         width: 100%;
+        font-size: 14px;
+        padding: 10px;
     }
 
     .foto-preview {
         width: 80px;
         height: 80px;
+    }
+}
+
+@media (max-width: 480px) {
+    .form-title, 
+    .form-subtitle {
+        font-size: 24px;
+    }
+
+    .contain-form {
+        padding: 15px;
+    }
+
+    #joinUsButton {
+        font-size: 12px;
+        padding: 8px;
+    }
+
+    .back-arrow {
+        font-size: 28px;
+        top: 10px;
+        left: 10px;
     }
 }
