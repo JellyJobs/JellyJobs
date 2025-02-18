@@ -323,11 +323,10 @@ class SolicitudAPIView(APIView):
         return Response(serializer.data, status=status.HTTP_200_OK)
 
 
-# 🔹 Vista para INTERACCIÓN EXTERNA (obtener trabajadores disponibles y crear solicitudes)
 class InteraccionAPIView(APIView):
     def get(self, request):
         """Lista los trabajadores disponibles para una nueva solicitud."""
-        trabajadores = Trabajador.objects.filter(estadotrabajo="disponible")
+        trabajadores = Trabajador.objects.filter(estadotrabajo="Disponible")
         serializer = TrabajadorSerializer(trabajadores, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
@@ -335,8 +334,10 @@ class InteraccionAPIView(APIView):
         """Crea una nueva solicitud verificando que los trabajadores estén disponibles."""
         trabajadores_ids = request.data.get("idtrabajadores", [])
 
-        # Verificar si los trabajadores seleccionados están disponibles
-        trabajadores_disponibles = Trabajador.objects.filter(idtrabajador__in=trabajadores_ids, estadotrabajo="disponible")
+        # Verificar si los IDs de trabajadores existen y están disponibles
+        trabajadores_disponibles = Trabajador.objects.filter(
+            idtrabajador__in=trabajadores_ids, estadotrabajo="Disponible"
+        )
 
         if trabajadores_disponibles.count() != len(trabajadores_ids):
             return Response(
@@ -345,10 +346,13 @@ class InteraccionAPIView(APIView):
             )
 
         serializer = SolicitudSerializer(data=request.data)
-        
+
         if serializer.is_valid():
-            solicitud = serializer.save()
+            solicitud = serializer.save()  # Guarda la solicitud
             
+            # Asigna los trabajadores seleccionados a la solicitud
+            solicitud.idtrabajadores.set(trabajadores_disponibles)
+
             # Marcar trabajadores como "ocupados"
             trabajadores_disponibles.update(estadotrabajo="ocupado")
 
@@ -358,7 +362,6 @@ class InteraccionAPIView(APIView):
             }, status=status.HTTP_201_CREATED)
         
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
 
 
 @api_view(["DELETE"])

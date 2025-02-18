@@ -176,11 +176,15 @@ class TrabajadorSerializer(serializers.ModelSerializer):
         fields = ['idtrabajador', 'nombre', 'apellido', 'dni', 'email', 'numtel', 'edad', 'idlocalidad', 'idprofesion', 'descripcion', 'cvlink', 'imagenlink']  # Incluye los datos que necesitas
 
 class SolicitudSerializer(serializers.ModelSerializer):
-    idtrabajadores = TrabajadorSerializer(many=True, read_only=True)  # Serializador anidado
+    idtrabajadores = serializers.PrimaryKeyRelatedField(
+        queryset=Trabajador.objects.all(), many=True, write_only=True  # Para aceptar IDs en la solicitud
+    )
+    trabajadores_detalle = TrabajadorSerializer(source='idtrabajadores', many=True, read_only=True)  # Para devolver datos completos
 
     class Meta:
         model = Solicitud
-        fields = ['idsolicitud', 'empresa', 'fecha_inicio', 'fecha_fin', 'idtrabajadores']
+        fields = ['idsolicitud', 'empresa', 'fecha_inicio', 'fecha_fin', 'idtrabajadores', 'trabajadores_detalle']
+
 
 class TrabajadoresSerializer(serializers.ModelSerializer):
     class Meta:
