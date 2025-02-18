@@ -2,7 +2,7 @@ from rest_framework.decorators import APIView
 from rest_framework.response import Response
 from rest_framework import  status
 from .models import Trabajador, Profesion,Localidad, Solicitud,Admins
-from .serializers import TrabajadorSerializer,ProfesionSerializer,TrabajadorCardSerializer,LocalidadListSerializer, SolicitudSerializer,TrabajadorDetallesSerializer,AdminSerializer,AdminEmailSerializer,TrabajadoresSerializer,PedidoSerializer,TrabajadorSinUniformeSerializer
+from .serializers import TrabajadorSerializer,ProfesionSerializer,TrabajadorCardSerializer,LocalidadListSerializer, SolicitudSerializer,TrabajadorDetallesSerializer,AdminSerializer,AdminEmailSerializer,TrabajadoresSerializer,PedidoSerializer,TrabajadorSinUniformeSerializer,TrabajadorPostSerializer
 from django.views.decorators.csrf import csrf_exempt
 from django.utils.decorators import method_decorator
 from .serializers import SolicitudSerializer, TrabajadorSerializer
@@ -450,3 +450,23 @@ class TrabajadorSinUniformeAPIView(APIView):
         trabajadores = Trabajador.objects.filter(uniforme=False)  # Filtra los trabajadores sin uniforme
         serializer = TrabajadorSinUniformeSerializer(trabajadores, many=True)  # Serializa los trabajadores
         return Response(serializer.data)  # Devuelve los datos serializados en la respuesta
+    
+class UpdatePostIDAPIView(APIView):
+
+    def patch(self, request, pk, *args, **kwargs):
+        try:
+            # Obtener el trabajador por su ID
+            trabajador = Trabajador.objects.get(pk=pk)
+        except Trabajador.DoesNotExist:
+            return Response({'error': 'Trabajador no encontrado'}, status=status.HTTP_404_NOT_FOUND)
+        
+        # Obtener el postID del cuerpo de la solicitud
+        post_id = request.data.get('postID')
+        
+        if post_id is not None:
+            # Asignar el postID al trabajador
+            trabajador.postID = post_id
+            trabajador.save()
+            return Response(TrabajadorSerializer(trabajador).data, status=status.HTTP_200_OK)
+        else:
+            return Response({'error': 'postID no proporcionado'}, status=status.HTTP_400_BAD_REQUEST)

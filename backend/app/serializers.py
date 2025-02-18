@@ -209,3 +209,9 @@ class TrabajadorSinUniformeSerializer(serializers.ModelSerializer):
     class Meta:
         model = Trabajador
         fields = ['idtrabajador', 'nombre', 'apellido', 'edad', 'dni', 'profesion', 'imagenlink', 'uniforme','talle']
+        
+
+class TrabajadorPostSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Trabajador
+        fields = ['idtrabajador', 'nombre', 'apellido', 'postID'] 

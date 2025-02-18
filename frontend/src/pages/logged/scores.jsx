@@ -26,7 +26,7 @@ export default function Scores() {
     const [selectedTrabajadores, setSelectedTrabajadores] = useState([]); // Mantén solo un trabajador seleccionado
     const [modalVisible, setModalVisible] = useState(false);
     const [currentIndex, setCurrentIndex] = useState(0);
-    const [isNotificationOpen, setIsNotificationOpen] = useState(false); 
+    const [isNotificationOpen, setIsNotificationOpen] = useState(false);
 
     useEffect(() => {
         const token = Cookies.get("access_token");
@@ -101,7 +101,7 @@ export default function Scores() {
     // Función para manejar la publicación
     const handlePublish = () => {
         const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzM5ODg3OTI1LCJpYXQiOjE3Mzk4NTE5MjUsImp0aSI6IjVmYjEyN2E2YmVhNTRjZjk5MDZjMGJiMGJjZjc4MzEyIiwidXNlcl9pZCI6OH0.dTLmHiM1z3w6VmdOLQbXNoXCpWEN9Mldx9Qc23bcmkA';  // Token JWT
-
+        
         if (selectedTrabajadores.length > 0) {
             selectedTrabajadores.forEach(idtrabajador => {
                 const trabajador = trabajadores.find(t => t.idtrabajador === idtrabajador);
@@ -124,6 +124,21 @@ export default function Scores() {
                     .then(response => response.json())
                     .then(data => {
                         console.log('Publicación creada con éxito:', data);
+                        const postID = data.id;
+                        fetch(`http://127.0.0.1:9001/trabajadores/${trabajador.idtrabajador}/update-postid/`, {
+                            method: 'PATCH',
+                            headers: {
+                                "Content-Type": "application/json",
+                            },
+                            body: JSON.stringify({ postID: postID })
+                        })
+                        .then(response => response.json())
+                        .then(data => {
+                            console.log('postID asociado al trabajador:', data);
+                        })
+                        .catch(error => {
+                            console.error('Error al asociar el postID al trabajador:', error);
+                        });
                     })
                     .catch(error => {
                         console.error('Error al crear la publicación:', error);

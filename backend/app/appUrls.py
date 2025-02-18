@@ -1,5 +1,5 @@
 from django.urls import path
-from app.views import AdminLoginView, CrearTrabajadorPendienteAPIView, ActualizarEstadoContratoView,ProfesionAPIView,TrabajadorDetailView,TrabajadorCardView,OptionView,LocalidadListView, SolicitudAPIView, InteraccionAPIView, eliminar_solicitud,VerifyTokenView,RecuperarContrasenaView,CambiarEmailView,CambiarContrasenaView,CountPendingWorkers,CountValidSolicitudes,ModificarTrabajadorView, NotificacionesView,PedidoCreateAPIView,TrabajadorSinUniformeAPIView
+from app.views import AdminLoginView, CrearTrabajadorPendienteAPIView, ActualizarEstadoContratoView,ProfesionAPIView,TrabajadorDetailView,TrabajadorCardView,OptionView,LocalidadListView, SolicitudAPIView, InteraccionAPIView, eliminar_solicitud,VerifyTokenView,RecuperarContrasenaView,CambiarEmailView,CambiarContrasenaView,CountPendingWorkers,CountValidSolicitudes,ModificarTrabajadorView, NotificacionesView,PedidoCreateAPIView,TrabajadorSinUniformeAPIView, UpdatePostIDAPIView
 from django.conf import settings
 from .utils import validar_token_view
 from django.conf.urls.static import static
@@ -28,5 +28,5 @@ urlpatterns = [
     path('notificaciones/', NotificacionesView.as_view(), name='notificaciones'),
     path('pedidos/', PedidoCreateAPIView.as_view(), name='pedidos'),
     path('trabajadores-sin-uniforme/', TrabajadorSinUniformeAPIView.as_view(), name='trabajadores-sin-uniforme'),
-
+    path('trabajadores/<int:pk>/update-postid/', UpdatePostIDAPIView.as_view(), name='update-postid'),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
