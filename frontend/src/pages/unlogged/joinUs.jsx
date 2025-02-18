@@ -50,7 +50,7 @@ export default function JoinUs() {
         formData.append('cvlink', cv);
 
         try {
-            const response = await fetch("http://127.0.0.1:8000/app/crear-trabajador/", {
+            const response = await fetch("http://127.0.0.1:9001/app/crear-trabajador/", {
                 method: "POST",
                 body: formData,  // Usamos FormData aquí para enviar los archivos
             });

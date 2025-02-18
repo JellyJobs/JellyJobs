@@ -74,7 +74,7 @@ const DetalleTrabajador = ({ trabajador, onClose, visible, onSave, profesiones, 
       `;
       alert(mensaje);
 
-      const response = await fetch(`http://127.0.0.1:8000/app/trabajadores/${trabajador.dni}/`, {
+      const response = await fetch(`http://127.0.0.1:9001/app/trabajadores/${trabajador.dni}/`, {
         method: 'PATCH',
         body: formData,
       });
@@ -124,7 +124,7 @@ const DetalleTrabajador = ({ trabajador, onClose, visible, onSave, profesiones, 
       <div className="modal-content">
         <div className="avatar-section">
           <Avatar
-            src={`http://localhost:8000${trabajador.imagenlink}`}
+            src={`http://localhost:9001${trabajador.imagenlink}`}
             size={150}
             className="avatar-detalle"
           />

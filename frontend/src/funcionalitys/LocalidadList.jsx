@@ -9,7 +9,7 @@ export const LocalidadLista = ({ onChange,value}) => {
 
     const fetchLocalidad = async () => {
         try {
-            const response = await fetch('http://127.0.0.1:8000/app/localidad/'); // URL del backend Django
+            const response = await fetch('http://127.0.0.1:9001/app/localidad/'); // URL del backend Django
             if (!response.ok) {
                 throw new Error("Error al obtener las localidades");
             }

@@ -28,7 +28,7 @@ export default function Uniform() {
             const decoded = jwtDecode(token);
             setUserEmail(decoded.email);
         }
-        fetch('http://127.0.0.1:8000/app/trabajador-card/')
+        fetch('http://127.0.0.1:9001/app/trabajador-card/')
             .then((response) => response.json())
             .then((data) => {
                 const trabajadoresSinUniforme = data.filter(t => !t.uniforme);
@@ -53,25 +53,31 @@ export default function Uniform() {
                 localidadID: 2
             }
         };
-
+    
         try {
-            const response = await fetch(`http://127.0.0.1:8000/app/solicitar-uniforme/${idtrabajador}/`, {
+            const response = await fetch(`http://localhost:5071/api/PedidoPrenda/crearPedidoCliente`, {
                 method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
+                headers: { 
+                    'Content-Type': 'application/json',
+                },
                 body: JSON.stringify(payload),
             });
-
+    
+            const responseData = await response.json(); // Intenta leer la respuesta como JSON
+    
             if (response.ok) {
                 message.success(`PEDIDO CREADO, EL TRABAJADOR ${idtrabajador} HA OBTENIDO UNIFORMES`);
                 setTrabajadores(trabajadores.filter(t => t.idtrabajador !== idtrabajador));
             } else {
-                message.error("Error al solicitar el uniforme.");
+                console.error("Respuesta del servidor:", responseData);
+                message.error(`Error al solicitar el uniforme: ${responseData.message || response.statusText}`);
             }
         } catch (error) {
-            console.error("Error al solicitar uniforme:", error);
+            console.error("Error en la solicitud:", error);
             message.error("No se pudo completar la solicitud.");
         }
     };
+    
 
     const items = [
         { key: 'crear', label: 'Crear', icon: <PlusSquareOutlined />, path: '/create' },
