@@ -21,7 +21,7 @@ import string
 from django.core.mail import send_mail
 from django.contrib.auth.hashers import make_password
 from django.utils.timezone import now, timedelta
-
+from django.db.models import Q
 # 🔹 Cuenta la cantidad de solicitudes de trabajo creadas hoy
 class CountValidSolicitudes(APIView):
     def get(self, request):
@@ -328,7 +328,10 @@ class SolicitudAPIView(APIView):
 class InteraccionAPIView(APIView):
     def get(self, request):
         """Lista los trabajadores disponibles para una nueva solicitud."""
-        trabajadores = Trabajador.objects.filter(estadotrabajo="Disponible")
+        
+
+        trabajadores = Trabajador.objects.filter(Q(estadotrabajo="Disponible") | Q(estadotrabajo="disponible"))
+
         serializer = TrabajadorSerializer(trabajadores, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
