@@ -40,23 +40,6 @@ export default function Scores() {
             .catch(error => console.error('Error al cargar los trabajadores:', error));
     }, []);
 
-    useEffect(() => {
-        // Cambié el nombre de trabajador.postId a currentTrabajador.postId
-        const currentTrabajador = trabajadores.find(t => t.idtrabajador === selectedTrabajadores[0]);
-        if (currentTrabajador && currentTrabajador.postId) {
-            fetch(`http://localhost:8000/posts/${currentTrabajador.postId}/reviews/`)
-                .then(response => response.ok ? response.json() : Promise.reject('Error al obtener las opiniones'))
-                .then(data => {
-                    const opinionesMap = {};
-                    data.forEach(opinion => {
-                        opinionesMap[opinion.idtrabajador] = opinion.opiniones;
-                    });
-                    setOpiniones(opinionesMap);
-                })
-                .catch(error => console.error('Error al cargar las opiniones:', error));
-        }
-    }, [selectedTrabajadores, trabajadores]);
-
     const handleSearch = value => setSearchValue(value);
 
     const filteredTrabajadores = trabajadores.filter((trabajador) => {
@@ -152,6 +135,24 @@ export default function Scores() {
         }
     };
 
+    useEffect(() => {
+        if (modalVisible && currentTrabajador && currentTrabajador.postId) {
+            fetch(`http://localhost:8000/posts/${currentTrabajador.postId}/reviews/`)
+                .then(response => response.ok ? response.json() : Promise.reject('Error al obtener las opiniones'))
+                .then(data => {
+                    console.log('Opiniones recibidas:', data);
+    
+                    // Almacenamos las opiniones como un array
+                    setOpiniones(prevOpiniones => ({
+                        ...prevOpiniones,
+                        [currentTrabajador.postId]: data
+                    }));
+                })
+                .catch(error => console.error('Error al cargar las opiniones:', error));
+        }
+    }, [modalVisible, currentTrabajador]);
+
+
     return (
         <div className="home-page">
             <HeaderLog userEmail={userEmail} />
@@ -235,24 +236,17 @@ export default function Scores() {
                         <p><strong>Edad:</strong> {currentTrabajador.edad}</p>
                         <p><strong>Profesión:</strong> {currentTrabajador.profesion}</p>
                         <Divider />
-                        <p><strong>Puntuación: </strong><Rate value={opiniones[currentTrabajador.idtrabajador]?.rating || 0} disabled /></p>
-                        <Divider />
                         <p><strong>Opiniones:</strong></p>
-                        <p>{opiniones[currentTrabajador.idtrabajador]?.join(', ') || 'No hay opiniones disponibles'}</p>
-
-                        {/* Botones de navegación */}
-                        <div className="carousel-buttons">
-                            <Button
-                                icon={<LeftOutlined />}
-                                disabled={currentIndex === 0}
-                                onClick={() => setCurrentIndex(currentIndex - 1)}
-                            />
-                            <Button
-                                icon={<RightOutlined />}
-                                disabled={currentIndex === selectedTrabajadores.length - 1}
-                                onClick={() => setCurrentIndex(currentIndex + 1)}
-                            />
-                        </div>
+                        <ul>
+                            {opiniones[currentTrabajador.postId]?.map((opinion, index) => (
+                                <li key={index}>
+                                    <p><strong>Puntuación:</strong> <Rate value={opinion.rating} disabled /></p>
+                                    <p><strong>Comentario:</strong> {opinion.comment || 'Sin comentarios'}</p>
+                                    <p><strong>Fecha:</strong> {opinion.created_at}</p>
+                                    <Divider />
+                                </li>
+                            ))}
+                        </ul>
                     </div>
                 )}
             </Modal>
