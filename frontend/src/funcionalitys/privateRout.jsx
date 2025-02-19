@@ -10,6 +10,7 @@ const PrivateRoute = () => {
       const token = Cookies.get("access_token");
       if (!token) {
         setIsAuthenticated(false);
+        alert('Usuario no Autenticado')
         return;
       }
 

@@ -28,17 +28,18 @@ function App() {
                     <Route path="/" element={<Landing />} />
                     <Route element={<PrivateRoute />}>
                         <Route path="/home" element={<Home />} />
+                        <Route path="/create" element={< Create/>} />
+                        <Route path="/uniform" element={< Uniform/>} />
+                        <Route path="/forgot-password" element={<ForgotPassword />} />
+                        <Route path="scores" element={<Scores/>} />
+                        <Route path="/perfil-user" element={<ProfilePage userEmail="admin@example.com" />} />
                     </Route>
-                    <Route path="/perfil-user" element={<ProfilePage userEmail="admin@example.com" />} />
                     <Route path="*" element={<NotFound />} /> 
                     <Route path="login" element={<Login />} />
                     <Route path="joinUs" element={<JoinUs />} />
                     <Route path="aboutUs" element={<AboutUs />} />
-                    <Route path="/forgot-password" element={<ForgotPassword />} />
-                    <Route path="scores" element={<Scores/>} />
                     <Route path="/requests" element={<Solicitudes />} />
-                    <Route path="/create" element={< Create/>} />
-                    <Route path="/uniform" element={< Uniform/>} />
+                    
                 </Routes>
         </Router>
     );

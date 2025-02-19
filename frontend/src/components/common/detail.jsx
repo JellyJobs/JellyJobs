@@ -129,7 +129,6 @@ const DetalleTrabajador = ({ trabajador, onClose, visible, onSave, profesiones, 
             className="avatar-detalle"
           />
           <h2>{trabajador.nombre || "No especificado"} {trabajador.apellido || ""}</h2>
-          <h3>{trabajador.estadotrabajo?.toUpperCase() || "No especificado"}</h3>
         </div>
 
         <Form form={form} layout="vertical">
@@ -231,7 +230,7 @@ const DetalleTrabajador = ({ trabajador, onClose, visible, onSave, profesiones, 
             {trabajador.cvlink && (
               <Descriptions.Item label="CV" span={2}>
                 <a 
-                  href={`http://localhost:8000${trabajador.cvlink}`} 
+                  href={`http://localhost:9001${trabajador.cvlink}`} 
                   target="_blank" 
                   rel="noopener noreferrer"
                 >

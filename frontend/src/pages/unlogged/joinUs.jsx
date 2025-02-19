@@ -1,5 +1,5 @@
 import '../../assets/styles/pages/joinUs.css';
-import { Form, Input, Button, DatePicker, Upload, Checkbox, notification } from 'antd';
+import { Form, Input, Button, DatePicker, Upload, Checkbox, notification,Select} from 'antd';
 import { UploadOutlined, LeftCircleFilled } from '@ant-design/icons';
 import { Link } from "react-router-dom";
 import videoFondo from '../../assets/images/medumedusin.mp4';
@@ -48,6 +48,7 @@ export default function JoinUs() {
         formData.append('descripcion', values.descripcion);
         formData.append('imagenlink', imagenPresentacion);
         formData.append('cvlink', cv);
+        formData.append('talle', values.talle);
 
         try {
             const response = await fetch("http://127.0.0.1:9001/app/crear-trabajador/", {
@@ -171,6 +172,19 @@ export default function JoinUs() {
                             className='localidad-desplegable'
                         >
                             <LocalidadLista onChange={(value) => form.setFieldsValue({ localidad: value })} />
+                        </Form.Item>
+                        <Form.Item
+                            name="talle"
+                            className='localidad-desplegable'
+                            rules={[{ required: true, message: 'Por favor, selecciona un talle.' }]}
+                        >
+                            <Select placeholder="Selecciona un talle">
+                                <Select.Option value="S">S</Select.Option>
+                                <Select.Option value="M">M</Select.Option>
+                                <Select.Option value="L">L</Select.Option>
+                                <Select.Option value="XL">XL</Select.Option>
+                                <Select.Option value="XXL">XXL</Select.Option>
+                            </Select>
                         </Form.Item>
                     </div>
 

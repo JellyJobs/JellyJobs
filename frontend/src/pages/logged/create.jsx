@@ -1,5 +1,5 @@
 import '../../assets/styles/pages/joinUs.css';
-import { Form, Input, Button, DatePicker, Upload, Checkbox, notification } from 'antd';
+import { Form, Input, Button, DatePicker, Upload, Checkbox, notification,Select } from 'antd';
 import { UploadOutlined, LeftCircleFilled } from '@ant-design/icons';
 import { Link } from "react-router-dom";
 import videoFondo from '../../assets/images/medumedusin.mp4';
@@ -26,7 +26,7 @@ export default function JoinUs() {
         const edad = calcularEdad(values.fechaNacimiento); // Convertir fecha en edad
         
         // Validación de campos obligatorios
-        if (!values.nombre || !values.apellido || !values.dni || !values.email || !values.telefono || !values.localidad || !values.profesion || !values.descripcion || !imagenPresentacion || !cv) {
+        if (!values.nombre || !values.apellido || !values.dni || !values.email || !values.telefono || !values.localidad || !values.profesion || !values.descripcion || !imagenPresentacion || !cv ) {
             notification.error({
                 message: 'Error de validación',
                 description: 'Por favor, complete todos los campos requeridos, incluyendo la foto de presentación y el CV.',
@@ -48,6 +48,7 @@ export default function JoinUs() {
         formData.append('descripcion', values.descripcion);
         formData.append('imagenlink', imagenPresentacion);
         formData.append('cvlink', cv);
+        formData.append('talle', values.talle);
         try {
             const response = await fetch("http://127.0.0.1:9001/app/crear-trabajador/", {
                 method: "POST",
@@ -169,6 +170,19 @@ export default function JoinUs() {
                             className='localidad-desplegable'
                         >
                             <LocalidadLista onChange={(value) => form.setFieldsValue({ localidad: value })} />
+                        </Form.Item>
+                        <Form.Item
+                            name="talle"
+                            className='localidad-desplegable'
+                            rules={[{ required: true, message: 'Por favor, selecciona un talle.' }]}
+                        >
+                            <Select placeholder="Selecciona un talle">
+                                <Select.Option value="S">S</Select.Option>
+                                <Select.Option value="M">M</Select.Option>
+                                <Select.Option value="L">L</Select.Option>
+                                <Select.Option value="XL">XL</Select.Option>
+                                <Select.Option value="XXL">XXL</Select.Option>
+                            </Select>
                         </Form.Item>
                     </div>
 
