@@ -33,7 +33,7 @@ cd backend
 Ejecuta el servidor de desarrollo:
 
 ```bash
-python manage.py runserver
+python manage.py runserver 9001
 ```
 
 #### **Dependencias del Backend**  
@@ -81,7 +81,7 @@ npm run dev
 o
 
 ```bash
-npm start
+$env:PORT=3004;npm start     
 ```
 
 #### **Dependencias del Frontend**  
