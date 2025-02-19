@@ -68,6 +68,7 @@ export default function Home() {
     const limpiarFiltros = () => {
         setEstadoFilter(null); // Restablece el filtro de estado
         setProfesionFilter(null); // Restablece el filtro de profesión
+        window.location.reload();
     };
 
 
