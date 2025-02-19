@@ -1,8 +1,8 @@
 [phases.setup]
-nixPkgs = ["python311", "git", "bash"]
+nixPkgs = ["python311", "git", "bash", "gcc", "libffi", "openssl", "sqlite"]
 
 [phases.build]
-cmds = ["pip install -r requirements.txt"]
+cmds = ["pip install --upgrade pip", "pip install --no-cache-dir -r requirements.txt"]
 
 [start]
 cmd = "gunicorn jellyjobs.wsgi:application --bind 0.0.0.0:$PORT"
