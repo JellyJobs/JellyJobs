@@ -55,7 +55,7 @@ class Trabajador(models.Model):
         db_column='estadoTrabajo',
         max_length=20,
         choices=ESTADO_TRABAJO_CHOICES,
-        default='disponible',
+        default='Disponible',
     )
     estadocontrato = models.TextField(
         db_column='estadoContrato',
