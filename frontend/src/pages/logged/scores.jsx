@@ -87,7 +87,7 @@ export default function Scores() {
 
     // Función para manejar la publicación
     const handlePublish = () => {
-        const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzM5OTQ5MDE1LCJpYXQiOjE3Mzk5MTMwMTUsImp0aSI6IjdmZjM1YmQ0MTJmMTRhMWJhM2IxMGM3YzJlOTNlMjljIiwidXNlcl9pZCI6Mn0.nYrnV_tYvGps2EWrloNXTHoaQB4MrAWvy_orLAb_HsI';  // Token JWT
+        const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzQwMDA3Njc5LCJpYXQiOjE3Mzk5NzE2NzksImp0aSI6Ijg0NjBjZTQ3ODRhMTRlNmZiNmUxZGYxMWQwODUzOTFjIiwidXNlcl9pZCI6Mn0.orqwvYfxw25b16beQ8wWrpuk7updngJfioJlLVwqBP8';  // Token JWT
         
         if (selectedTrabajadores.length > 0) {
             selectedTrabajadores.forEach(idtrabajador => {
